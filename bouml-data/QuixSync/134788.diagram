@@ -1,0 +1,79 @@
+format 220
+
+activityactioncanvas 128004 activityaction_ref 136580 // activity action Auflistung des Inhaltes
+  
+  show_opaque_action_definition default
+  xyzwh 239 76 2011 145 60
+end
+activitynodecanvas 128132 activitynode_ref 136452 // initial_node
+  xyz 299 34 2017
+end
+activityactioncanvas 128388 activityaction_ref 136708 // activity action Erstellen von zwei Arrays (Order und Dateien)
+  
+  show_opaque_action_definition default
+  xyzwh 237 177 2023 148 59
+end
+activityactioncanvas 128772 activityaction_ref 136836 // activity action Speichern der Informationen zur Datei (siehe 3.3.1)
+  
+  show_opaque_action_definition default
+  xyzwh 224 281 2017 180 58
+end
+activityactioncanvas 128900 activityaction_ref 136964 // activity action Sammeln der Informationen zum Order (siehe 3.3.1)
+  
+  show_opaque_action_definition default
+  xyzwh 235 385 2011 166 55
+end
+activityactioncanvas 129028 activityaction_ref 137092 // activity action Rekursive Inhaltsauflistung der Ordner
+  
+  show_opaque_action_definition default
+  xyzwh 239 484 2017 161 60
+end
+activityactioncanvas 129156 activityaction_ref 137220 // activity action Speichern der Arrays mit weiteren Informationen in einer Datei
+  
+  show_opaque_action_definition default
+  xyzwh 227 585 2023 192 64
+end
+activitynodecanvas 129796 activitynode_ref 136708 // activity_final
+  xyz 310 683 2011
+end
+activitycanvas 130052 activity_ref 135044 // Indizierung
+  
+  xyzwh 104 16 2006 423 711
+end
+flowcanvas 128260 flow_ref 140420 // <flow>
+  
+  from ref 128132 z 2018 to ref 128004
+   write_horizontally default
+end
+flowcanvas 128516 flow_ref 140548 // <flow>
+  
+  from ref 128004 z 2024 to ref 128388
+   write_horizontally default
+end
+flowcanvas 129284 flow_ref 140676 // <flow>
+  
+  from ref 128388 z 2024 to ref 128772
+   write_horizontally default
+end
+flowcanvas 129412 flow_ref 140804 // <flow>
+  
+  from ref 128772 z 2018 to ref 128900
+   write_horizontally default
+end
+flowcanvas 129540 flow_ref 140932 // <flow>
+  decenter_begin 493
+  
+  from ref 128900 z 2018 to ref 129028
+   write_horizontally default
+end
+flowcanvas 129668 flow_ref 141060 // <flow>
+  
+  from ref 129028 z 2024 to ref 129156
+   write_horizontally default
+end
+flowcanvas 129924 flow_ref 141188 // <flow>
+  
+  from ref 129156 z 2024 to ref 129796
+   write_horizontally default
+end
+end

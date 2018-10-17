@@ -1,0 +1,418 @@
+format 220
+"QuixSync"
+  revision 3
+  modified_by 2 "Quentin"
+
+
+  
+  // class settings
+  default_attribute_visibility private default_relation_visibility private default_operation_visibility public
+  
+  classdiagramsettings draw_all_relations yes hide_attributes no hide_operations no hide_getset_operations no hide_ports no show_members_full_definition no show_members_visibility no show_members_stereotype no show_members_context no show_members_multiplicity no show_members_initialization no show_attribute_modifiers no member_max_width 127 show_parameter_dir yes show_parameter_name yes package_name_in_tab no class_drawing_mode natural drawing_language uml show_context_mode no auto_label_position yes show_relation_modifiers no show_relation_visibility no show_infonote no shadow yes gradient none show_stereotype_properties no end
+  
+  classcompositediagramsettings auto_label_position yes draw_all_relations yes shadow yes gradient none end
+  
+  usecasediagramsettings package_name_in_tab no show_context_mode no auto_label_position yes draw_all_relations yes class_drawing_mode actor shadow yes gradient none show_stereotype_properties no end
+  
+  sequencediagramsettings show_full_operations_definition no show_class_of_operation no write_horizontally yes instances_drawing_mode natural drawing_language uml draw_all_relations yes shadow yes gradient none show_stereotype_properties no show_class_context_mode no show_msg_context_mode no end
+  
+  collaborationdiagramsettings show_full_operations_definition no show_class_of_operation no show_hierarchical_rank no write_horizontally yes instances_drawing_mode natural drawing_language uml package_name_in_tab no show_class_pack_context_mode no show_msg_context_mode no draw_all_relations yes shadow yes gradient none show_stereotype_properties no end
+  
+  objectdiagramsettings write_horizontally yes package_name_in_tab no show_class_pack_context_mode no auto_label_position yes draw_all_relations yes shadow yes gradient none show_stereotype_properties no end
+  
+  objectcompositediagramsettings auto_label_position yes draw_all_relations yes shadow yes gradient none end
+  
+  componentdiagramsettings package_name_in_tab no show_context_mode no auto_label_position yes draw_all_relations yes shadow yes gradient none
+   draw_component_as_icon no show_component_req_prov no show_component_rea no show_stereotype_properties no end
+  
+  deploymentdiagramsettings package_name_in_tab no show_context_mode no write_horizontally yes auto_label_position yes draw_all_relations yes shadow yes gradient none
+   draw_component_as_icon no show_component_req_prov no show_component_rea no show_stereotype_properties no end
+  
+  statediagramsettings package_name_in_tab no show_context_mode no auto_label_position yes write_label_horizontally yes show_trans_definition no draw_all_relations yes shadow yes gradient none
+   show_activities yes region_horizontally yes drawing_language uml show_stereotype_properties no end
+  
+  activitydiagramsettings package_name_in_tab no show_context_mode no show_opaque_action_definition no auto_label_position yes write_label_horizontally no draw_all_relations yes shadow yes gradient none
+   show_infonote yes drawing_language uml show_stereotype_properties no end
+  
+  class_color yellow duration_color transparent continuation_color gray note_color blue fragment_color transparent subject_color transparent usecase_color yellow package_color transparent component_color green artifact_color green deploymentnode_color gray state_color yellow stateaction_color transparent activity_color transparent activityregion_color transparent activitypartition_color transparent activityaction_color transparent parameterpin_color white generalization_color black 
+  dpi 96
+  font_size 8
+  diagram_format A4
+
+  image_root_dir ""
+
+
+  mark_for_import
+  
+  classview 128004 "Synchronisation"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    activity 128004 "acAblauf"
+      activitydiagram 128132 "adAblauf"
+	activitydiagramsettings
+	 end
+	size A4
+      end
+
+      activitynode 128004 initial_node ""
+	flow 128004 "<flow>"
+	  on activityaction_ref 128132 // activity action Indizierung
+	end
+      end
+
+      activityaction 128132 "Indizierung"
+	opaque_action
+	flow 128132 "<flow>"
+	  on activityaction_ref 128260 // activity action Vergleich
+	end
+      end
+
+      activityaction 128260 "Vergleich"
+	opaque_action
+	flow 128260 "<flow>"
+	  on activityaction_ref 128388 // activity action Synchronisierung
+	end
+      end
+
+      activityaction 128388 "Synchronisierung"
+	opaque_action
+	flow 128388 "<flow>"
+	  on activitynode_ref 128132 // activity_final
+	end
+      end
+
+      activitynode 128132 activity_final ""
+      end
+    end
+
+    activity 128260 "Ablauf"
+    end
+
+    activity 128388 "acVergleich"
+      activitydiagram 128260 "adVergleich"
+	activitydiagramsettings draw_all_relations no
+	 end
+	size A4
+      end
+    end
+
+    activity 128516 "Vergleich"
+      activityaction 128516 "Aufruf der Schleife von Elementen (Ordner/Dateien) der Quelldatei"
+	opaque_action
+	flow 128644 "<flow>"
+	  on activityaction_ref 128644 // activity action Suche der Datei mit dem Erstelldatum im Zieldatei
+	end
+      end
+
+      activitynode 128260 initial_node ""
+	flow 128516 "<flow>"
+	  on activityaction_ref 128516 // activity action Aufruf der Schleife von Elementen (Ordner/Dateien) der Quelldatei
+	end
+      end
+
+      activityaction 128644 "Suche der Datei mit dem Erstelldatum im Zieldatei"
+	opaque_action
+	flow 128772 "<flow>"
+	  on activitynode_ref 128388 // decision
+	  comment "Gefunden?"
+	end
+      end
+
+      activitynode 128388 decision ""
+	flow 128900 "<flow>"
+	  on activityaction_ref 128772 // activity action Setzen von isCompared = true
+	end
+
+	flow 129028 "<flow>"
+	  on activityaction_ref 128900 // activity action Speicherung des Elementes in ReturnCopyArray
+	end
+      end
+
+      activityaction 128772 "Setzen von isCompared = true"
+	opaque_action
+	flow 129156 "<flow>"
+	  on activitynode_ref 128516 // decision
+	end
+      end
+
+      activityaction 128900 "Speicherung des Elementes in ReturnCopyArray"
+	opaque_action
+	flow 128002 "<flow>"
+	  on activityaction_ref 128900 // activity action Speicherung des Elementes in ReturnCopyArray
+	end
+
+	flow 128130 "<flow>"
+	  on activitynode_ref 135812 // merge
+	end
+      end
+
+      activitynode 128516 decision ""
+	flow 129284 "<flow>"
+	  on activityaction_ref 128900 // activity action Speicherung des Elementes in ReturnCopyArray
+	end
+
+	flow 129412 "<flow>"
+	  on activityaction_ref 129028 // activity action Datei ignoriert
+	end
+      end
+
+      activityaction 129028 "Datei ignoriert"
+	opaque_action
+	flow 138372 "<flow>"
+	  on activitynode_ref 135812 // merge
+	end
+      end
+
+      activitynode 128644 decision ""
+	flow 129796 "<flow>"
+	  on activityaction_ref 129284 // activity action Aufruf der Schleife von Elementen der ersten Ebene von dem Zielindex
+	end
+
+	flow 129538 "<flow>"
+	  on activitynode_ref 128258 // merge
+	end
+      end
+
+      activityaction 129284 "Aufruf der Schleife von Elementen der ersten Ebene von dem Zielindex"
+	opaque_action
+	flow 130052 "<flow>"
+	  on activitynode_ref 128772 // decision
+	end
+      end
+
+      activitynode 128772 decision ""
+	flow 130308 "<flow>"
+	  on activityaction_ref 129540 // activity action Speicherung des Elementes in ReturnDeleteArray
+	end
+
+	flow 129922 "<flow>"
+	  on activitynode_ref 128386 // merge
+	end
+      end
+
+      activityaction 129540 "Speicherung des Elementes in ReturnDeleteArray"
+	opaque_action
+	flow 130050 "<flow>"
+	  on activitynode_ref 128386 // merge
+	end
+      end
+
+      activityaction 129668 "Speicherung von ReturnCopyArray und ReturnDeleteArray in einer Datei"
+	opaque_action
+	flow 130948 "<flow>"
+	  on activitynode_ref 129028 // activity_final
+	end
+      end
+
+      activitynode 129028 activity_final ""
+      end
+
+      activitynode 135812 merge ""
+	flow 138500 "<flow>"
+	  on activitynode_ref 135940 // decision
+	end
+      end
+
+      activitynode 135940 decision ""
+	flow 138628 "<flow>"
+	  on activityaction_ref 136196 // activity action Aufruf des nächsten Elements
+	end
+
+	flow 128898 "<flow>"
+	  on activitynode_ref 128644 // decision
+	end
+      end
+
+      activityaction 136196 "Aufruf des nächsten Elements"
+	opaque_action
+	flow 138756 "<flow>"
+	  on activityaction_ref 128644 // activity action Suche der Datei mit dem Erstelldatum im Zieldatei
+	end
+      end
+
+      activitynode 136068 decision ""
+	flow 139012 "<flow>"
+	  on activityaction_ref 129668 // activity action Speicherung von ReturnCopyArray und ReturnDeleteArray in einer Datei
+	end
+
+	flow 130306 "<flow>"
+	  on activitynode_ref 129028 // activity_final
+	end
+      end
+
+      activitynode 136324 decision ""
+	flow 140164 "<flow>"
+	  on activityaction_ref 136452 // activity action Aufruf des nächsten Elements
+	end
+
+	flow 128258 "<flow>"
+	  on activitynode_ref 136068 // decision
+	end
+
+	flow 129410 "<flow>"
+	  on activitynode_ref 128258 // merge
+	end
+      end
+
+      activityaction 136452 "Aufruf des nächsten Elements"
+	opaque_action
+	flow 140292 "<flow>"
+	  on activityaction_ref 129284 // activity action Aufruf der Schleife von Elementen der ersten Ebene von dem Zielindex
+	end
+      end
+
+      activitynode 128258 merge ""
+	flow 129666 "<flow>"
+	  on activitynode_ref 136068 // decision
+	end
+      end
+
+      activitynode 128386 merge ""
+	flow 130178 "<flow>"
+	  on activitynode_ref 136324 // decision
+	end
+      end
+    end
+
+    activity 135044 "Indizierung"
+      activitydiagram 134788 "adIndizierung"
+	activitydiagramsettings
+	 end
+	size A4
+      end
+
+      activityaction 136580 "Auflistung des Inhaltes"
+	opaque_action
+	flow 140548 "<flow>"
+	  on activityaction_ref 136708 // activity action Erstellen von zwei Arrays (Order und Dateien)
+	end
+      end
+
+      activitynode 136452 initial_node ""
+	flow 140420 "<flow>"
+	  on activityaction_ref 136580 // activity action Auflistung des Inhaltes
+	end
+      end
+
+      activityaction 136708 "Erstellen von zwei Arrays (Order und Dateien)"
+	opaque_action
+	flow 140676 "<flow>"
+	  on activityaction_ref 136836 // activity action Speichern der Informationen zur Datei (siehe 3.3.1)
+	end
+      end
+
+      activityaction 136836 "Speichern der Informationen zur Datei (siehe 3.3.1)"
+	opaque_action
+	flow 140804 "<flow>"
+	  on activityaction_ref 136964 // activity action Sammeln der Informationen zum Order (siehe 3.3.1)
+	end
+      end
+
+      activityaction 136964 "Sammeln der Informationen zum Order (siehe 3.3.1)"
+	opaque_action
+	flow 140932 "<flow>"
+	  on activityaction_ref 137092 // activity action Rekursive Inhaltsauflistung der Ordner
+	end
+      end
+
+      activityaction 137092 "Rekursive Inhaltsauflistung der Ordner"
+	opaque_action
+	flow 141060 "<flow>"
+	  on activityaction_ref 137220 // activity action Speichern der Arrays mit weiteren Informationen in einer Datei
+	end
+      end
+
+      activityaction 137220 "Speichern der Arrays mit weiteren Informationen in einer Datei"
+	opaque_action
+	flow 141188 "<flow>"
+	  on activitynode_ref 136708 // activity_final
+	end
+      end
+
+      activitynode 136708 activity_final ""
+      end
+    end
+
+    activity 135172 "Synchronisierung"
+      activitydiagram 134916 "adSynchronisierung"
+	activitydiagramsettings
+	 end
+	size A4
+      end
+
+      activityaction 137348 "Durchgehen des Arrays der fehlenden Daten (ReturnCopyArray)"
+	opaque_action
+	flow 141444 "<flow>"
+	  on activityaction_ref 137476 // activity action Kopieren der Daten
+	end
+      end
+
+      activitynode 136836 initial_node ""
+	flow 141316 "<flow>"
+	  on activityaction_ref 137348 // activity action Durchgehen des Arrays der fehlenden Daten (ReturnCopyArray)
+	end
+      end
+
+      activityaction 137476 "Kopieren der Daten"
+	opaque_action
+	flow 141700 "<flow>"
+	  on activitynode_ref 136964 // decision
+	end
+      end
+
+      activitynode 136964 decision ""
+	flow 141572 "<flow>"
+	  on activityaction_ref 137348 // activity action Durchgehen des Arrays der fehlenden Daten (ReturnCopyArray)
+	end
+
+	flow 141828 "<flow>"
+	  on activityaction_ref 137604 // activity action Durchgehen des Arrays der zu löschenden Daten (ReturnDeleteArray)
+	end
+      end
+
+      activityaction 137604 "Durchgehen des Arrays der zu löschenden Daten (ReturnDeleteArray)"
+	opaque_action
+	flow 141956 "<flow>"
+	  on activityaction_ref 137732 // activity action Löschen der Daten
+	end
+      end
+
+      activityaction 137732 "Löschen der Daten"
+	opaque_action
+	flow 142084 "<flow>"
+	  on activitynode_ref 137092 // decision
+	end
+      end
+
+      activitynode 137092 decision ""
+	flow 142212 "<flow>"
+	  on activitynode_ref 137220 // activity_final
+	end
+
+	flow 142340 "<flow>"
+	  on activityaction_ref 137604 // activity action Durchgehen des Arrays der zu löschenden Daten (ReturnDeleteArray)
+	end
+      end
+
+      activitynode 137220 activity_final ""
+      end
+    end
+  end
+end

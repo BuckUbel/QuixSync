@@ -1,0 +1,17 @@
+window_sizes 1920 1017 167 1748 971 0
+
+diagrams
+  active  activitydiagram_ref 128260 // adVergleich
+    1748 971 100 A4 92 0
+  activitydiagram_ref 134916 // adSynchronisierung
+    1398 776 100 A4 0 0
+end
+show_stereotypes
+selected activitydiagram_ref 128260 // adVergleich
+open
+  activity_ref 128260 // Ablauf
+  activity_ref 128388 // acVergleich
+  activity_ref 128516 // Vergleich
+  activity_ref 135172 // Synchronisierung
+end
+end

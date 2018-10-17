@@ -1,0 +1,102 @@
+format 220
+
+activityactioncanvas 128004 activityaction_ref 137348 // activity action Durchgehen des Arrays der fehlenden Daten (ReturnCopyArray)
+  
+  show_opaque_action_definition default
+  xyzwh 326 74 2016 213 63
+end
+activitynodecanvas 128132 activitynode_ref 136836 // initial_node
+  xyz 421 28 2022
+end
+activityactioncanvas 128388 activityaction_ref 137476 // activity action Kopieren der Daten
+  
+  show_opaque_action_definition default
+  xyzwh 373 182 2028 127 51
+end
+activitynodecanvas 128644 activitynode_ref 136964 // decision
+  xyz 423 275 2022
+end
+activityactioncanvas 129284 activityaction_ref 137604 // activity action Durchgehen des Arrays der zu löschenden Daten (ReturnDeleteArray)
+  
+  show_opaque_action_definition default
+  xyzwh 321 372 2028 237 63
+end
+activityactioncanvas 129540 activityaction_ref 137732 // activity action Löschen der Daten
+  
+  show_opaque_action_definition default
+  xyzwh 380 491 2016 125 55
+end
+activitynodecanvas 129796 activitynode_ref 137092 // decision
+  xyz 432 592 2022
+end
+activitynodecanvas 130052 activitynode_ref 137220 // activity_final
+  xyz 434 671 2016
+end
+textcanvas 130692 "[ReturnCopyArray 
+vollständig durchgegangen?]"
+  xyzwh 436 237 2006 150 36
+textcanvas 130820 "[Ja]"
+  xyzwh 438 314 2006 17 14
+textcanvas 130948 "[Nein]"
+  xyzwh 387 273 2006 27 14
+textcanvas 131076 "[Nein]"
+  xyzwh 401.5 591 2006 27 14
+textcanvas 131204 "[Ja]"
+  xyzwh 446.5 627 2006 23 15
+textcanvas 131332 "[ReturnDeleteArray 
+vollständig durchgegangen?]"
+  xyzwh 446 444 2006 150 36
+activitycanvas 131460 activity_ref 135172 // Synchronisierung
+  
+  xyzwh 175 -1 2011 527 717
+end
+flowcanvas 128260 flow_ref 141316 // <flow>
+  
+  from ref 128132 z 2023 to ref 128004
+   write_horizontally default
+end
+flowcanvas 128516 flow_ref 141444 // <flow>
+  
+  from ref 128004 z 2029 to ref 128388
+   write_horizontally default
+end
+flowcanvas 128772 flow_ref 141572 // <flow>
+  
+  from ref 128644 z 2023 to point 248 292
+  line 128900 z 2023 to point 245 101
+  line 129028 z 2023 to ref 128004
+   write_horizontally default
+end
+flowcanvas 129156 flow_ref 141700 // <flow>
+  
+  from ref 128388 z 2029 to ref 128644
+   write_horizontally default
+end
+flowcanvas 129412 flow_ref 141828 // <flow>
+  
+  from ref 128644 z 2029 to ref 129284
+   write_horizontally default
+end
+flowcanvas 129668 flow_ref 141956 // <flow>
+  
+  from ref 129284 z 2029 to ref 129540
+   write_horizontally default
+end
+flowcanvas 129924 flow_ref 142084 // <flow>
+  
+  from ref 129540 z 2023 to ref 129796
+   write_horizontally default
+end
+flowcanvas 130180 flow_ref 142212 // <flow>
+  
+  from ref 129796 z 2023 to ref 130052
+   write_horizontally default
+end
+flowcanvas 130308 flow_ref 142340 // <flow>
+  
+  from ref 129796 z 2029 to point 257 609
+  line 130436 z 2029 to point 254 401
+  line 130564 z 2029 to ref 129284
+   write_horizontally default
+end
+end

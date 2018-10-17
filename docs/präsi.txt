@@ -1,0 +1,8 @@
+
+- Vergleich von der Dauer von der Indizierung bei verschiedenen Datengrößen
+
+- Aufgetretene Problem:
+	- JSON Konverter (Java Objekte --> JSON)
+
+- Projektverlauf
+	- Wer hatte welche Position?

@@ -1,0 +1,302 @@
+format 220
+
+activitycanvas 128004 activity_ref 128516 // Vergleich
+  
+  xyzwh -1 16 2000 811 1175
+end
+activityactioncanvas 128132 activityaction_ref 128516 // activity action Aufruf der Schleife von Elementen (Ordner/Dateien) der Quelldatei
+  
+  show_opaque_action_definition default
+  xyzwh 200 61 2005 284 53
+end
+activitynodecanvas 128260 activitynode_ref 128260 // initial_node
+  xyz 332 30 2005
+end
+activityactioncanvas 128516 activityaction_ref 128644 // activity action Suche der Datei mit dem Erstelldatum im Zieldatei
+  
+  show_opaque_action_definition default
+  xyzwh 246 143 2005 194 53
+end
+activitynodecanvas 128772 activitynode_ref 128388 // decision
+  xyz 328 227 2005
+end
+textcanvas 129028 "[Gefunden?]"
+  xyzwh 277 197 2011 59 28
+activityactioncanvas 129156 activityaction_ref 128772 // activity action Setzen von isCompared = true
+  
+  show_opaque_action_definition default
+  xyzwh 171 271 2005 130 53
+end
+activityactioncanvas 129284 activityaction_ref 128900 // activity action Speicherung des Elementes in ReturnCopyArray
+  
+  show_opaque_action_definition default
+  xyzwh 361 356 2005 170 53
+end
+textcanvas 129668 "[Ja]"
+  xyzwh 310 229 2011 26 27
+textcanvas 129796 "[Nein]"
+  xyzwh 353 229 2011 26 28
+activitynodecanvas 129924 activitynode_ref 128516 // decision
+  xyz 217 369 2005
+end
+textcanvas 130180 "[Name, Dateigrï¿½ï¿½e oder \"zuletzt
+geï¿½ndert\" verschieden?]"
+  xyzwh 73 336 2010 165 28
+textcanvas 130692 "[Ja]"
+  xyzwh 248 371 2011 25 28
+activityactioncanvas 130820 activityaction_ref 129028 // activity action Datei ignoriert
+  
+  show_opaque_action_definition default
+  xyzwh 180 438 2005 99 53
+end
+textcanvas 131076 "[Nein]"
+  xyzwh 233 407 2010 26 28
+activitynodecanvas 131460 activitynode_ref 128644 // decision
+  xyz 139 641 2005
+end
+textcanvas 131716 "[isHardSync?]"
+  xyzwh 100 624 2010 67 28
+activityactioncanvas 131844 activityaction_ref 129284 // activity action Aufruf der Schleife von Elementen der ersten Ebene von dem Zielindex
+  
+  show_opaque_action_definition default
+  xyzwh 516 640 2005 207 53
+end
+textcanvas 132100 "[Ja]"
+  xyzwh 279 636 2011 25 28
+textcanvas 132484 "[Nein]"
+  xyzwh 153 680 2011 40 26
+activitynodecanvas 132612 activitynode_ref 128772 // decision
+  xyz 606 747 2005
+end
+textcanvas 132868 "[isCompared == true?]"
+  xyzwh 626 700 2011 85 34
+activitynodecanvas 132994 activitynode_ref 128258 // merge
+  xyz 139 721 2011
+end
+activityactioncanvas 132996 activityaction_ref 129540 // activity action Speicherung des Elementes in ReturnDeleteArray
+  
+  show_opaque_action_definition default
+  xyzwh 538 836 2005 167 53
+end
+textcanvas 133252 "[Nein]"
+  xyzwh 548 736 2011 32 28
+textcanvas 133508 "[Ja]"
+  xyzwh 622 791 2011 26 20
+activitynodecanvas 134146 activitynode_ref 128386 // merge
+  xyz 455 773 2005
+end
+activityactioncanvas 134148 activityaction_ref 129668 // activity action Speicherung von ReturnCopyArray und ReturnDeleteArray in einer Datei
+  
+  show_opaque_action_definition default
+  xyzwh 156 998 2005 232 53
+end
+activitynodecanvas 134404 activitynode_ref 129028 // activity_final
+  xyz 259 1130 2005
+end
+textcanvas 134916 "[Quellindex-Schleife 
+vollstï¿½ndig 
+durchlaufen?]"
+  xyzwh 129 504 2005 74 58
+activitynodecanvas 136068 activitynode_ref 135812 // merge
+  xyz 432 445 2010
+end
+activitynodecanvas 136836 activitynode_ref 135940 // decision
+  xyz 49 548 2010
+end
+activityactioncanvas 137220 activityaction_ref 136196 // activity action Aufruf des nächsten Elements
+  
+  show_opaque_action_definition default
+  xyzwh 12 418 2005 100 60
+end
+textcanvas 137860 "[Ja]"
+  xyzwh 64 604 2016 24 18
+textcanvas 137988 "[Nein]"
+  xyzwh 71 499 2005 36 20
+activitynodecanvas 138116 activitynode_ref 136068 // decision
+  xyz 118 849 2005
+end
+textcanvas 138372 "[ReturnCopyArray und
+ReturnDeleteArray leer?]"
+  xyzwh 31 729 2016 119 65
+textcanvas 138628 "[Nein]"
+  xyzwh 224 858 2010 43 28
+textcanvas 139012 "[Ja]"
+  xyzwh 99 973 2011 36 21
+textcanvas 140036 "Zielindex-
+Schleife 
+vollstÃ¤ndig 
+durchlaufen?"
+  xyzwh 365 801 2005 64 56
+activitynodecanvas 140164 activitynode_ref 136324 // decision
+  xyz 379 861 2005
+end
+textcanvas 140676 "[Ja]"
+  xyzwh 327 852 2010 22 20
+textcanvas 140932 "[Nein]"
+  xyzwh 397 909 2011 48 22
+activityactioncanvas 141700 activityaction_ref 136452 // activity action Aufruf des nächsten Elements
+  
+  show_opaque_action_definition default
+  xyzwh 656 746 2005 100 60
+end
+flowcanvas 128388 flow_ref 128516 // <flow>
+  
+  from ref 128260 z 2006 to ref 128132
+   write_horizontally default
+end
+flowcanvas 128514 flow_ref 128130 // <flow>
+  
+  from ref 129284 z 2011 to ref 136068
+   write_horizontally default
+end
+flowcanvas 128644 flow_ref 128644 // <flow>
+  
+  from ref 128132 z 2006 to ref 128516
+   write_horizontally default
+end
+flowcanvas 128900 flow_ref 128772 // <flow>
+  
+  from ref 128516 z 2006 to ref 128772
+   write_horizontally default
+end
+flowcanvas 129412 flow_ref 128900 // <flow>
+  decenter_begin 540
+  
+  from ref 128772 z 2006 to point 229 244
+  line 139396 z 2006 to ref 129156
+   write_horizontally default
+end
+flowcanvas 129540 flow_ref 129028 // <flow>
+  decenter_end 458
+  
+  from ref 128772 z 2006 to point 432 241
+  line 139268 z 2006 to ref 129284
+   write_horizontally default
+end
+flowcanvas 130050 flow_ref 128898 // <flow>
+  decenter_end 755
+  
+  from ref 136836 z 2011 to point 55 668
+  line 130178 z 2011 to ref 131460
+   write_horizontally default
+end
+flowcanvas 130052 flow_ref 129156 // <flow>
+  
+  from ref 129156 z 2006 to ref 129924
+   write_horizontally default
+end
+flowcanvas 130564 flow_ref 129284 // <flow>
+  
+  from ref 129924 z 2006 to ref 129284
+   write_horizontally default
+end
+flowcanvas 130948 flow_ref 129412 // <flow>
+  
+  from ref 129924 z 2006 to ref 130820
+   write_horizontally default
+end
+flowcanvas 131972 flow_ref 129796 // <flow>
+  
+  from ref 131460 z 2006 to ref 131844
+   write_horizontally default
+end
+flowcanvas 132740 flow_ref 130052 // <flow>
+  
+  from ref 131844 z 2006 to ref 132612
+   write_horizontally default
+end
+flowcanvas 133122 flow_ref 129410 // <flow>
+  
+  from ref 140164 z 2012 to ref 132994
+   write_horizontally default
+end
+flowcanvas 133250 flow_ref 129538 // <flow>
+  
+  from ref 131460 z 2012 to ref 132994
+   write_horizontally default
+end
+flowcanvas 133378 flow_ref 129666 // <flow>
+  
+  from ref 132994 z 2012 to ref 138116
+   write_horizontally default
+end
+flowcanvas 133380 flow_ref 130308 // <flow>
+  
+  from ref 132612 z 2006 to ref 132996
+   write_horizontally default
+end
+flowcanvas 134274 flow_ref 129922 // <flow>
+  
+  from ref 132612 z 2006 to ref 134146
+   write_horizontally default
+end
+flowcanvas 134402 flow_ref 130050 // <flow>
+  
+  from ref 132996 z 2006 to ref 134146
+   write_horizontally default
+end
+flowcanvas 134530 flow_ref 130178 // <flow>
+  
+  from ref 134146 z 2006 to ref 140164
+   write_horizontally default
+end
+flowcanvas 134532 flow_ref 130948 // <flow>
+  
+  from ref 134148 z 2006 to ref 134404
+   write_horizontally default
+end
+flowcanvas 134658 flow_ref 130306 // <flow>
+  
+  from ref 138116 z 2006 to point 132 1141
+  line 134786 z 2006 to ref 134404
+   write_horizontally default
+end
+flowcanvas 136708 flow_ref 138372 // <flow>
+  
+  from ref 130820 z 2011 to ref 136068
+   write_horizontally default
+end
+flowcanvas 136964 flow_ref 138500 // <flow>
+  decenter_begin 540
+  decenter_end 243
+  
+  from ref 136068 z 2011 to point 445 553
+  line 133890 z 2011 to ref 136836
+   write_horizontally default
+end
+flowcanvas 137348 flow_ref 138628 // <flow>
+  
+  from ref 136836 z 2011 to ref 137220
+   write_horizontally default
+end
+flowcanvas 137476 flow_ref 138756 // <flow>
+  
+  from ref 137220 z 2006 to point 63 170
+  line 137604 z 2006 to ref 128516
+   write_horizontally default
+end
+flowcanvas 138500 flow_ref 139012 // <flow>
+  decenter_begin 755
+  
+  from ref 138116 z 2006 to point 263 873
+  line 134914 z 2006 to ref 134148
+   write_horizontally default
+end
+flowcanvas 141828 flow_ref 140164 // <flow>
+  decenter_begin 639
+  decenter_end 879
+  
+  from ref 140164 z 2006 to point 392 934
+  line 141956 z 2006 to point 742 936
+  line 142084 z 2006 to ref 141700
+   write_horizontally default
+end
+flowcanvas 142212 flow_ref 140292 // <flow>
+  decenter_begin 910
+  decenter_end 490
+  
+  from ref 141700 z 2006 to point 744 663
+  line 142340 z 2006 to ref 131844
+   write_horizontally default
+end
+end
