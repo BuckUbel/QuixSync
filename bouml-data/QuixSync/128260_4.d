@@ -223,7 +223,7 @@ flowcanvas 133378 flow_ref 129666 // <flow>
    write_horizontally default
 end
 flowcanvas 133380 flow_ref 130308 // <flow>
-  decenter_begin 519
+  decenter_begin 518
   decenter_end 238
   
   from ref 132612 z 2006 to ref 132996

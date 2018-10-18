@@ -1,0 +1,34 @@
+format 220
+
+classcanvas 128004 class_ref 128004 // Anwender
+  simpleclassdiagramsettings end
+  xyz 6 311 2000
+end
+usecasecanvas 128132 usecase_ref 128004 // Vergleich zweier Ordner
+  xyzwh 143 118 3005 201 141 label_xy 182 133
+end
+usecasecanvas 128388 usecase_ref 128132 // Auflistung der Unterschiede
+  xyzwh 404 152 3005 183 75 label_xy 427 179
+end
+usecasecanvas 128772 usecase_ref 128260 // Graphische Oberfläche
+  xyzwh 157 304 3005 171 77 label_xy 184 330
+end
+usecasecanvas 130436 usecase_ref 129028 // Ablage der Ordner an verschiednen Stellen
+  xyzwh 130 438 3005 235 79 label_xy 140 469
+end
+line 128260 ----
+  from ref 128004 z 3006 to ref 128132
+simplerelationcanvas 128516 simplerelation_ref 128004
+  from ref 128388 z 3006 stereotype "<<extend>>" xyz 349 188 3000 to ref 128132
+end
+line 128900 ----
+  from ref 128004 z 3006 to ref 128772
+simplerelationcanvas 129412 simplerelation_ref 128260
+  from ref 128132 z 3006 stereotype "<<include>>" xyz 247 270.5 3000 to ref 128772
+end
+line 130564 ----
+  from ref 128004 z 3006 to ref 130436
+simplerelationcanvas 130692 simplerelation_ref 128772
+  from ref 130436 z 3006 stereotype "<<include>>" xyz 246 400 3000 to ref 128772
+end
+end

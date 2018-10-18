@@ -1,7 +1,7 @@
 format 220
 "QuixSync"
-  revision 3
-  modified_by 2 "Quentin"
+  revision 7
+  modified_by 4 "Philipp"
 
 
   
@@ -301,7 +301,7 @@ format 220
       activityaction 136580 "Auflistung des Inhaltes"
 	opaque_action
 	flow 140548 "<flow>"
-	  on activityaction_ref 136708 // activity action Erstellen von zwei Arrays (Order und Dateien)
+	  on activityaction_ref 136708 // activity action Erstellen von zwei Listen (Ordner und Dateien)
 	end
       end
 
@@ -311,35 +311,28 @@ format 220
 	end
       end
 
-      activityaction 136708 "Erstellen von zwei Arrays (Order und Dateien)"
+      activityaction 136708 "Erstellen von zwei Listen (Ordner und Dateien)"
 	opaque_action
 	flow 140676 "<flow>"
-	  on activityaction_ref 136836 // activity action Speichern der Informationen zur Datei (siehe 3.3.1)
+	  on activityaction_ref 136836 // activity action Speichern der Metainformationen in die Dateiliste (siehe 3.3.1)
 	end
       end
 
-      activityaction 136836 "Speichern der Informationen zur Datei (siehe 3.3.1)"
+      activityaction 136836 "Speichern der Metainformationen in die Dateiliste (siehe 3.3.1)"
 	opaque_action
 	flow 140804 "<flow>"
-	  on activityaction_ref 136964 // activity action Sammeln der Informationen zum Order (siehe 3.3.1)
+	  on activityaction_ref 136964 // activity action Speichern der Metainformationen der Ordnerobjekte in die Ordnerliste (siehe 3.3.1)
 	end
       end
 
-      activityaction 136964 "Sammeln der Informationen zum Order (siehe 3.3.1)"
+      activityaction 136964 "Speichern der Metainformationen der Ordnerobjekte in die Ordnerliste (siehe 3.3.1)"
 	opaque_action
-	flow 140932 "<flow>"
-	  on activityaction_ref 137092 // activity action Rekursive Inhaltsauflistung der Ordner
+	flow 149124 "<flow>"
+	  on activityaction_ref 137220 // activity action Speichern der Liste mit weiteren Metainformationen in einer Datei
 	end
       end
 
-      activityaction 137092 "Rekursive Inhaltsauflistung der Ordner"
-	opaque_action
-	flow 141060 "<flow>"
-	  on activityaction_ref 137220 // activity action Speichern der Arrays mit weiteren Informationen in einer Datei
-	end
-      end
-
-      activityaction 137220 "Speichern der Arrays mit weiteren Informationen in einer Datei"
+      activityaction 137220 "Speichern der Liste mit weiteren Metainformationen in einer Datei"
 	opaque_action
 	flow 141188 "<flow>"
 	  on activitynode_ref 136708 // activity_final
@@ -357,7 +350,7 @@ format 220
 	size A4
       end
 
-      activityaction 137348 "Durchgehen des Arrays der fehlenden Daten (ReturnCopyArray)"
+      activityaction 137348 "Durchgehen der Liste der fehlenden Daten (ReturnCopyArray)"
 	opaque_action
 	flow 141444 "<flow>"
 	  on activityaction_ref 137476 // activity action Kopieren der Daten
@@ -366,7 +359,7 @@ format 220
 
       activitynode 136836 initial_node ""
 	flow 141316 "<flow>"
-	  on activityaction_ref 137348 // activity action Durchgehen des Arrays der fehlenden Daten (ReturnCopyArray)
+	  on activityaction_ref 137348 // activity action Durchgehen der Liste der fehlenden Daten (ReturnCopyArray)
 	end
       end
 
@@ -378,16 +371,16 @@ format 220
       end
 
       activitynode 136964 decision ""
-	flow 141572 "<flow>"
-	  on activityaction_ref 137348 // activity action Durchgehen des Arrays der fehlenden Daten (ReturnCopyArray)
+	flow 141828 "<flow>"
+	  on activityaction_ref 137604 // activity action Durchgehen der Liste der zu löschenden Daten (ReturnDeleteArray)
 	end
 
-	flow 141828 "<flow>"
-	  on activityaction_ref 137604 // activity action Durchgehen des Arrays der zu löschenden Daten (ReturnDeleteArray)
+	flow 148996 "<flow>"
+	  on activityaction_ref 137476 // activity action Kopieren der Daten
 	end
       end
 
-      activityaction 137604 "Durchgehen des Arrays der zu löschenden Daten (ReturnDeleteArray)"
+      activityaction 137604 "Durchgehen der Liste der zu löschenden Daten (ReturnDeleteArray)"
 	opaque_action
 	flow 141956 "<flow>"
 	  on activityaction_ref 137732 // activity action Löschen der Daten
@@ -406,13 +399,298 @@ format 220
 	  on activitynode_ref 137220 // activity_final
 	end
 
-	flow 142340 "<flow>"
-	  on activityaction_ref 137604 // activity action Durchgehen des Arrays der zu löschenden Daten (ReturnDeleteArray)
+	flow 148868 "<flow>"
+	  on activityaction_ref 137732 // activity action Löschen der Daten
 	end
       end
 
       activitynode 137220 activity_final ""
       end
+    end
+  end
+
+  usecaseview 128004 "ucvAnforderungen"
+    
+    usecasediagramsettings end
+    
+    sequencediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    activitydiagramsettings
+     end
+    usecasediagram 141444 "ucdPflichtanforderungen"
+      usecasediagramsettings end
+      size A4
+    end
+
+    class 128004 "Anwender"
+      visibility package stereotype "actor"
+      cpp_decl ""
+      java_decl "${comment}${@}${visibility}${static}${final}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+    end
+
+    usecase 128004 "Vergleich zweier Ordner"
+      extension_points "Ordner verschieden"
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+      simplerelation 128260
+	-_->
+	  stereotype "include"
+	  on usecase_ref 128260 // Graphische Oberfläche
+      end
+    end
+
+    usecase 128132 "Auflistung der Unterschiede"
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+      simplerelation 128004
+	-_->
+	  stereotype "extend"
+	  on usecase_ref 128004 // Vergleich zweier Ordner
+      end
+    end
+
+    usecase 128260 "Graphische Oberfläche"
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+    end
+
+    usecasediagram 141572 "ucdWunschanforderungen"
+      usecasediagramsettings end
+      size A4
+    end
+
+    usecase 128516 "Abgleich via FTP"
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+    end
+
+    usecase 128644 "Automatisierter Abgleich"
+      extension_points "falls vorhanden"
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+    end
+
+    usecase 128772 "Selbst zu wählendes Zeitintervall"
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+      simplerelation 128516
+	-_->
+	  stereotype "include"
+	  on usecase_ref 128644 // Automatisierter Abgleich
+      end
+    end
+
+    usecase 128900 "Manueller Abgleich nicht mehr nötig"
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+      simplerelation 128644
+	-_->
+	  stereotype "extend"
+	  on usecase_ref 128644 // Automatisierter Abgleich
+      end
+    end
+
+    usecase 129028 "Ablage der Ordner an verschiednen Stellen"
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+      simplerelation 128772
+	-_->
+	  stereotype "include"
+	  on usecase_ref 128260 // Graphische Oberfläche
+      end
+    end
+
+    usecasediagram 141700 "ucdKuenftigeAnforderungen"
+      usecasediagramsettings end
+      size A4
+    end
+
+    usecase 129156 "i"
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
     end
   end
 end
