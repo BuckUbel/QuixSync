@@ -13,12 +13,16 @@ end
 usecasecanvas 128772 usecase_ref 128260 // Graphische Oberfläche
   xyzwh 212 307 3005 171 77 label_xy 239 333
 end
-usecasecanvas 130436 usecase_ref 129028 // Ablage der Ordner an verschiednen Stellen
-  xyzwh 185 441 3005 235 79 label_xy 195 472
+usecasecanvas 130436 usecase_ref 129028 // l
+  xyzwh 183 440 3005 235 79 label_xy 294 458
 end
 fragment 130948 "Pflichtanforderungen"
   xyzwh 142 42 2000 530 561
 end
+textcanvas 131076 "Ablage derselben Ordnerstruktur
+und Dateien an verschiedenen
+Stellen"
+  xyzwh 229 458 3010 159 42
 line 128260 ----
   from ref 128004 z 3006 to ref 128132
 simplerelationcanvas 128516 simplerelation_ref 128004
@@ -32,6 +36,6 @@ end
 line 130564 ----
   from ref 128004 z 3006 to ref 130436
 simplerelationcanvas 130692 simplerelation_ref 128772
-  from ref 130436 z 3006 stereotype "<<include>>" xyz 301 403 3000 to ref 128772
+  from ref 130436 z 3006 stereotype "<<include>>" xyz 300.5 402.5 3000 to ref 128772
 end
 end

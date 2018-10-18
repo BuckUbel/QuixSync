@@ -7,15 +7,15 @@ diagrams
     114 86 100 A4 0 0
   activitydiagram_ref 134916 // adSynchronisierung
     1748 971 100 A4 0 0
-  usecasediagram_ref 141444 // ucdPflichtanforderungen
+  active  usecasediagram_ref 141444 // ucdPflichtanforderungen
     1398 776 100 A4 0 0
   usecasediagram_ref 141572 // ucdWunschanforderungen
     1398 776 100 A4 0 0
-  active  usecasediagram_ref 141700 // ucdKuenftigeAnforderungen
+  usecasediagram_ref 141700 // ucdKuenftigeAnforderungen
     1748 971 100 A4 0 0
 end
 show_stereotypes
-selected usecasediagram_ref 141700 // ucdKuenftigeAnforderungen
+selected usecasediagram_ref 141444 // ucdPflichtanforderungen
 open
   usecaseview_ref 128004 // ucvAnforderungen
 end

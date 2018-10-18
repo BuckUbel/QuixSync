@@ -1,6 +1,6 @@
 format 220
 "QuixSync"
-  revision 8
+  revision 9
   modified_by 4 "Philipp"
 
 
@@ -637,7 +637,7 @@ ${members}}
       end
     end
 
-    usecase 129028 "Ablage der Ordner an verschiednen Stellen"
+    usecase 129028 "l"
       
       usecasediagramsettings end
       
