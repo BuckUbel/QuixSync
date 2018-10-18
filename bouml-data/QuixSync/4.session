@@ -5,16 +5,18 @@ diagrams
     114 86 100 A4 0 0
   activitydiagram_ref 128132 // adAblauf
     114 86 100 A4 0 0
-  active  activitydiagram_ref 128260 // adVergleich
-    1748 971 100 A4 4 0
   activitydiagram_ref 134916 // adSynchronisierung
+    1748 971 100 A4 0 0
+  usecasediagram_ref 141444 // ucdPflichtanforderungen
+    1398 776 100 A4 0 0
+  usecasediagram_ref 141572 // ucdWunschanforderungen
+    1398 776 100 A4 0 0
+  active  usecasediagram_ref 141700 // ucdKuenftigeAnforderungen
     1748 971 100 A4 0 0
 end
 show_stereotypes
-selected activitydiagram_ref 128260 // adVergleich
+selected usecasediagram_ref 141700 // ucdKuenftigeAnforderungen
 open
-  activity_ref 128260 // Ablauf
-  activity_ref 128388 // acVergleich
-  activity_ref 135172 // Synchronisierung
+  usecaseview_ref 128004 // ucvAnforderungen
 end
 end

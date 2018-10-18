@@ -5,12 +5,15 @@ classcanvas 128004 class_ref 128004 // Anwender
   xyz 21 195 2000
 end
 usecasecanvas 128132 usecase_ref 129156 // i
-  xyzwh 141 174 3005 185 105 label_xy 176 202
+  xyzwh 144 179 3005 185 105 label_xy 179 207
 end
 textcanvas 128388 "Durchführung einer auf 
 UNIX-Systemen optimierter
 Dateisynchronistation"
-  xyzwh 176 202 3010 128 42
+  xyzwh 179 207 3010 128 42
+fragment 128772 "kuenftige Anforderungen"
+  xyzwh 114 131 2000 256 199
+end
 line 128516 ----
   from ref 128004 z 3006 to ref 128132
 end

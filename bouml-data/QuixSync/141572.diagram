@@ -16,14 +16,17 @@ end
 usecasecanvas 129668 usecase_ref 128900 // Manueller Abgleich nicht mehr nötig
   xyzwh 411 223 3005 189 81 label_xy 420 252
 end
+fragment 129924 "Wunschanforderungen"
+  xyzwh 127 38 3010 491 441
+end
 line 128516 ----
   from ref 128004 z 3006 to ref 128260
-line 128772 ---- decenter_end 470
+line 128772 ---- decenter_end 469
   from ref 128004 z 3006 to ref 128644
 line 129156 ----
   from ref 128004 z 3006 to ref 128900
 simplerelationcanvas 129284 simplerelation_ref 128516
-  from ref 128900 z 3006 stereotype "<<include>>" xyz 251.5 326.5 3000 to ref 128644
+  from ref 128900 z 3006 stereotype "<<include>>" xyz 251 326 3000 to ref 128644
 end
 simplerelationcanvas 129796 simplerelation_ref 128644
   from ref 129668 z 3006 stereotype "<<extend>>" xyz 352 265 3000 to ref 128644
