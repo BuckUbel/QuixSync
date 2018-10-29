@@ -32,7 +32,7 @@ public class FileSize {
         return String.format("%.2f", this.count / factor) + " " + format + "B";
     }
 
-    public void set(double count) {
+    void set(double count) {
         this.count = count;
     }
 

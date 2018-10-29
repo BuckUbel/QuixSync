@@ -27,8 +27,6 @@ public class StorageElement {
         this.setIsDirectory(this.getAttributes().isDirectory());
     }
 
-
-
     private Path getFileSystemPath() {
 
         Path path = null;
