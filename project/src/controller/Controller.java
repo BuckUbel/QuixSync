@@ -148,6 +148,8 @@ public class Controller implements ActionListener {
         FileController.printElements(elements);
         FileController.writeElementsInFile(elements, "testData\\output.txt");
 
+        elements.saveJSON("testData\\output.json");
+
         return indexPath;
     }
 
@@ -165,6 +167,9 @@ public class Controller implements ActionListener {
     }
 
     private boolean sync(String compareFile) {
+
+        StorageElementList elements = new StorageElementList(null).readJSON("testData\\output.json");
+
 
         return FileController.sync(compareFile);
     }
