@@ -8,7 +8,6 @@ import models.StorageElementList;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.attribute.BasicFileAttributes;
 
 import static java.nio.file.StandardCopyOption.*;
 
@@ -23,8 +22,7 @@ class FileController {
 
     static void printElements(StorageElementList se, boolean printingAll) {
 
-        FileSize fs = new FileSize(0);
-        List<Double> list = new ArrayList<Double>();
+        double count = 0;
         StorageElement tmpSE;
 
         for (int i = 0; i < se.getElements().size(); i++) {
@@ -49,16 +47,15 @@ class FileController {
             }
 
             if (printingAll) {
-                Logger.print("[" + i + "]: " + tmpSE.getRelativePath() + " [" + tmpSE.getFileSize() + "]" + " [" + tmpSE.getChanged_at() + "]" + extra);
+                Logger.print("[" + i + "]: " + tmpSE.getRelativePath() + " [" + tmpSE.getFileSizeFormatted() + "]" + " [" + tmpSE.getChanged_at() + "]" + extra);
             }
 
-            list.add(fs.getBytes());
-            fs = new FileSize((fs.getBytes() + tmpSE.getFileSizeObject().getBytes()));
+            count += tmpSE.getFileSize();
         }
 
         Logger.print("----------------------");
         Logger.print(se.getElements().size() + " Dateien");
-        Logger.print(fs.getFormattedString() + " Speichermenge");
+        Logger.print(FileSize.getFormattedString(count) + " Speichermenge");
     }
 
     static void writeElementsInFile(StorageElementList se) {
@@ -70,29 +67,20 @@ class FileController {
     }
 
     static StorageElementList getAllElements(String path) {
-        return FileController.getAllElements(path, path);
+        return FileController.getAllElements(path, path, 1).sortAndGet();
     }
 
-    static StorageElementList getAllElements(String path, String rootDir) {
+    static StorageElementList getAllElements(String path, String rootDir, int index) {
 
-
-        //TODO: create an extra counter for nested sets, begins on 1 and increase if a file add to the list
-        // This work, because the function is recursively
-        // first dir A then element from A, also dir 1 then elements from 1, then dir 2, ...
-
-        //TODO: pass parameter lastest modified date for folders, so can these perhaps skipped in the compare function
-
-        //TODO: the list should be ordered by 'lft' so can the folder skipped in the compare function
-
-
+        long lastModified = 0;
         List<StorageElement> returnArray = new ArrayList<>();
         File element = new File(path);
 
         if (element.isDirectory()) {
 
-            if (!path.equals(rootDir)) {
-                returnArray.add(new StorageElement(element));
-            }
+            StorageElement storageElementDir = new StorageElement(element);
+            storageElementDir.setLft(index);
+            index++;
 
             File[] containedElements = element.listFiles();
 
@@ -108,21 +96,41 @@ class FileController {
                         se = new StorageElement(containedElement.getAbsolutePath(), rootDir);
 
                         if (se.isRegularFile()) {
+                            se.setLft(index);
+                            index++;
+                            se.setRgt(index);
+                            index++;
                             returnArray.add(se);
+                            if(lastModified < se.getChanged_at()){
+                                lastModified = se.getChanged_at();
+                            }
                         }
 
                         if (se.isDirectory()) {
-                            returnArray.addAll(FileController.getAllElements(se.getAbsolutePath(), rootDir).getElements());
+                            StorageElementList sel = FileController.getAllElements(se.getAbsolutePath(), rootDir, index);
+                            index = sel.getLatestLft();
+                            if(lastModified < sel.getLastModified()){
+                                lastModified = sel.getLastModified();
+                            }
+                            returnArray.addAll(sel.getElements());
                         }
                     }
                 }
+
+                storageElementDir.setRgt(index);
+                index++;
+                if(lastModified != 0){
+                    storageElementDir.setChanged_atSpecific(lastModified);
+                }
+                returnArray.add(storageElementDir);
+
 
             } catch (Exception e) {
                 Logger.printErr("keine Elemente vorhanden: " + e);
             }
         }
 
-        return new StorageElementList(returnArray, rootDir);
+        return new StorageElementList(returnArray, rootDir, index, lastModified);
     }
 
     static String compareJSONFiles(String sourcePath, String targetPath, boolean isHardSync) {
@@ -135,7 +143,7 @@ class FileController {
         // the problem appeared during nesting sets
 
         // Was ist mit Dateien die auf B nochmal verändert wurden? Werden diese überschrieben? --> logisch müssten sie es
-                        // --> sie werden ignoriert -->
+        // --> sie werden ignoriert -->
         // TODO: new List for files, which are on the target dir newer as in the source dir
 
 
@@ -234,12 +242,12 @@ class FileController {
                         // ???
                     }
                     earlierChangeDate = source.getChanged_at() < target.getChanged_at();
-                    if (earlierChangeDate ) {
+                    if (earlierChangeDate) {
                         // ???
                     }
                 }
 
-                sameSize = source.getFileSizeObject().getBytes() == target.getFileSizeObject().getBytes();
+                sameSize = source.getFileSize() == target.getFileSize();
                 if (!sameSize) {
                     isDifferent = true;
                     source.setDifferentSize(true);

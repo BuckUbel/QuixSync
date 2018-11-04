@@ -19,7 +19,7 @@ public class StorageElement {
     private String relativePath;
     private String dir;
     private long changed_at;
-    private FileSize fileSize;
+    private double fileSize;
     private boolean isDirectory;
 
     private int state = 0;
@@ -31,9 +31,10 @@ public class StorageElement {
     private final static int SIZE = 8;
     private final static int NEW = 16;
 
-    public StorageElement(){}
+    public StorageElement() {
+    }
 
-    public StorageElement(File file){
+    public StorageElement(File file) {
         this.dir = file.getParent();
         this.standardInit(file.getAbsolutePath());
     }
@@ -50,8 +51,18 @@ public class StorageElement {
     private void standardInit(String path) {
         this.setPath(path);
         this.setChanged_at();
-        this.fileSize = new FileSize(this.getAttributes().size());
+        this.setFileSize();
         this.setIsDirectory(this.getAttributes().isDirectory());
+    }
+
+
+    public int compareTo(StorageElement otherObject) {
+
+        return Integer.compare(otherObject.getLft(), this.getLft());
+    }
+
+    public int getChildrenCount() {
+        return (rgt - lft - 1) / 2;
     }
 
     private Path getFileSystemPath() {
@@ -101,6 +112,22 @@ public class StorageElement {
 
     }
 
+    public void setLft(int lft) {
+        this.lft = lft;
+    }
+
+    public int getLft() {
+        return this.lft;
+    }
+
+    public void setRgt(int rgt) {
+        this.rgt = rgt;
+    }
+
+    public int getRgt() {
+        return this.rgt;
+    }
+
     public long getChanged_at() {
 
         Long changed_at = this.changed_at;
@@ -113,6 +140,10 @@ public class StorageElement {
 
     public void setChanged_at() {
         this.changed_at = this.getAttributes().lastModifiedTime().toMillis();
+    }
+
+    public void setChanged_atSpecific(long changed_at) {
+        this.changed_at = changed_at;
     }
 
 //    public long getCreated_at() {
@@ -128,21 +159,16 @@ public class StorageElement {
 //        this.created_at = this.getAttributes().creationTime().toMillis();
 //    }
 
-    public String getFileSize() {
-        double fileSize = this.fileSize.getBytes();
-
-        if (fileSize == 0) {
-            this.setFileSize();
-        }
-        return this.fileSize.getFormattedString();
-    }
-
-    public FileSize getFileSizeObject() {
+    public double getFileSize() {
         return this.fileSize;
     }
 
+    public String getFileSizeFormatted() {
+        return FileSize.getFormattedString(this.fileSize);
+    }
+
     public void setFileSize() {
-        this.fileSize.set(this.getAttributes().size());
+        this.fileSize = this.getAttributes().size();
     }
 
 
@@ -178,6 +204,7 @@ public class StorageElement {
     public boolean isDifferentSize() {
         return (this.state & StorageElement.SIZE) != 0;
     }
+
     public boolean isNewFile() {
         return (this.state & StorageElement.NEW) != 0;
     }
@@ -225,6 +252,7 @@ public class StorageElement {
             }
         }
     }
+
     public void setIsNewFile(boolean isNew) {
         boolean currentState = this.isNewFile();
         if (isNew != currentState) {

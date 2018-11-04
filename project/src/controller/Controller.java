@@ -145,7 +145,6 @@ public class Controller implements ActionListener {
 //        Logger.print(path);
 
         StorageElementList elementsA = FileController.getAllElements(pathA);
-
         // Logging
         // FileController.printElements(elements);
         FileController.writeElementsInFile(elementsA, "testData\\outputA.json");
