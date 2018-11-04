@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 
-public class List {
+public class ElementList {
 
     public void saveAsJSON(String path) {  // Methodenaufruf mit (path) für aktuelles Objekt
 
@@ -27,13 +27,13 @@ public class List {
 
     }
 
-    public List readJSON(String path) {
+    public ElementList readJSON(String path) {
 
         Gson gson = new GsonBuilder().create();
-        List stlist = new List();
+        ElementList stlist = new ElementList();
 
         try (Reader reader = new FileReader(path)) {
-            stlist = gson.fromJson(reader, List.class);
+            stlist = gson.fromJson(reader, ElementList.class);
 
         } catch (IOException e) {
             e.printStackTrace();

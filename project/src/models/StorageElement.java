@@ -13,14 +13,13 @@ public class StorageElement {
     // TODO: rebuild for nested sets, without these, there are no possibility for performance boost
     // @Quentin Weber
 
-    private int lft;
-    private int rgt;
+    private Position position = new Position();
 
     private String relativePath;
-    private String dir;
-    private long changed_at;
+    private transient String dir;
+    private long changedAt;
+    private long createdAt;
     private double fileSize;
-    private boolean isDirectory;
 
     private int state = 0;
 
@@ -29,13 +28,16 @@ public class StorageElement {
     private final static int NAME = 2;
     private final static int CHANGED = 4;
     private final static int SIZE = 8;
-    private final static int NEW = 16;
+    private final static int CHILDREN_COUNT = 16;
+    private final static int NEW = 32;
+    private final static int DIR = 64;
+
 
     public StorageElement() {
     }
 
-    public StorageElement(File file) {
-        this.dir = file.getParent();
+    public StorageElement(File file, String dir) {
+        this.dir = dir;
         this.standardInit(file.getAbsolutePath());
     }
 
@@ -50,19 +52,30 @@ public class StorageElement {
 
     private void standardInit(String path) {
         this.setPath(path);
-        this.setChanged_at();
+        this.setLastModfied();
         this.setFileSize();
         this.setIsDirectory(this.getAttributes().isDirectory());
     }
 
+    public minimizedStorageElement minify (){
+        return new minimizedStorageElement(this);
+    }
 
     public int compareTo(StorageElement otherObject) {
 
         return Integer.compare(otherObject.getLft(), this.getLft());
     }
 
+    public String getDir(){
+        return this.dir;
+    }
+
+    public int getState(){
+        return this.state;
+    }
+
     public int getChildrenCount() {
-        return (rgt - lft - 1) / 2;
+        return (position.rgt - position.lft - 1) / 2;
     }
 
     private Path getFileSystemPath() {
@@ -113,51 +126,54 @@ public class StorageElement {
     }
 
     public void setLft(int lft) {
-        this.lft = lft;
+        this.position.lft = lft;
     }
 
     public int getLft() {
-        return this.lft;
+        return this.position.lft;
     }
 
     public void setRgt(int rgt) {
-        this.rgt = rgt;
+        this.position.rgt = rgt;
     }
 
     public int getRgt() {
-        return this.rgt;
+        return this.position.rgt;
     }
 
-    public long getChanged_at() {
+    public Position getPosition(){
+        return this.position;
+    }
 
-        Long changed_at = this.changed_at;
+    public long getCreatedAt(){
+        return this.createdAt;
+    }
 
-        if (changed_at == 0) {
-            this.setChanged_at();
+    public long getChangedAt(){
+        return this.changedAt;
+    }
+
+    public long getLastModified() {
+
+        if(this.getCreatedAt() > this.getCreatedAt()){
+            return this.getCreatedAt();
         }
-        return this.changed_at;
+        else{
+            return this.getChangedAt();
+        }
     }
 
-    public void setChanged_at() {
-        this.changed_at = this.getAttributes().lastModifiedTime().toMillis();
+    public void setLastModfied() {
+        this.setCreatedAtSpecific(this.getAttributes().creationTime().toMillis());
+        this.setChangedAtSpecific(this.getAttributes().lastModifiedTime().toMillis());
     }
 
-    public void setChanged_atSpecific(long changed_at) {
-        this.changed_at = changed_at;
+    public void setChangedAtSpecific(long changedAt) {
+        this.changedAt = changedAt;
     }
-
-//    public long getCreated_at() {
-//        Long created_at = this.created_at;
-//
-//        if (created_at == 0) {
-//            this.setCreated_at();
-//        }
-//        return this.created_at;
-//    }
-//
-//    public void setCreated_at() {
-//        this.created_at = this.getAttributes().creationTime().toMillis();
-//    }
+    public void setCreatedAtSpecific(long changedAt) {
+        this.createdAt = createdAt;
+    }
 
     public double getFileSize() {
         return this.fileSize;
@@ -174,16 +190,16 @@ public class StorageElement {
 
     public boolean isDirectory() {
         this.setIsDirectory(this.getAttributes().isDirectory());
-        return this.isDirectory;
+        return this.isDir();
     }
 
     public boolean isRegularFile() {
         this.setIsDirectory(this.getAttributes().isDirectory());
-        return !this.isDirectory;
+        return !this.isDir();
     }
 
     public void setIsDirectory(boolean isDirectory) {
-        this.isDirectory = isDirectory;
+        this.setIsDir(isDirectory);
     }
 
 
@@ -205,8 +221,16 @@ public class StorageElement {
         return (this.state & StorageElement.SIZE) != 0;
     }
 
+    public boolean isDifferentChildrenCount () {
+        return (this.state & StorageElement.CHILDREN_COUNT) != 0;
+    }
+
     public boolean isNewFile() {
         return (this.state & StorageElement.NEW) != 0;
+    }
+
+    public boolean isDir() {
+        return (this.state & StorageElement.DIR) != 0;
     }
 
     public void setIsCompared(boolean isCompared) {
@@ -252,7 +276,16 @@ public class StorageElement {
             }
         }
     }
-
+    public void setDifferentChildrenCount(boolean isDifferentChildrenCount) {
+        boolean currentState = this.isDifferentChildrenCount();
+        if (isDifferentChildrenCount != currentState) {
+            if (isDifferentChildrenCount) {
+                this.state += StorageElement.CHILDREN_COUNT;
+            } else {
+                this.state -= StorageElement.CHILDREN_COUNT;
+            }
+        }
+    }
     public void setIsNewFile(boolean isNew) {
         boolean currentState = this.isNewFile();
         if (isNew != currentState) {
@@ -260,6 +293,16 @@ public class StorageElement {
                 this.state += StorageElement.NEW;
             } else {
                 this.state -= StorageElement.NEW;
+            }
+        }
+    }
+    public void setIsDir(boolean isDir) {
+        boolean currentState = this.isDir();
+        if (isDir != currentState) {
+            if (isDir) {
+                this.state += StorageElement.DIR;
+            } else {
+                this.state -= StorageElement.DIR;
             }
         }
     }

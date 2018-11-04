@@ -10,7 +10,7 @@ import java.io.Reader;
 import java.util.Collections;
 import java.util.List;
 
-public class StorageElementList extends models.List {
+public class StorageElementList extends ElementList {
 
     private List<StorageElement> elementList;
     private String dirPath;
@@ -53,6 +53,27 @@ public class StorageElementList extends models.List {
         return this.lastModified;
     }
 
+    public static boolean isBetween(StorageElement x, List<Position> positions) {
+
+        boolean returnValue = false;
+
+        for (Position position : positions) {
+            returnValue = StorageElementList.isBetween(x, position);
+            if (returnValue) break;
+        }
+
+        return returnValue;
+    }
+
+    public static boolean isBetween(StorageElement x, Position pos) {
+
+        if (pos.lft < x.getLft() && x.getRgt() < pos.rgt) {
+            return true;
+        }
+        return false;
+
+    }
+
     public String getDirPath() {
         return this.dirPath;
     }
@@ -69,10 +90,11 @@ public class StorageElementList extends models.List {
         this.elementList.sort(Collections.reverseOrder(StorageElement::compareTo));
     }
 
-    public StorageElementList sortAndGet(){
+    public StorageElementList sortAndGet() {
         this.sort();
         return this;
     }
+
     public StorageElementList readJSON(String path) {
 
         Gson gson = new GsonBuilder().create();

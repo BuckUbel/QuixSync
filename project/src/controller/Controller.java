@@ -165,8 +165,16 @@ public class Controller implements ActionListener {
         String sourceIndexPath = "testdata\\outputA.json";
         String targetIndexPath = "testdata\\outputB.json";
         boolean isHardSync = true;
+        boolean withRenaming = false;
 
-        compareFilePath = FileController.compareJSONFiles(sourceIndexPath, targetIndexPath, isHardSync);
+//        withRenaming mode:
+//            not all Renamings in A, if no size/date changes
+//            not all Renamings in B, if no size/date changes
+//
+//          new data in B will be deleted
+//          --> but the parent folder from A will be copied??? --> is unneccessary --> folders with problems with children count shouldn't copy
+
+        compareFilePath = FileController.compareJSONFiles(sourceIndexPath, targetIndexPath, isHardSync, withRenaming);
 
         return compareFilePath;
     }
