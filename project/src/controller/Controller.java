@@ -1,7 +1,6 @@
 package controller;
 
 import logger.Logger;
-import models.StorageElement;
 import models.StorageElementList;
 import views.View;
 
@@ -141,14 +140,20 @@ public class Controller implements ActionListener {
         String indexPath = "";
 
         Logger.print("---------- INDEXING ------------");
-        String path = "testdata\\B";
-        Logger.print(path);
+        String pathA = "testdata\\A";
+//        String pathA = "D:\\Quentin\\Schule\\BA Leipzig";
+//        Logger.print(path);
 
-        StorageElementList elements = FileController.getAllElements(path);
-        FileController.printElements(elements);
-        FileController.writeElementsInFile(elements, "testData\\output.txt");
+        StorageElementList elementsA = FileController.getAllElements(pathA);
 
-        elements.saveJSON("testData\\output.json");
+        // Logging
+        // FileController.printElements(elements);
+        FileController.writeElementsInFile(elementsA, "testData\\outputA.json");
+
+        String pathB = "testdata\\B";
+//        String pathB = "D:\\Quentin\\Schule\\BA Leipzig - Kopie";
+        StorageElementList elementsB = FileController.getAllElements(pathB);
+        FileController.writeElementsInFile(elementsB, "testData\\outputB.json");
 
         return indexPath;
     }
@@ -158,19 +163,24 @@ public class Controller implements ActionListener {
         String compareFilePath = "";
 
         Logger.print("---------- COMPARING ------------");
-        String sourceIndexPath = "testdata\\A";
-        String targetIndexPath = "testdata\\B";
+        String sourceIndexPath = "testdata\\outputA.json";
+        String targetIndexPath = "testdata\\outputB.json";
+        boolean isHardSync = true;
 
-        compareFilePath = FileController.compareJSONFiles(sourceIndexPath, targetIndexPath);
+        compareFilePath = FileController.compareJSONFiles(sourceIndexPath, targetIndexPath, isHardSync);
 
         return compareFilePath;
     }
 
     private boolean sync(String compareFile) {
+        try {
+            String compareFilePath = "testData\\outputC.json";
+            return FileController.sync(compareFilePath);
 
-        StorageElementList elements = new StorageElementList(null).readJSON("testData\\output.json");
+        } catch (Exception e) {
+            Logger.printErr(e);
+        }
 
-
-        return FileController.sync(compareFile);
+        return false;
     }
 }

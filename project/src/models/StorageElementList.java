@@ -9,17 +9,37 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 
-public class StorageElementList {
+public class StorageElementList extends models.List {
 
     private List<StorageElement> elementList;
+    private String dirPath;
     private FileSize size = new FileSize(0);
 
-    public StorageElementList(List<StorageElement> elementList) {
+    public StorageElementList() {
+    }
+
+
+    public StorageElementList(List<StorageElement> elementList, String dirPath) {
+
         this.elementList = elementList;
+        this.dirPath = dirPath;
     }
 
     public List<StorageElement> getElements() {
         return elementList;
+    }
+
+    public StorageElement[] getElementsArray(){
+        StorageElement[] returnArray = new StorageElement[elementList.size()];
+        return elementList.toArray(returnArray);
+    }
+
+    public String getDirPath() {
+        return this.dirPath;
+    }
+
+    public void setDirPath(String dirPath) {
+        this.dirPath = dirPath;
     }
 
     public void setSize(double size) {
@@ -27,31 +47,13 @@ public class StorageElementList {
     }
 
 
-    public void saveJSON(String path) {  // Methodenaufruf mit (path) für aktuelles Objekt
-
-//        Gson gson = new GsonBuilder().create();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();   // Formatiere Ausgabe
-
-        String json = gson.toJson(this);
-//        System.out.println(json);
-
-
-        try (FileWriter writer = new FileWriter(path)) {
-            gson.toJson(this, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
     public StorageElementList readJSON(String path) {
 
         Gson gson = new GsonBuilder().create();
-        StorageElementList stlist = new StorageElementList(null);
+        StorageElementList stlist = new StorageElementList();
 
         try (Reader reader = new FileReader(path)) {
             stlist = gson.fromJson(reader, StorageElementList.class);
-            System.out.println(stlist.elementList.get(0).getFileSize());
 
         } catch (IOException e) {
             e.printStackTrace();

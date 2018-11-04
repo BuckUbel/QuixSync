@@ -2,80 +2,63 @@ package controller;
 
 import logger.Logger;
 import models.FileSize;
+import models.ProcessingElementList;
 import models.StorageElement;
 import models.StorageElementList;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
+
 import static java.nio.file.StandardCopyOption.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 class FileController {
-
-    static StorageElementList getAllElements(String path) {
-
-        List<StorageElement> returnArray = new ArrayList<>();
-
-        StorageElement element = new StorageElement(path);
-
-        BasicFileAttributes attr = element.getAttributes();
-
-        if (attr.isDirectory()) {
-            File f = new File(element.getPath());
-
-            File[] containedElements = f.listFiles();
-            try {
-
-                int count = 0;
-                if (containedElements != null) {
-                    count = containedElements.length;
-                }
-                if (count > 0) {
-                    StorageElement se;
-                    for (int i = 0; i < count; i++) {
-                        se = new StorageElement(containedElements[i].getAbsolutePath());
-                        if (se.isRegularFile()) {
-                            returnArray.add(se);
-                        }
-                        if (se.isDirectory()) {
-                            returnArray.addAll(getAllElements(se.getPath()).getElements());
-                        }
-                    }
-
-                }
-            } catch (Exception e) {
-                Logger.printErr("keine Elemente vorhanden: " + e);
-            }
-        }
-
-        return new StorageElementList(returnArray);
-    }
 
     static void printElements(StorageElementList se) {
         FileController.printElements(se, false);
     }
 
     static void printElements(StorageElementList se, boolean printingAll) {
+
         FileSize fs = new FileSize(0);
         List<Double> list = new ArrayList<Double>();
         StorageElement tmpSE;
 
         for (int i = 0; i < se.getElements().size(); i++) {
+
             tmpSE = se.getElements().get(i);
-            if (printingAll) {
-                Logger.print("[" + i + "]: " + tmpSE.getPath() + " [" + tmpSE.getFileSize() + "] ");
+            String extra = "";
+
+            if (tmpSE.isDifferentChanged()) {
+                extra += " DifferentChanged ";
             }
+
+            if (tmpSE.isDifferentName()) {
+                extra += " DifferentName ";
+            }
+
+            if (tmpSE.isDifferentSize()) {
+                extra += " DifferentSize ";
+            }
+
+            if (tmpSE.isNewFile()) {
+                extra += " New File ";
+            }
+
+            if (printingAll) {
+                Logger.print("[" + i + "]: " + tmpSE.getRelativePath() + " [" + tmpSE.getFileSize() + "]" + " [" + tmpSE.getChanged_at() + "]" + extra);
+            }
+
             list.add(fs.getBytes());
             fs = new FileSize((fs.getBytes() + tmpSE.getFileSizeObject().getBytes()));
         }
+
         Logger.print("----------------------");
         Logger.print(se.getElements().size() + " Dateien");
         Logger.print(fs.getFormattedString() + " Speichermenge");
-
-
     }
 
     static void writeElementsInFile(StorageElementList se) {
@@ -83,62 +66,248 @@ class FileController {
     }
 
     static void writeElementsInFile(StorageElementList se, String path) {
-
-        // TODO: use JSON instead
-        // @ChrisSembritzki assigned
-
-        try {
-
-            FileWriter writer = new FileWriter(path);
-
-            FileSize fs = new FileSize(0);
-            List<Double> list = new ArrayList<Double>();
-            String str = "";
-            for (int i = 0; i < se.getElements().size(); i++) {
-                str = "[" + i + "]: " + se.getElements().get(i).getPath() + " [" + se.getElements().get(i).getFileSize() + "] \n";
-                writer.write(str);
-                list.add(fs.getBytes());
-                fs = new FileSize((fs.getBytes() + se.getElements().get(i).getFileSizeObject().getBytes()));
-            }
-
-            writer.close();
-
-        } catch (Exception e) {
-            Logger.printErr(e.getMessage());
-        }
+        se.saveAsJSON(path);
     }
 
+    static StorageElementList getAllElements(String path) {
+        return FileController.getAllElements(path, path);
+    }
 
-    static String compareJSONFiles(String sourcePath, String targetPath) {
+    static StorageElementList getAllElements(String path, String rootDir) {
+
+
+        //TODO: create an extra counter for nested sets, begins on 1 and increase if a file add to the list
+        // This work, because the function is recursively
+        // first dir A then element from A, also dir 1 then elements from 1, then dir 2, ...
+
+        //TODO: pass parameter lastest modified date for folders, so can these perhaps skipped in the compare function
+
+        //TODO: the list should be ordered by 'lft' so can the folder skipped in the compare function
+
+
+        List<StorageElement> returnArray = new ArrayList<>();
+        File element = new File(path);
+
+        if (element.isDirectory()) {
+
+            if (!path.equals(rootDir)) {
+                returnArray.add(new StorageElement(element));
+            }
+
+            File[] containedElements = element.listFiles();
+
+            try {
+
+                if (containedElements != null) {
+
+                    StorageElement se;
+                    rootDir = new File(rootDir).getAbsolutePath();
+
+                    for (File containedElement : containedElements) {
+
+                        se = new StorageElement(containedElement.getAbsolutePath(), rootDir);
+
+                        if (se.isRegularFile()) {
+                            returnArray.add(se);
+                        }
+
+                        if (se.isDirectory()) {
+                            returnArray.addAll(FileController.getAllElements(se.getAbsolutePath(), rootDir).getElements());
+                        }
+                    }
+                }
+
+            } catch (Exception e) {
+                Logger.printErr("keine Elemente vorhanden: " + e);
+            }
+        }
+
+        return new StorageElementList(returnArray, rootDir);
+    }
+
+    static String compareJSONFiles(String sourcePath, String targetPath, boolean isHardSync) {
+
+        // TODO: create a function to get a element from array with an specific attribute (lft, rgt)
+        // can be ignored if the list is sorted by 'lft' - or not?
+
+        // TODO: create two ways, a safe way with renaming detection, and another way without this
+        // the other way is faster, because there will skip folders with a earlier modified date
+        // the problem appeared during nesting sets
+
+        // Was ist mit Dateien die auf B nochmal verändert wurden? Werden diese überschrieben? --> logisch müssten sie es
+                        // --> sie werden ignoriert -->
+        // TODO: new List for files, which are on the target dir newer as in the source dir
+
+
+        // Todo: change the endlists, only a list of links is necessary, because nobody cares about the whole attributes during sync
+        // only dirs, which are copy completely, or empty --> for this one attribute (isEmpty)
+
 
         String compareFilePath = "";
 
-        //TODO: implement algorithm to compare JSONS
-        //@QuentinWeber assigned
+        List<StorageElement> comparedList = new ArrayList<>();
+        StorageElementList comparedElements = new StorageElementList(comparedList, "");
+
+        List<StorageElement> deleteList = new ArrayList<>();
+        StorageElementList deletingElements = new StorageElementList(deleteList, "");
+
+        StorageElementList sourceElementsList = new StorageElementList().readJSON(sourcePath);
+        StorageElementList targetElementsList = new StorageElementList().readJSON(targetPath);
+
+        ProcessingElementList compareFile = new ProcessingElementList(comparedElements, deletingElements);
+        compareFile.sourceDirPath = sourceElementsList.getDirPath();
+        compareFile.targetDirPath = targetElementsList.getDirPath();
+
+        StorageElement[] sourceElements = sourceElementsList.getElementsArray();
+        StorageElement[] targetElements = sourceElementsList.getElementsArray();
+
+        sourceElementsList = null;
+        targetElementsList = null;
+
+        int indexInTarget;
+        StorageElement target, tmpTarget;
+        boolean changedAtFound, nameFound, isDifferent, sameName, laterChangeDate, sameChangeDate, earlierChangeDate, sameSize;
+
+        for (StorageElement source : sourceElements) {
+            indexInTarget = 0;
+            target = new StorageElement();
+
+            changedAtFound = false;
+            nameFound = false;
+
+            // find the source File in the target
+
+            // Try 1
+            // contains target the sourceElement with the specific property 'changed_at'
+            while (indexInTarget < targetElements.length) {
+                tmpTarget = targetElements[indexInTarget];
+                if (tmpTarget.getChanged_at() == source.getChanged_at()) {
+                    target = tmpTarget;
+                    changedAtFound = true;
+                    break;
+
+                }
+                indexInTarget++;
+            }
+
+            // Try 2
+            // if not
+            // contains target the sourceElement with the specific property 'relative_path' (name)
+            if (!changedAtFound) {
+                indexInTarget = 0;
+                while (indexInTarget < targetElements.length) {
+                    tmpTarget = targetElements[indexInTarget];
+                    if (tmpTarget.getRelativePath().equals(source.getRelativePath())) {
+                        target = tmpTarget;
+                        nameFound = true;
+                        break;
+                    }
+                    indexInTarget++;
+                }
+            }
+
+            // if an element is found with path or changed_at
+            // then check if name, size or changed_at is different
+            if (changedAtFound || nameFound) {
+
+                target.setIsCompared(true);
+                source.setIsCompared(true);
+
+                isDifferent = false;
+
+                if (!nameFound) {
+                    sameName = source.getRelativePath().equals(target.getRelativePath());
+                    if (!sameName) {
+                        isDifferent = true;
+                        source.setDifferentName(true);
+                    }
+                }
+
+                if (!changedAtFound) {
+                    laterChangeDate = source.getChanged_at() > target.getChanged_at();
+                    if (laterChangeDate) {
+                        isDifferent = true;
+                        source.setDifferentChanged(true);
+                    }
+                    sameChangeDate = source.getChanged_at() == target.getChanged_at();
+                    if (sameChangeDate) {
+                        // ???
+                    }
+                    earlierChangeDate = source.getChanged_at() < target.getChanged_at();
+                    if (earlierChangeDate ) {
+                        // ???
+                    }
+                }
+
+                sameSize = source.getFileSizeObject().getBytes() == target.getFileSizeObject().getBytes();
+                if (!sameSize) {
+                    isDifferent = true;
+                    source.setDifferentSize(true);
+                }
+
+                if (isDifferent) {
+                    comparedList.add(source);
+                }
+
+            } else {
+                source.setIsNewFile(true);
+                comparedList.add(source);
+            }
+        }
+
+        if (isHardSync) {
+            for (StorageElement targetElement : targetElements) {
+                if (!targetElement.isCompared()) {
+                    deleteList.add(targetElement);
+                }
+            }
+        }
 
 
+        compareFile.saveAsJSON("testData\\outputC.json");
         return compareFilePath;
     }
 
-    static boolean sync(String compareFilePath) {
-
-        //TODO: implement algorithm to sync dirs
+    static boolean sync(String compareFilePath) throws Exception {
+        //TODO: implement background tasks to get a progress
         //@QuentinWeber assigned
 
-        try {
+        ProcessingElementList comparedElements = (ProcessingElementList) new ProcessingElementList().readJSON(compareFilePath);
 
-            // TODO: what makes COPY_ATTRIBUTES ? as attribute?
-//            Files.copy(new File("testData\\output.txt").toPath(), new File("testData\\output3.txt").toPath(),REPLACE_EXISTING, COPY_ATTRIBUTES);
-            Files.copy(new File("testData\\output.txt").toPath(), new File("testData\\output3.txt").toPath(),REPLACE_EXISTING);
+        List<StorageElement> copyingElements = comparedElements.copyList.getElements();
+        List<StorageElement> deletingElements = comparedElements.deleteList.getElements();
 
+        String sourcePath = comparedElements.sourceDirPath;
+        String targetPath = comparedElements.targetDirPath;
+        String filePath = "";
 
-            return true;
+        File targetDir;
+        boolean canCopy;
 
-        } catch (Exception e) {
+        for (StorageElement copyingElement : copyingElements) {
+            filePath = copyingElement.getRelativePath();
 
-            Logger.printErr(e);
-            return false;
+            // get target Dir and create all dirs to this
+            targetDir = new File((new File(targetPath + filePath)).getParentFile().getAbsolutePath());
+            canCopy = false;
+            if (!targetDir.exists()) {
+                if (targetDir.mkdirs()) {
+                    canCopy = true;
+                }
+            } else {
+                canCopy = true;
+            }
+            if (canCopy) {
+                Files.copy(new File(sourcePath + filePath).toPath(), new File(targetPath + filePath).toPath(), REPLACE_EXISTING, COPY_ATTRIBUTES);
+            }
         }
+
+        for (StorageElement deletingElement : deletingElements) {
+            filePath = deletingElement.getAbsolutePath();
+            Files.deleteIfExists(new File(filePath).toPath());
+        }
+
+        return true;
     }
 
 }
