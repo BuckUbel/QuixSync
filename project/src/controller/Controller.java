@@ -140,8 +140,8 @@ public class Controller implements ActionListener {
         String indexPath = "";
 
         Logger.print("---------- INDEXING ------------");
-        String pathA = "testdata\\A";
-//        String pathA = "D:\\Quentin\\Schule\\BA Leipzig";
+//        String pathA = "testdata\\A";
+        String pathA = "D:\\Quentin\\Schule\\BA Leipzig";
 //        Logger.print(path);
 
         StorageElementList elementsA = FileController.getAllElements(pathA);
@@ -149,8 +149,8 @@ public class Controller implements ActionListener {
         // FileController.printElements(elements);
         FileController.writeElementsInFile(elementsA, "testData\\outputA.json");
 
-        String pathB = "testdata\\B";
-//        String pathB = "D:\\Quentin\\Schule\\BA Leipzig - Kopie";
+//        String pathB = "testdata\\B";
+        String pathB = "D:\\Quentin\\Schule\\BA Leipzig - Kopie";
         StorageElementList elementsB = FileController.getAllElements(pathB);
         FileController.writeElementsInFile(elementsB, "testData\\outputB.json");
 
@@ -165,7 +165,7 @@ public class Controller implements ActionListener {
         String sourceIndexPath = "testdata\\outputA.json";
         String targetIndexPath = "testdata\\outputB.json";
         boolean isHardSync = true;
-        boolean withRenaming = false;
+        boolean slowMode = true;
 
 //        withRenaming mode:
 //            not all Renamings in A, if no size/date changes
@@ -174,7 +174,7 @@ public class Controller implements ActionListener {
 //          new data in B will be deleted
 //          --> but the parent folder from A will be copied??? --> is unneccessary --> folders with problems with children count shouldn't copy
 
-        compareFilePath = FileController.compareJSONFiles(sourceIndexPath, targetIndexPath, isHardSync, withRenaming);
+        compareFilePath = FileController.compareJSONFiles(sourceIndexPath, targetIndexPath, isHardSync, slowMode);
 
         return compareFilePath;
     }

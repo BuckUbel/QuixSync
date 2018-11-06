@@ -17,6 +17,7 @@ public class StorageElement {
 
     private String relativePath;
     private transient String dir;
+    private transient boolean shouldDelete;
     private long changedAt;
     private long createdAt;
     private double fileSize;
@@ -57,7 +58,7 @@ public class StorageElement {
         this.setIsDirectory(this.getAttributes().isDirectory());
     }
 
-    public minimizedStorageElement minify (){
+    public minimizedStorageElement minify() {
         return new minimizedStorageElement(this);
     }
 
@@ -66,11 +67,11 @@ public class StorageElement {
         return Integer.compare(otherObject.getLft(), this.getLft());
     }
 
-    public String getDir(){
+    public String getDir() {
         return this.dir;
     }
 
-    public int getState(){
+    public int getState() {
         return this.state;
     }
 
@@ -125,6 +126,14 @@ public class StorageElement {
 
     }
 
+    public boolean isShouldDelete() {
+        return shouldDelete;
+    }
+
+    public void setShouldDelete(boolean shouldDelete) {
+        this.shouldDelete = shouldDelete;
+    }
+
     public void setLft(int lft) {
         this.position.lft = lft;
     }
@@ -141,24 +150,23 @@ public class StorageElement {
         return this.position.rgt;
     }
 
-    public Position getPosition(){
+    public Position getPosition() {
         return this.position;
     }
 
-    public long getCreatedAt(){
+    public long getCreatedAt() {
         return this.createdAt;
     }
 
-    public long getChangedAt(){
+    public long getChangedAt() {
         return this.changedAt;
     }
 
     public long getLastModified() {
 
-        if(this.getCreatedAt() > this.getCreatedAt()){
+        if (this.getCreatedAt() > this.getCreatedAt()) {
             return this.getCreatedAt();
-        }
-        else{
+        } else {
             return this.getChangedAt();
         }
     }
@@ -171,7 +179,8 @@ public class StorageElement {
     public void setChangedAtSpecific(long changedAt) {
         this.changedAt = changedAt;
     }
-    public void setCreatedAtSpecific(long changedAt) {
+
+    public void setCreatedAtSpecific(long createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -221,7 +230,7 @@ public class StorageElement {
         return (this.state & StorageElement.SIZE) != 0;
     }
 
-    public boolean isDifferentChildrenCount () {
+    public boolean isDifferentChildrenCount() {
         return (this.state & StorageElement.CHILDREN_COUNT) != 0;
     }
 
@@ -276,6 +285,7 @@ public class StorageElement {
             }
         }
     }
+
     public void setDifferentChildrenCount(boolean isDifferentChildrenCount) {
         boolean currentState = this.isDifferentChildrenCount();
         if (isDifferentChildrenCount != currentState) {
@@ -286,6 +296,7 @@ public class StorageElement {
             }
         }
     }
+
     public void setIsNewFile(boolean isNew) {
         boolean currentState = this.isNewFile();
         if (isNew != currentState) {
@@ -296,6 +307,7 @@ public class StorageElement {
             }
         }
     }
+
     public void setIsDir(boolean isDir) {
         boolean currentState = this.isDir();
         if (isDir != currentState) {

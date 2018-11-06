@@ -1,0 +1,22 @@
+{  
+   "files":[  
+      {  
+         "fileA":{  
+            "name":"D:/Daten/Videos/a.mpg",
+            "otherData":{  
+
+            }
+         }
+      },
+      {  
+         "fileB":{  
+            "name":"D:/Daten/Videos/a.mpg",
+            "otherData":{  
+
+            }
+         }
+      }
+   ],
+   "count":0,
+   "size":0
+}
