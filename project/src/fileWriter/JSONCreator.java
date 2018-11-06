@@ -1,5 +1,11 @@
 package fileWriter;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class JSONCreator {
 
     public JSONCreator(String path, Object object) {
