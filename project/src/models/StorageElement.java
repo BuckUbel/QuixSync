@@ -1,37 +1,89 @@
 package models;
 
+import logger.Logger;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.List;
 
 public class StorageElement {
 
-    private String path;
-    private long created_at;
-    private long changed_at;
-    private FileSize fileSize;
-    private boolean isCompared = false;
-    private boolean isDirectory;
-    private boolean isRegularFile;
+    // TODO: rebuild for nested sets, without these, there are no possibility for performance boost
+    // @Quentin Weber
 
-    public StorageElement(String path){
-        this.path = path;
-        this.setCreated_at();
-        this.setChanged_at();
-        this.fileSize = new FileSize(this.getAttributes().size());
-        this.setIsCompared(false);
+    private Position position = new Position();
+
+    private String relativePath;
+    private transient String dir;
+    private transient boolean shouldDelete;
+    private long changedAt;
+    private long createdAt;
+    private double fileSize;
+
+    private int state = 0;
+
+    // use a Binary Map for the state
+    private final static int COMPARED = 1;
+    private final static int NAME = 2;
+    private final static int CHANGED = 4;
+    private final static int SIZE = 8;
+    private final static int CHILDREN_COUNT = 16;
+    private final static int NEW = 32;
+    private final static int DIR = 64;
+
+
+    public StorageElement() {
+    }
+
+    public StorageElement(File file, String dir) {
+        this.dir = dir;
+        this.standardInit(file.getAbsolutePath());
+    }
+
+    public StorageElement(String absolutePath, String dir) {
+        this.dir = dir;
+        this.standardInit(absolutePath);
+    }
+
+    public StorageElement(String path) {
+        this.standardInit(path);
+    }
+
+    private void standardInit(String path) {
+        this.setPath(path);
+        this.setLastModfied();
+        this.setFileSize();
         this.setIsDirectory(this.getAttributes().isDirectory());
+    }
+
+    public minimizedStorageElement minify() {
+        return new minimizedStorageElement(this);
+    }
+
+    public int compareTo(StorageElement otherObject) {
+
+        return Integer.compare(otherObject.getLft(), this.getLft());
+    }
+
+    public String getDir() {
+        return this.dir;
+    }
+
+    public int getState() {
+        return this.state;
+    }
+
+    public int getChildrenCount() {
+        return (position.rgt - position.lft - 1) / 2;
     }
 
     private Path getFileSystemPath() {
 
         Path path = null;
         try {
-            path = Paths.get(this.getPath());
+            path = Paths.get(this.getAbsolutePath());
         } catch (Exception err) {
             System.err.println(err);
         }
@@ -45,87 +97,225 @@ public class StorageElement {
         try {
             attr = Files.readAttributes(systemPath, BasicFileAttributes.class);
         } catch (Exception err) {
-            System.err.println(err);
+            Logger.printErr(err);
         }
         return attr;
     }
 
-    public String getPath() {
-        return this.path;
+    public String getRelativePath() {
+        return this.relativePath;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public String getAbsolutePath() {
+
+        return this.dir + this.getRelativePath();
     }
 
-    public long getChanged_at() {
+    public void setPath(String absolutePath) {
 
-        Long changed_at = this.changed_at;
+        if (dir != null) {
+            int startNumberFromDirPosition = absolutePath.indexOf(dir);
+            this.relativePath = absolutePath.substring(startNumberFromDirPosition + dir.length());
 
-        if (changed_at == 0) {
-            this.setChanged_at();
+            if (this.relativePath.equals("")) {
+                this.relativePath = "\\";
+            }
+        } else {
+            this.relativePath = absolutePath;
         }
-        return this.changed_at;
+
     }
 
-    public void setChanged_at() {
-        this.changed_at = this.getAttributes().lastModifiedTime().toMillis();
+    public boolean isShouldDelete() {
+        return shouldDelete;
     }
 
-    public long getCreated_at() {
-        Long created_at = this.created_at;
+    public void setShouldDelete(boolean shouldDelete) {
+        this.shouldDelete = shouldDelete;
+    }
 
-        if (created_at == 0) {
-            this.setCreated_at();
+    public void setLft(int lft) {
+        this.position.lft = lft;
+    }
+
+    public int getLft() {
+        return this.position.lft;
+    }
+
+    public void setRgt(int rgt) {
+        this.position.rgt = rgt;
+    }
+
+    public int getRgt() {
+        return this.position.rgt;
+    }
+
+    public Position getPosition() {
+        return this.position;
+    }
+
+    public long getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public long getChangedAt() {
+        return this.changedAt;
+    }
+
+    public long getLastModified() {
+
+        if (this.getCreatedAt() > this.getCreatedAt()) {
+            return this.getCreatedAt();
+        } else {
+            return this.getChangedAt();
         }
-        return this.created_at;
     }
 
-    public void setCreated_at() {
-        this.created_at = this.getAttributes().creationTime().toMillis();
+    public void setLastModfied() {
+        this.setCreatedAtSpecific(this.getAttributes().creationTime().toMillis());
+        this.setChangedAtSpecific(this.getAttributes().lastModifiedTime().toMillis());
     }
 
-    public String getFileSize() {
-        double fileSize = this.fileSize.getBytes();
-
-        if (fileSize == 0) {
-            this.setFileSize();
-        }
-        return this.fileSize.getFormattedString();
+    public void setChangedAtSpecific(long changedAt) {
+        this.changedAt = changedAt;
     }
 
-    public FileSize getFileSizeObject(){
+    public void setCreatedAtSpecific(long createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public double getFileSize() {
         return this.fileSize;
     }
 
-    public void setFileSize() {
-        this.fileSize.set(this.getAttributes().size());
+    public String getFileSizeFormatted() {
+        return FileSize.getFormattedString(this.fileSize);
     }
 
-    public boolean isCompared() {
-        return isCompared;
+    public void setFileSize() {
+        this.fileSize = this.getAttributes().size();
     }
-    public void setIsCompared(boolean isCompared){
-        this.isCompared = isCompared;
-    }
+
 
     public boolean isDirectory() {
-        if (!(this.isDirectory && this.isRegularFile)) {
-            this.setIsDirectory(this.getAttributes().isDirectory());
-        }
-        return this.isDirectory;
+        this.setIsDirectory(this.getAttributes().isDirectory());
+        return this.isDir();
     }
 
     public boolean isRegularFile() {
-        if (!(this.isDirectory && this.isRegularFile)) {
-            this.setIsDirectory(this.getAttributes().isDirectory());
-        }
-        return this.isRegularFile;
+        this.setIsDirectory(this.getAttributes().isDirectory());
+        return !this.isDir();
     }
 
     public void setIsDirectory(boolean isDirectory) {
-        this.isDirectory = isDirectory;
-        this.isRegularFile = !isDirectory;
+        this.setIsDir(isDirectory);
+    }
 
+
+    // Compare functions
+
+    public boolean isCompared() {
+        return (this.state & StorageElement.COMPARED) != 0;
+    }
+
+    public boolean isDifferentName() {
+        return (this.state & StorageElement.NAME) != 0;
+    }
+
+    public boolean isDifferentChanged() {
+        return (this.state & StorageElement.CHANGED) != 0;
+    }
+
+    public boolean isDifferentSize() {
+        return (this.state & StorageElement.SIZE) != 0;
+    }
+
+    public boolean isDifferentChildrenCount() {
+        return (this.state & StorageElement.CHILDREN_COUNT) != 0;
+    }
+
+    public boolean isNewFile() {
+        return (this.state & StorageElement.NEW) != 0;
+    }
+
+    public boolean isDir() {
+        return (this.state & StorageElement.DIR) != 0;
+    }
+
+    public void setIsCompared(boolean isCompared) {
+        boolean currentState = this.isCompared();
+        if (isCompared != currentState) {
+            if (isCompared) {
+                this.state += StorageElement.COMPARED;
+            } else {
+                this.state -= StorageElement.COMPARED;
+            }
+        }
+    }
+
+    public void setDifferentName(boolean isDifferentName) {
+        boolean currentState = this.isDifferentName();
+        if (isDifferentName != currentState) {
+            if (isDifferentName) {
+                this.state += StorageElement.NAME;
+            } else {
+                this.state -= StorageElement.NAME;
+            }
+        }
+    }
+
+    public void setDifferentChanged(boolean isDifferentChanged) {
+        boolean currentState = this.isDifferentChanged();
+        if (isDifferentChanged != currentState) {
+            if (isDifferentChanged) {
+                this.state += StorageElement.CHANGED;
+            } else {
+                this.state -= StorageElement.CHANGED;
+            }
+        }
+    }
+
+    public void setDifferentSize(boolean isDifferentSize) {
+        boolean currentState = this.isDifferentSize();
+        if (isDifferentSize != currentState) {
+            if (isDifferentSize) {
+                this.state += StorageElement.SIZE;
+            } else {
+                this.state -= StorageElement.SIZE;
+            }
+        }
+    }
+
+    public void setDifferentChildrenCount(boolean isDifferentChildrenCount) {
+        boolean currentState = this.isDifferentChildrenCount();
+        if (isDifferentChildrenCount != currentState) {
+            if (isDifferentChildrenCount) {
+                this.state += StorageElement.CHILDREN_COUNT;
+            } else {
+                this.state -= StorageElement.CHILDREN_COUNT;
+            }
+        }
+    }
+
+    public void setIsNewFile(boolean isNew) {
+        boolean currentState = this.isNewFile();
+        if (isNew != currentState) {
+            if (isNew) {
+                this.state += StorageElement.NEW;
+            } else {
+                this.state -= StorageElement.NEW;
+            }
+        }
+    }
+
+    public void setIsDir(boolean isDir) {
+        boolean currentState = this.isDir();
+        if (isDir != currentState) {
+            if (isDir) {
+                this.state += StorageElement.DIR;
+            } else {
+                this.state -= StorageElement.DIR;
+            }
+        }
     }
 }
