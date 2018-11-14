@@ -2,6 +2,7 @@ package controller;
 
 import logger.Logger;
 import models.StorageElementList;
+//import views.View_Old;
 import views.View;
 
 import java.awt.event.ActionEvent;
@@ -16,13 +17,16 @@ public class Controller implements ActionListener {
     public static final String COMPARE = "COMPARE";
     public static final String SYNC = "SYNC";
     public static final String ADD_FTP_CONNECTION = "ADD_FTP_CONNECTION ";
+    public static final String OPEN_FILE_CHOOSER = "OPEN_FILE_CHOOSER ";
 
     public static final String STOP = "STOP";
 
+    //private View_Old window;
     private View window;
     private BackgroundTasks bt;
     private Thread lastThread;
 
+    //public Controller(View_Old window, BackgroundTasks bt) {
     public Controller(View window, BackgroundTasks bt) {
         this.window = window;
         this.bt = bt;

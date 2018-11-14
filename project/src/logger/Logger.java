@@ -1,12 +1,15 @@
 package logger;
 
+//import views.View_Old;
 import views.View;
 
 public class Logger {
 
+    //private static View_Old window;
     private static View window;
     private static Boolean system = true;
 
+    //public static void setWindow(View_Old window) {
     public static void setWindow(View window) {
         Logger.window = window;
     }

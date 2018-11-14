@@ -4,16 +4,54 @@ import controller.Controller;
 import logger.Logger;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
 
 public class View extends JFrame {
+    private JPanel rootPanel;
+    private JTabbedPane tabbedPane1;
+    private JLabel lbQuellverzeichnisG;
+    private JLabel lbZielverzeichnisG;
+    private JButton btnSyncG;
+    private JButton btnAutoSyncG;
+    private JButton btnQuellverzeichnisG;
+    private JButton btnZielverzeichnisG;
+    private JButton btnIndexErstellen1;
+    private JButton btnIndexErstellen2;
+    private JButton btnBeideIndizes;
+    private JTextField tfQuellIndexdatei;
+    private JTextField tfZielIndexdatei;
+    private JButton btnVergleichen;
+    private JTextField tfVergleichsdatei;
+    private JButton btnSynchronisieren;
+    private JTextField tfTempVerzeichnis;
+    private JRadioButton rbHardSync;
+    private JRadioButton rbDaemonBetrieb;
+    private JButton btnFTPVerbindung;
+    private JButton btnSpeichern;
+    private JTextField tfQuellverzeichnisG;
+    private JTextField tfZielverzeichnisG;
+    private JLabel lbQuellverzeichnisI;
+    private JButton btnQuellverzeichnisI;
+    private JTextField tfQuellverzeichnisI;
+    private JLabel lbZielverzeichnisI;
+    private JTextField tfZielverzeichnisI;
+    private JButton btnZielverzeichnisI;
+    private JLabel lbQuellIndexdatei;
+    private JLabel lbZielIndexdatei;
+    private JLabel lbVergleichsdatei;
+    private JLabel lbTempVerzeichnis;
+    private JPanel pnGesamtsync;
+    private JPanel pnIndexierung;
+    private JPanel pnVergleichen;
+    private JPanel pnSync;
+    private JPanel pnEinstellungen;
 
     private int width = 0;
     private int height = 0;
 
     private String title = "";
-
-    private JPanel topPanel = new JPanel();
-//    public JPanel mainPanel = new JPanel();
 
     private Controller c;
 
@@ -30,8 +68,8 @@ public class View extends JFrame {
     }
 
     public void setController(Controller c) {
-        this.c = c;
-    }
+            this.c = c;
+        }
 
     public void createGUI() {
 
@@ -40,33 +78,52 @@ public class View extends JFrame {
         // TODO: create View components
         // @PhilippLudwig assigned
 
+        btnSyncG.setActionCommand(Controller.WHOLE_SYNC);
+        btnSyncG.addActionListener(c);
 
-        // testButtons for Developing
+        btnIndexErstellen1.setActionCommand(Controller.INDEXING);
+        btnIndexErstellen1.addActionListener(c);
 
-        this.add(this.topPanel, BorderLayout.NORTH);
-        this.topPanel.setLayout(new GridLayout(1, 6));
+        btnIndexErstellen2.setActionCommand(Controller.INDEXING);
+        btnIndexErstellen2.addActionListener(c);
 
-        JButton createI = new JButton(Controller.INDEXING);
-        createI.setActionCommand(Controller.INDEXING);
-        createI.addActionListener(c);
-        topPanel.add(createI);
+        btnVergleichen.setActionCommand(Controller.COMPARE);
+        btnVergleichen.addActionListener(c);
 
-        JButton createC = new JButton(Controller.COMPARE);
-        createC.setActionCommand(Controller.COMPARE);
-        createC.addActionListener(c);
-        topPanel.add(createC);
+        btnSynchronisieren.setActionCommand(Controller.SYNC);
+        btnSynchronisieren.addActionListener(c);
 
-        JButton createS = new JButton(Controller.SYNC);
-        createS.setActionCommand(Controller.SYNC);
-        createS.addActionListener(c);
-        topPanel.add(createS);
+        // kann man das kürzen?
+        btnQuellverzeichnisG.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                openFileChooser(tfQuellverzeichnisG);
+            }
+        });
 
-        JButton createWS = new JButton(Controller.WHOLE_SYNC);
-        createWS.setActionCommand(Controller.WHOLE_SYNC);
-        createWS.addActionListener(c);
-        topPanel.add(createWS);
+        btnZielverzeichnisG.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                openFileChooser(tfZielverzeichnisG);
+            }
+        });
 
-        // and at the end the function "finish" should be called.
+        btnQuellverzeichnisI.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                openFileChooser(tfQuellverzeichnisI);
+            }
+        });
+
+        btnZielverzeichnisI.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                openFileChooser(tfZielverzeichnisI);
+            }
+        });
+
+        add(rootPanel);
+
         Logger.print("GUI is finished");
         this.finish();
     }
@@ -90,6 +147,18 @@ public class View extends JFrame {
         this.setSize(this.width, this.height);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setVisible(true);
+    }
+
+    private void openFileChooser(JTextField TextField) {
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int returnVal = fc.showOpenDialog(null);
+        File f;
+        if (returnVal == JFileChooser.APPROVE_OPTION)
+        {
+            f = fc.getSelectedFile();
+            TextField.setText(f.getPath());
+        }
     }
 
 }
