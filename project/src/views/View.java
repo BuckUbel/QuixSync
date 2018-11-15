@@ -2,6 +2,7 @@ package views;
 
 import controller.Controller;
 import logger.Logger;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -44,17 +45,27 @@ public class View extends JFrame {
         // testButtons for Developing
 
         this.add(this.topPanel, BorderLayout.NORTH);
-        this.topPanel.setLayout(new GridLayout(1, 6));
+        this.topPanel.setLayout(new GridLayout(1, 10));
 
         JButton createI = new JButton(Controller.INDEXING);
         createI.setActionCommand(Controller.INDEXING);
         createI.addActionListener(c);
         topPanel.add(createI);
 
+        JButton createGIF = new JButton(Controller.GET_INDEXING_FILES);
+        createGIF.setActionCommand(Controller.GET_INDEXING_FILES);
+        createGIF.addActionListener(c);
+        topPanel.add(createGIF);
+
         JButton createC = new JButton(Controller.COMPARE);
         createC.setActionCommand(Controller.COMPARE);
         createC.addActionListener(c);
         topPanel.add(createC);
+
+        JButton createGCF = new JButton(Controller.GET_COMPARE_FILES);
+        createGCF.setActionCommand(Controller.GET_COMPARE_FILES);
+        createGCF.addActionListener(c);
+        topPanel.add(createGCF);
 
         JButton createS = new JButton(Controller.SYNC);
         createS.setActionCommand(Controller.SYNC);
@@ -65,6 +76,14 @@ public class View extends JFrame {
         createWS.setActionCommand(Controller.WHOLE_SYNC);
         createWS.addActionListener(c);
         topPanel.add(createWS);
+
+        JProgressBar progressBar = new JProgressBar(0, 0, 100);
+        // progressBar.setValue(progress);
+
+        progressBar.setStringPainted(true);
+        progressBar.setString(" Das ist eine sehr sehr lange Progressbar ");
+        progressBar.setForeground(Color.RED);
+        topPanel.add(progressBar);
 
         // and at the end the function "finish" should be called.
         Logger.print("GUI is finished");
