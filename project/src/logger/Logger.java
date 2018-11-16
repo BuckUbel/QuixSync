@@ -1,15 +1,22 @@
 package logger;
 
+import org.apache.logging.log4j.LogManager;
 import views.View;
 
 public class Logger {
 
     private static View window;
-    private static Boolean system = true;
+    private static Boolean system = false;
 
     public static void setWindow(View window) {
         Logger.window = window;
     }
+
+    // Log4J
+    private static org.apache.logging.log4j.Logger log = LogManager.getLogger("RollingFileJSONLogger");
+
+
+
 
     public static void print(String s) {
 
@@ -54,5 +61,13 @@ public class Logger {
     private static void write(String s, boolean isError) {
         // TODO: create log-JSON-File
         // @ChrisSembritzki assigned
+
+        if (!isError){
+            log.info(s);
+        }else{
+            log.error(s);
+        }
+
+
     }
 }
