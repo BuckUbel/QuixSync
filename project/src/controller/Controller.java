@@ -2,7 +2,7 @@ package controller;
 
 import logger.Logger;
 import models.StorageElementList;
-import views.View;
+import views.mainView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,14 +16,17 @@ public class Controller implements ActionListener {
     public static final String COMPARE = "COMPARE";
     public static final String SYNC = "SYNC";
     public static final String ADD_FTP_CONNECTION = "ADD_FTP_CONNECTION ";
+    public static final String OPEN_FILE_CHOOSER = "OPEN_FILE_CHOOSER ";
 
     public static final String STOP = "STOP";
 
-    private View window;
+    //private View_Old window;
+    private mainView window;
     private BackgroundTasks bt;
     private Thread lastThread;
 
-    public Controller(View window, BackgroundTasks bt) {
+    //public Controller(View_Old window, BackgroundTasks bt) {
+    public Controller(mainView window, BackgroundTasks bt) {
         this.window = window;
         this.bt = bt;
     }
@@ -64,7 +67,7 @@ public class Controller implements ActionListener {
 
                 // TODO: get Directories
                 // @QuentinWeber assigned
-                // @PhilippLudwig assigned --> Möglichkeit zum Auslesen der Werte aus der View
+                // @PhilippLudwig assigned --> Möglichkeit zum Auslesen der Werte aus der mainView
 
                 String source = "";
                 String target = "";
@@ -84,7 +87,7 @@ public class Controller implements ActionListener {
                 String dir = "";
                 indexPath = this.indexing(dir);
 
-                // TODO: set indexPath in View, for global storing
+                // TODO: set indexPath in mainView, for global storing
 
                 break;
             case Controller.COMPARE:
@@ -98,7 +101,7 @@ public class Controller implements ActionListener {
                 String targetIndex = "";
                 compareFilePath = this.compare(sourceIndex, targetIndex);
 
-                // TODO: set compareFilePath in View, for global storing
+                // TODO: set compareFilePath in mainView, for global storing
 
                 break;
             case Controller.SYNC:
@@ -111,7 +114,7 @@ public class Controller implements ActionListener {
                 compareFilePath = "";
                 successfully = this.sync(compareFilePath);
 
-                // TODO: set successfully in View, for global storing
+                // TODO: set successfully in mainView, for global storing
 
                 break;
             case Controller.ADD_FTP_CONNECTION:

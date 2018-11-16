@@ -1,7 +1,7 @@
 import controller.BackgroundTasks;
 import controller.Controller;
 import logger.Logger;
-import views.View;
+import views.mainView;
 
 public class Main {
 
@@ -9,8 +9,9 @@ public class Main {
 
         BackgroundTasks bt = new BackgroundTasks();
 
-        View window = new View("QuixSync", 800, 600);
+        mainView window = new mainView("QuixSync", 800, 400);
         Logger.setWindow(window);
+        window.setVisible(true);
 
         Controller controller = new Controller(window, bt);
 

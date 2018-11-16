@@ -1,14 +1,14 @@
 package logger;
 
 import org.apache.logging.log4j.LogManager;
-import views.View;
+import views.mainView;
 
 public class Logger {
 
-    private static View window;
+    private static mainView window;
     private static Boolean system = false;
 
-    public static void setWindow(View window) {
+    public static void setWindow(mainView window) {
         Logger.window = window;
     }
 
