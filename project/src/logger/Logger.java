@@ -13,7 +13,8 @@ public class Logger {
     }
 
     // Log4J
-    private static org.apache.logging.log4j.Logger log = LogManager.getLogger("RollingFileJSONLogger");
+//    private static org.apache.logging.log4j.Logger log = LogManager.getLogger("RollingFileJSONLogger");
+    private static org.apache.logging.log4j.Logger log = LogManager.getLogger("RollingFilePatternLogger");
 
 
 
