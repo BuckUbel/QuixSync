@@ -1,32 +1,34 @@
 package controller;
 
+import controller.Tasks.BackgroundTask;
+import controller.Tasks.Compare.CompareTask;
+import controller.Tasks.Index.IndexTask;
+import controller.Tasks.Sync.SyncTask;
 import logger.Logger;
-import models.StorageElementList;
 import views.mainView;
+import models.IndexFile;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Controller implements ActionListener {
 
-    public static final String START = "START";
+    private Thread thread;
 
     public static final String WHOLE_SYNC = "WHOLE_SYNC";
     public static final String INDEXING = "INDEXING";
+    public static final String GET_INDEXING_FILES = "GET_INDEXING_FILES";
     public static final String COMPARE = "COMPARE";
+    public static final String GET_COMPARE_FILES = "GET_COMPARE_FILES";
     public static final String SYNC = "SYNC";
-    public static final String ADD_FTP_CONNECTION = "ADD_FTP_CONNECTION ";
-    public static final String OPEN_FILE_CHOOSER = "OPEN_FILE_CHOOSER ";
+    public static final String ADD_FTP_CONNECTION = "ADD_FTP_CONNECTION";
 
-    public static final String STOP = "STOP";
 
-    //private View_Old window;
     private mainView window;
-    private BackgroundTasks bt;
+    private BackgroundTask bt;
     private Thread lastThread;
 
-    //public Controller(View_Old window, BackgroundTasks bt) {
-    public Controller(mainView window, BackgroundTasks bt) {
+    public Controller(mainView window, BackgroundTask bt) {
         this.window = window;
         this.bt = bt;
     }
@@ -36,45 +38,28 @@ public class Controller implements ActionListener {
 
         String command = e.getActionCommand();
 
-        String indexPath = "";
-        String compareFilePath = "";
+        String indexPath;
+        String compareFilePath;
         boolean successfully = false;
+        IndexFile[] sel;
+
 
         switch (command) {
-            case Controller.START:
-
-                Thread t = new Thread(this.bt);
-                lastThread = t;
-                t.start();
-
-                break;
-
-
-            // to cancel a algorithm
-            case Controller.STOP:
-
-                // lastThread.stop();
-                // TODO: problem interrupt don't kill the Thread
-                // @QuentinWeber assigned
-
-                lastThread.interrupt();
-
-                break;
-
             case Controller.WHOLE_SYNC:
 
                 System.out.println("WHOLE SYNC");
 
                 // TODO: get Directories
                 // @QuentinWeber assigned
-                // @PhilippLudwig assigned --> Möglichkeit zum Auslesen der Werte aus der mainView
+                // @PhilippLudwig assigned --> Möglichkeit zum Auslesen der Werte aus der View
 
-                String source = "";
-                String target = "";
+                String source = "testData\\A";
+                String target = "testData\\B";
 
-                String[] indexPaths = this.doubleIndexing(source, target);
-                compareFilePath = this.compare(indexPaths[0], indexPaths[1]);
-                successfully = this.sync(compareFilePath);
+                String indexPath1 = this.indexing(source);
+                String indexPath2 = this.indexing(target);
+                compareFilePath = this.compare(indexPath1, indexPath2);
+//                this.sync(compareFilePath);
 
                 break;
             case Controller.INDEXING:
@@ -84,10 +69,32 @@ public class Controller implements ActionListener {
                 // TODO: get Directories
                 // @QuentinWeber assigned
 
-                String dir = "";
-                indexPath = this.indexing(dir);
 
-                // TODO: set indexPath in mainView, for global storing
+                String dir = "D:\\Quentin\\Schule\\BA Leipzig";
+                String indexFilePath = this.indexing(dir);
+
+//                String dir = "D:\\Quentin\\Schule\\BA Leipzig2";
+//                String indexFilePath = this.indexing(dir);
+//                System.out.println("Success! Index: " + indexFilePath);
+//
+//                dir = "D:\\Quentin\\Schule\\BA Leipzig3";
+//                indexFilePath = this.indexing(dir);
+
+                if (indexFilePath == null) {
+                    System.out.println("Try later.");
+                    // TODO: the user should try this action a little time later
+                } else {
+                    System.out.println("Success! Index: " + indexFilePath);
+                    // TODO: set indexFilePath in View, for so it can be resumed immediately.
+                }
+
+                break;
+            case Controller.GET_INDEXING_FILES:
+
+                Logger.print("GET_INDEXING_FILES");
+                sel = FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getIndexFileEnding());
+
+                // TODO: set in View to display the files to select two of them to compare
 
                 break;
             case Controller.COMPARE:
@@ -101,8 +108,20 @@ public class Controller implements ActionListener {
                 String targetIndex = "";
                 compareFilePath = this.compare(sourceIndex, targetIndex);
 
-                // TODO: set compareFilePath in mainView, for global storing
+                if (compareFilePath == null) {
+                    System.out.println("Try later.");
+                    // TODO: the user should try this action a little time later
+                } else {
+                    System.out.println("Success! Compare");
+                    // TODO: set compareFilePath in View, for so it can be resumed immediately.
+                }
+                break;
 
+            case Controller.GET_COMPARE_FILES:
+
+                Logger.print("GET_COMPARE_FILES");
+                sel = FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getCompareFileEnding());
+                // TODO: set in View to display the files to select one of them to sync
                 break;
             case Controller.SYNC:
 
@@ -114,7 +133,12 @@ public class Controller implements ActionListener {
                 compareFilePath = "";
                 successfully = this.sync(compareFilePath);
 
-                // TODO: set successfully in mainView, for global storing
+                if (successfully) {
+                    System.out.println("Success! Sync");
+                    // TODO: set successfully in View, for global storing
+                } else {
+                    System.out.println("Try later.");
+                }
 
                 break;
             case Controller.ADD_FTP_CONNECTION:
@@ -128,69 +152,41 @@ public class Controller implements ActionListener {
 
     }
 
-    private String[] doubleIndexing(String dir1, String dir2) {
-
-        String[] returnArray = new String[2];
-
-        returnArray[0] = this.indexing(dir1);
-        returnArray[1] = this.indexing(dir2);
-
-        return returnArray;
-    }
-
     private String indexing(String dir) {
 
-        String indexPath = "";
-
-        Logger.print("---------- INDEXING ------------");
-//        String pathA = "testdata\\A";
-        String pathA = "D:\\Quentin\\Schule\\BA Leipzig";
-//        Logger.print(path);
-
-        StorageElementList elementsA = FileController.getAllElements(pathA);
-        // Logging
-        // FileController.printElements(elements);
-        FileController.writeElementsInFile(elementsA, "testData\\outputA.json");
-
-//        String pathB = "testdata\\B";
-        String pathB = "D:\\Quentin\\Schule\\BA Leipzig - Kopie";
-        StorageElementList elementsB = FileController.getAllElements(pathB);
-        FileController.writeElementsInFile(elementsB, "testData\\outputB.json");
-
-        return indexPath;
+        String tempFile = SettingsController.getTempDir() + System.currentTimeMillis() + SettingsController.getIndexFileEnding() + SettingsController.getFileEnding();
+        IndexTask r = new IndexTask(dir, tempFile);
+        thread = ThreadController.createNewThread(r);
+        if (thread!= null) {
+            r.connectThread(thread);
+            thread.start();
+            return tempFile;
+        }
+        return null;
     }
 
     private String compare(String file1, String file2) {
 
-        String compareFilePath = "";
-
-        Logger.print("---------- COMPARING ------------");
-        String sourceIndexPath = "testdata\\outputA.json";
-        String targetIndexPath = "testdata\\outputB.json";
-        boolean isHardSync = true;
-        boolean slowMode = true;
-
-//        withRenaming mode:
-//            not all Renamings in A, if no size/date changes
-//            not all Renamings in B, if no size/date changes
-//
-//          new data in B will be deleted
-//          --> but the parent folder from A will be copied??? --> is unneccessary --> folders with problems with children count shouldn't copy
-
-        compareFilePath = FileController.compareJSONFiles(sourceIndexPath, targetIndexPath, isHardSync, slowMode);
-
-        return compareFilePath;
+        String tempFile = SettingsController.getTempDir() + System.currentTimeMillis() + SettingsController.getCompareFileEnding() + SettingsController.getFileEnding();
+        CompareTask r = new CompareTask(file1, file2, tempFile, true, true);
+        thread = ThreadController.createNewThread(r);
+        if (thread != null) {
+            r.connectThread(thread);
+            thread.start();
+            return tempFile;
+        }
+        return null;
     }
 
-    private boolean sync(String compareFile) {
-        try {
-            String compareFilePath = "testData\\outputC.json";
-            return FileController.sync(compareFilePath);
+    private boolean sync(String compareFilePath) {
 
-        } catch (Exception e) {
-            Logger.printErr(e);
+        SyncTask r = new SyncTask(compareFilePath);
+        thread = ThreadController.createNewThread(r);
+        if (thread != null) {
+            r.connectThread(thread);
+            thread.start();
+            return true;
         }
-
         return false;
     }
 }
