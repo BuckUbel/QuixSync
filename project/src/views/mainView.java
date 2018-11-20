@@ -2,9 +2,8 @@ package views;
 
 import controller.Controller;
 import logger.Logger;
+
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -58,10 +57,10 @@ public class mainView extends JFrame {
     public JLabel progressInformation;
     public JLabel progressAction;
 
-    private int width = 0;
-    private int height = 0;
+    private int width;
+    private int height;
 
-    private String title = "";
+    private String title;
 
     private Controller c;
 
@@ -78,8 +77,8 @@ public class mainView extends JFrame {
     }
 
     public void setController(Controller c) {
-            this.c = c;
-        }
+        this.c = c;
+    }
 
     public void createGUI() {
 
@@ -96,6 +95,9 @@ public class mainView extends JFrame {
 
         btnSynchronisieren.setActionCommand(Controller.SYNC);
         btnSynchronisieren.addActionListener(c);
+
+        btnFTPVerbindung.setActionCommand(Controller.ADD_FTP_CONNECTION);
+        btnFTPVerbindung.addActionListener(c);
 
         stopButton.setActionCommand(Controller.STOP);
         stopButton.addActionListener(c);
@@ -156,8 +158,7 @@ public class mainView extends JFrame {
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int returnVal = fc.showOpenDialog(null);
         File f;
-        if (returnVal == JFileChooser.APPROVE_OPTION)
-        {
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
             f = fc.getSelectedFile();
             TextField.setText(f.getPath());
         }

@@ -1,6 +1,5 @@
 package controller;
 
-import controller.Tasks.BackgroundTask;
 import controller.Threads.ProgressThread;
 import logger.Logger;
 import models.*;
@@ -64,7 +63,7 @@ public class FileControllerWithFeedback {
         return a;
     }
 
-    public static StorageElementList getAllElements(String path, String rootDir, int index, ProgressThread pt) {
+    private static StorageElementList getAllElements(String path, String rootDir, int index, ProgressThread pt) {
 
         long lastModified = 0;
         List<StorageElement> returnArray = new ArrayList<>();
@@ -75,18 +74,15 @@ public class FileControllerWithFeedback {
             StorageElement storageElementDir = new StorageElement(element, rootDir);
             storageElementDir.setLft(index);
             index++;
-
             File[] containedElements = element.listFiles();
 
             try {
-
                 if (containedElements != null) {
 
                     StorageElement se;
                     rootDir = new File(rootDir).getAbsolutePath();
 
                     for (File containedElement : containedElements) {
-
                         se = new StorageElement(containedElement.getAbsolutePath(), rootDir);
 
                         if (se.isRegularFile()) {
@@ -100,7 +96,6 @@ public class FileControllerWithFeedback {
                                 lastModified = se.getLastModified();
                             }
                         }
-
                         if (se.isDirectory()) {
                             StorageElementList sel = FileControllerWithFeedback.getAllElements(se.getAbsolutePath(), rootDir, index, pt);
                             index = sel.getLatestLft();
@@ -111,7 +106,6 @@ public class FileControllerWithFeedback {
                         }
                     }
                 }
-
                 storageElementDir.setRgt(index);
                 index++;
                 if (lastModified != 0) {
@@ -119,18 +113,16 @@ public class FileControllerWithFeedback {
                 }
                 returnArray.add(storageElementDir);
 
-
             } catch (Exception e) {
                 Logger.printErr("keine Elemente vorhanden: " + e.getMessage());
             }
         }
-
         return new StorageElementList(returnArray, rootDir, index, lastModified);
     }
 
     public static void compareJSONFiles(String sourcePath, String targetPath, String compareFilePath, boolean isHardSync, boolean slowMode, ProgressThread pt) {
 
-        // TODO: create two ways, a safe way with renaming detection, and another way without this
+        // there are two ways, a safe way with renaming detection, and another way without this
         // the other way is faster, because there will skip folders with a earlier modified date
         // the problem appeared during nesting sets
         //        TODO: Testing --> !!!
@@ -178,7 +170,6 @@ public class FileControllerWithFeedback {
         }
 
         pt.finish();
-
         compareFile.setCopyList(comparedList);
         compareFile.setDeleteList(deleteList);
         compareFile.setNewTargetList(newTargetList);
@@ -188,21 +179,16 @@ public class FileControllerWithFeedback {
 
     private static void getNotContainedElements(StorageElement[] firstElements, StorageElement[] secondElements, boolean collectElementsToDelete, boolean isHardSync, boolean slowMode, List<StorageElement> comparedList, List<StorageElement> deleteList, ProgressThread pt) {
 
-        //TODO: einzelne datei in vielen neuen unterordnern --> legt jeden ordner zum Kopieren an
 
         int minRgt = 1; // because the first source Element should be ignored
         int indexInTarget;
-
         StorageElement element2, tmpElement2;
         boolean nameFound, isDifferent, sameName, laterChangeDate, earlierChangeDate, sameSize, sameChildrenCount, hasChildren, renamed;
-
         List<StorageElement> returnList = new ArrayList<>();
-
 
         for (StorageElement element1 : firstElements) {
             if (element1 != null) {
                 if (element1.getLft() > minRgt) {
-                    indexInTarget = 0;
                     element2 = new StorageElement();
                     nameFound = false;
 
@@ -224,10 +210,8 @@ public class FileControllerWithFeedback {
                     // if an element is found with path
                     // then check if name, size or changed_at is different
                     if (nameFound) {
-
                         element2.setIsCompared(true);
                         element1.setIsCompared(true);
-
                         isDifferent = false;
 
                         if (!collectElementsToDelete) {
@@ -244,19 +228,16 @@ public class FileControllerWithFeedback {
                                 }
                             }
                         }
-
                         sameSize = element1.getFileSize() == element2.getFileSize();
                         if (!sameSize) {
                             isDifferent = true;
                             element1.setDifferentSize(true);
                         }
-
                         sameChildrenCount = element1.getChildrenCount() == element2.getChildrenCount();
                         if (!sameChildrenCount) {
                             isDifferent = true;
                             element1.setDifferentChildrenCount(true);
                         }
-
                         // Dirs are only copy, if these are empty
                         hasChildren = element1.getChildrenCount() > 0;
                         if (isDifferent) {
@@ -301,18 +282,13 @@ public class FileControllerWithFeedback {
     }
 
     public static void sync(String compareFilePath, ProgressThread pt) throws Exception {
-        //TODO: implement background tasks to get a progress
-        //@QuentinWeber assigned
 
-        ProcessingElementList comparedElements = (ProcessingElementList) new ProcessingElementList().readJSON(compareFilePath);
-
+        ProcessingElementList comparedElements = new ProcessingElementList().readJSON(compareFilePath);
         minimizedStorageElement[] copyingElements = comparedElements.getCopyList();
         minimizedStorageElement[] deletingElements = comparedElements.getDeleteList();
-
         String sourcePath = comparedElements.sourceDirPath;
         String targetPath = comparedElements.targetDirPath;
-        String filePath = "";
-
+        String filePath;
         File targetDir;
         boolean canCopy;
 

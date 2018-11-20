@@ -7,11 +7,4 @@ public class Position {
 
     public Position() {
     }
-
-    public Position(int lft, int rgt) {
-        this.lft = lft;
-        this.rgt = lft;
-    }
-
-
 }

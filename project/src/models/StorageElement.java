@@ -10,9 +10,6 @@ import java.nio.file.attribute.BasicFileAttributes;
 
 public class StorageElement {
 
-    // TODO: rebuild for nested sets, without these, there are no possibility for performance boost
-    // @Quentin Weber
-
     private Position position = new Position();
 
     private String relativePath;
@@ -58,16 +55,16 @@ public class StorageElement {
         this.setIsDirectory(this.getAttributes().isDirectory());
     }
 
-    public minimizedStorageElement minify() {
+    minimizedStorageElement minify() {
         return new minimizedStorageElement(this);
     }
 
-    public int compareTo(StorageElement otherObject) {
+    int compareTo(StorageElement otherObject) {
 
         return Integer.compare(otherObject.getLft(), this.getLft());
     }
 
-    public String getDir() {
+    String getDir() {
         return this.dir;
     }
 
@@ -85,12 +82,12 @@ public class StorageElement {
         try {
             path = Paths.get(this.getAbsolutePath());
         } catch (Exception err) {
-            System.err.println(err);
+            Logger.printErr(err.toString());
         }
         return path;
     }
 
-    public BasicFileAttributes getAttributes() {
+    private BasicFileAttributes getAttributes() {
 
         Path systemPath = this.getFileSystemPath();
         BasicFileAttributes attr = null;
@@ -171,7 +168,7 @@ public class StorageElement {
         }
     }
 
-    public void setLastModfied() {
+    private void setLastModfied() {
         this.setCreatedAtSpecific(this.getAttributes().creationTime().toMillis());
         this.setChangedAtSpecific(this.getAttributes().lastModifiedTime().toMillis());
     }
@@ -180,7 +177,7 @@ public class StorageElement {
         this.changedAt = changedAt;
     }
 
-    public void setCreatedAtSpecific(long createdAt) {
+    private void setCreatedAtSpecific(long createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -192,10 +189,9 @@ public class StorageElement {
         return FileSize.getFormattedString(this.fileSize);
     }
 
-    public void setFileSize() {
+    private void setFileSize() {
         this.fileSize = this.getAttributes().size();
     }
-
 
     public boolean isDirectory() {
         this.setIsDirectory(this.getAttributes().isDirectory());
@@ -207,38 +203,38 @@ public class StorageElement {
         return !this.isDir();
     }
 
-    public void setIsDirectory(boolean isDirectory) {
+    private void setIsDirectory(boolean isDirectory) {
         this.setIsDir(isDirectory);
     }
 
 
     // Compare functions
 
-    public boolean isCompared() {
+    private boolean isCompared() {
         return (this.state & StorageElement.COMPARED) != 0;
     }
 
-    public boolean isDifferentName() {
+    private boolean isDifferentName() {
         return (this.state & StorageElement.NAME) != 0;
     }
 
-    public boolean isDifferentChanged() {
+    private boolean isDifferentChanged() {
         return (this.state & StorageElement.CHANGED) != 0;
     }
 
-    public boolean isDifferentSize() {
+    private boolean isDifferentSize() {
         return (this.state & StorageElement.SIZE) != 0;
     }
 
-    public boolean isDifferentChildrenCount() {
+    private boolean isDifferentChildrenCount() {
         return (this.state & StorageElement.CHILDREN_COUNT) != 0;
     }
 
-    public boolean isNewFile() {
+    private boolean isNewFile() {
         return (this.state & StorageElement.NEW) != 0;
     }
 
-    public boolean isDir() {
+    private boolean isDir() {
         return (this.state & StorageElement.DIR) != 0;
     }
 
@@ -308,7 +304,7 @@ public class StorageElement {
         }
     }
 
-    public void setIsDir(boolean isDir) {
+    private void setIsDir(boolean isDir) {
         boolean currentState = this.isDir();
         if (isDir != currentState) {
             if (isDir) {

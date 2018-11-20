@@ -10,9 +10,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.Calendar;
 
 public class ChangeController implements ChangeListener {
 
@@ -22,7 +20,7 @@ public class ChangeController implements ChangeListener {
     private mainView window;
     private BackgroundTask bt;
 
-    public ChangeController(mainView window, BackgroundTask bt) {
+    ChangeController(mainView window, BackgroundTask bt) {
         this.window = window;
         this.bt = bt;
     }
@@ -32,7 +30,7 @@ public class ChangeController implements ChangeListener {
         TypeFile[] sel;
 
         System.out.println("CC");
-        if (window.tabbedPane1.getSelectedIndex() == 2) { // Comp
+        if (window.tabbedPane1.getSelectedIndex() == SettingsController.TAB_NUMBER.COMPARE.getValue()) { // Comp
             Logger.print("GET_INDEXING_FILES");
             sel = FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getIndexFileEnding());
 
@@ -41,36 +39,30 @@ public class ChangeController implements ChangeListener {
 
             FileTableModel ftm2 = new IndexFileTableModel(sel);
             tblToFileTbl(window.tbltargetIndexFiles, window.tfZielIndexdatei, ftm2);
-
         }
-
-        if (window.tabbedPane1.getSelectedIndex() == 3) { //Sync
+        if (window.tabbedPane1.getSelectedIndex() == SettingsController.TAB_NUMBER.SYNC.getValue()) { //Sync
 
             Logger.print("GET_COMPARE_FILES");
-            sel = (CompareFile[]) FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getCompareFileEnding());
+            sel = FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getCompareFileEnding());
 
             FileTableModel ftm = new CompareFileTableModel(sel);
             tblToFileTbl(window.tblCompareFiles, window.tfVergleichsdatei, ftm);
         }
     }
 
-
-    void tblToFileTbl(JTable tbl, JTextField tf, FileTableModel ftm){
+    private void tblToFileTbl(JTable tbl, JTextField tf, FileTableModel ftm) {
         tbl.setModel(ftm);
         int width = 0;
-        for(int i=0; i<ftm.header.length; i++){
+        for (int i = 0; i < ftm.header.length; i++) {
             width += ftm.headerWidth[i];
             tbl.getColumn(ftm.header[i]).setPreferredWidth(ftm.headerWidth[i]);
         }
         tbl.setPreferredSize(new Dimension(width, 500));
         tbl.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        tbl.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                int index = ((DefaultListSelectionModel) e.getSource()).getLeadSelectionIndex();
-                if(index >= 0 && ftm.data.length > index){
-                    tf.setText(ftm.data[index].indexPath);
-                }
+        tbl.getSelectionModel().addListSelectionListener(e -> {
+            int index = ((DefaultListSelectionModel) e.getSource()).getLeadSelectionIndex();
+            if (index >= 0 && ftm.data.length > index) {
+                tf.setText(ftm.data[index].indexPath);
             }
         });
     }

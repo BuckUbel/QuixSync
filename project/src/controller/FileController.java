@@ -5,7 +5,6 @@ import models.*;
 
 import java.io.File;
 import java.nio.file.Files;
-
 import static java.nio.file.StandardCopyOption.*;
 
 import java.util.ArrayList;
@@ -14,13 +13,13 @@ import java.util.List;
 
 public class FileController {
 
-    public static TypeFile[] getFilesWithSpecificString(String path, String matchString) {
+    static TypeFile[] getFilesWithSpecificString(String path, String matchString) {
 
         boolean forCompareFiles = matchString.equals(SettingsController.getCompareFileEnding());
         CompareFile[] cF = new CompareFile[0];
         IndexFile[] iF =  new IndexFile[0];
 
-        File[] indexFiles = new File[0];
+        File[] indexFiles;
 
         File[] files = new File(path).listFiles();
 
@@ -62,7 +61,7 @@ public class FileController {
         return FileController.getAllElements(path, path, 1).sortAndGet();
     }
 
-    public static StorageElementList getAllElements(String path, String rootDir, int index) {
+    private static StorageElementList getAllElements(String path, String rootDir, int index) {
 
         long lastModified = 0;
         List<StorageElement> returnArray = new ArrayList<>();
@@ -77,16 +76,13 @@ public class FileController {
             File[] containedElements = element.listFiles();
 
             try {
-
                 if (containedElements != null) {
 
                     StorageElement se;
                     rootDir = new File(rootDir).getAbsolutePath();
 
                     for (File containedElement : containedElements) {
-
                         se = new StorageElement(containedElement.getAbsolutePath(), rootDir);
-
                         if (se.isRegularFile()) {
                             se.setLft(index);
                             index++;
@@ -97,7 +93,6 @@ public class FileController {
                                 lastModified = se.getLastModified();
                             }
                         }
-
                         if (se.isDirectory()) {
                             StorageElementList sel = FileController.getAllElements(se.getAbsolutePath(), rootDir, index);
                             index = sel.getLatestLft();
@@ -116,29 +111,14 @@ public class FileController {
                 }
                 returnArray.add(storageElementDir);
 
-
             } catch (Exception e) {
                 Logger.printErr("keine Elemente vorhanden: " + e.getMessage());
             }
         }
-
         return new StorageElementList(returnArray, rootDir, index, lastModified);
     }
 
     public static void compareJSONFiles(String sourcePath, String targetPath, String compareFilePath, boolean isHardSync, boolean slowMode) {
-
-        // TODO: create two ways, a safe way with renaming detection, and another way without this
-        // the other way is faster, because there will skip folders with a earlier modified date
-        // the problem appeared during nesting sets
-        //        TODO: Testing --> !!!
-
-        // Was ist mit Dateien die auf B nochmal verändert wurden? Werden diese überschrieben? --> logisch müssten sie es
-        // --> sie werden ignoriert -->
-        // TODO: new List for files, which are on the target dir newer as in the source dir
-
-
-        // TODO: Testing: What is with files without read/write access?
-        // TODO: What is with files with same change and creation Date?
 
         List<StorageElement> comparedList = new ArrayList<>();
         List<StorageElement> deleteList = new ArrayList<>();
@@ -170,10 +150,7 @@ public class FileController {
         compareFile.saveAsJSON(compareFilePath);
     }
 
-
     private static void getNotContainedElements(StorageElement[] firstElements, StorageElement[] secondElements, boolean collectElementsToDelete, boolean isHardSync, boolean slowMode, List<StorageElement> comparedList, List<StorageElement> deleteList) {
-
-        //TODO: einzelne datei in vielen neuen unterordnern --> legt jeden ordner zum Kopieren an
 
         int minRgt = 1; // because the first source Element should be ignored
         int indexInTarget;
@@ -183,11 +160,9 @@ public class FileController {
 
         List<StorageElement> returnList = new ArrayList<>();
 
-
         for (StorageElement element1 : firstElements) {
             if (element1 != null) {
                 if (element1.getLft() > minRgt) {
-                    indexInTarget = 0;
                     element2 = new StorageElement();
                     nameFound = false;
 
@@ -285,18 +260,13 @@ public class FileController {
     }
 
     public static void sync(String compareFilePath) throws Exception {
-        //TODO: implement background tasks to get a progress
-        //@QuentinWeber assigned
 
-        ProcessingElementList comparedElements = (ProcessingElementList) new ProcessingElementList().readJSON(compareFilePath);
-
+        ProcessingElementList comparedElements = new ProcessingElementList().readJSON(compareFilePath);
         minimizedStorageElement[] copyingElements = comparedElements.getCopyList();
         minimizedStorageElement[] deletingElements = comparedElements.getDeleteList();
-
         String sourcePath = comparedElements.sourceDirPath;
         String targetPath = comparedElements.targetDirPath;
-        String filePath = "";
-
+        String filePath;
         File targetDir;
         boolean canCopy;
 

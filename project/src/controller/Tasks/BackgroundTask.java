@@ -1,7 +1,6 @@
 package controller.Tasks;
 
 import controller.Controller;
-import controller.FileController;
 import controller.FileControllerWithFeedback;
 import controller.Threads.ProgressThread;
 import logger.Logger;
@@ -26,26 +25,16 @@ public class BackgroundTask implements Runnable {
     public void run() {
         switch (this.modus) {
             case Controller.INDEXING:
-
-//                FileController.getAllElements(indexProps.pathToIndex).saveAsJSON(indexProps.indexFilePath);
                 FileControllerWithFeedback.getAllElements(indexProps.pathToIndex, this.pt).saveAsJSON(indexProps.indexFilePath);
-
                 break;
             case Controller.COMPARE:
-
                 FileControllerWithFeedback.compareJSONFiles(compareProps.sourceIndexPath, compareProps.targetIndexPath, compareProps.comparePath, compareProps.isHardSync, compareProps.slowMode, this.pt);
-//                FileController.compareJSONFiles(compareProps.sourceIndexPath, compareProps.targetIndexPath, compareProps.comparePath, compareProps.isHardSync, compareProps.slowMode);
-
                 break;
             case Controller.SYNC:
-
                 try {
-                    FileControllerWithFeedback.sync(syncProps.compareFilePath,this.pt);
-//                    FileControllerWithFeedback.sync(syncProps.compareFilePath, this.pt);
-
+                    FileControllerWithFeedback.sync(syncProps.compareFilePath, this.pt);
                 } catch (Exception e) {
                     Logger.printErr(e);
-
                 }
                 break;
         }
@@ -53,7 +42,6 @@ public class BackgroundTask implements Runnable {
     }
 
     public boolean isFree() {
-
         switch (this.status) {
             case 1:
                 return false;

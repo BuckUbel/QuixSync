@@ -2,22 +2,40 @@ package controller;
 
 public class SettingsController {
 
+    public enum TAB_NUMBER {
+        WHOLE_SYNC(0),
+        INDEXING(1),
+        COMPARE(2),
+        SYNC(3),
+        SETTINGS(4);
 
-    private static String tempDir = "testdata//";
-    private static String indexFileEnding = ".index";
-    private static String compareFileEnding = ".comp";
-    private static String fileEnding = ".quix";
+        private final int value;
 
-    public static String getCompareFileEnding(){
-        return compareFileEnding;
+        TAB_NUMBER(final int newValue) {
+            value = newValue;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
-    public static String getIndexFileEnding(){
-        return indexFileEnding;
+
+    private static final String TEMP_DIR = "testdata//";
+    private static final String INDEX_FILE_ENDING = ".index";
+    private static final String COMPARE_FILE_ENDING = ".comp";
+    private static final String FILE_ENDING = ".quix";
+    private static final boolean PRETTY_LOGGING = true;
+
+    static String getCompareFileEnding(){
+        return COMPARE_FILE_ENDING;
     }
-    public static String getFileEnding(){
-        return fileEnding;
+    static String getIndexFileEnding(){
+        return INDEX_FILE_ENDING;
     }
-    public static String getTempDir(){
-        return tempDir;
+    static String getFileEnding(){
+        return FILE_ENDING;
     }
+    static String getTempDir(){ return TEMP_DIR; }
+
+    public static boolean getIsPrettyLogging() { return PRETTY_LOGGING; }
 }

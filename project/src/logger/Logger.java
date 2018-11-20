@@ -13,14 +13,10 @@ public class Logger {
     }
 
     // Log4J
-//    private static org.apache.logging.log4j.Logger log = LogManager.getLogger("RollingFileJSONLogger");
-    private static org.apache.logging.log4j.Logger log = LogManager.getLogger("RollingFilePatternLogger");
-
-
-
+    private static org.apache.logging.log4j.Logger log = LogManager.getLogger("RollingFileJSONLogger");
+//    private static org.apache.logging.log4j.Logger log = LogManager.getLogger("RollingFilePatternLogger");
 
     public static void print(String s) {
-
         if (system) {
             System.out.println(s);
         } else {
@@ -29,7 +25,6 @@ public class Logger {
     }
 
     public static void printErr(String s) {
-
         if (system) {
             System.err.println(s);
         } else {
@@ -38,7 +33,6 @@ public class Logger {
     }
 
     public static void print(Object o) {
-
         if (system) {
             System.out.println(o);
         } else {
@@ -47,7 +41,6 @@ public class Logger {
     }
 
     public static void printErr(Object o) {
-
         if (system) {
             System.err.println(o);
         } else {
@@ -60,15 +53,10 @@ public class Logger {
     }
 
     private static void write(String s, boolean isError) {
-        // TODO: create log-JSON-File
-        // @ChrisSembritzki assigned
-
         if (!isError){
             log.info(s);
         }else{
             log.error(s);
         }
-
-
     }
 }

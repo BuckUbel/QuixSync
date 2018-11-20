@@ -2,8 +2,8 @@ package models;
 
 public class IndexFileTableModel extends FileTableModel{
 
-    public static String[] indexHeader = {"Indiziert am", "Indizierter Pfad"};
-    public static int[] indexHeaderWidth = {135, 365};
+    private static String[] indexHeader = {"Indiziert am", "Indizierter Pfad"};
+    private static int[] indexHeaderWidth = {135, 365};
 
     public IndexFileTableModel(TypeFile[] data) {
         super(IndexFileTableModel.indexHeader, 0);
@@ -15,8 +15,8 @@ public class IndexFileTableModel extends FileTableModel{
 
     @Override
     public void init() {
-        for (int i = 0; i < this.data.length; i++) {
-            this.addRow(new Object[]{FileTableModel.millisToDate(((IndexFile)this.data[i]).createdAt), ((IndexFile)this.data[i]).path});
+        for (TypeFile aData : this.data) {
+            this.addRow(new Object[]{FileTableModel.millisToDate(((IndexFile) aData).createdAt), ((IndexFile) aData).path});
         }
     }
 }

@@ -6,10 +6,10 @@ public class ProgressThread {
 
     private mainView window;
 
-    public int counter_max = 0;
-    public int counter_current = 0;
-    public int iterations_max = 0;
-    public int iterations_current = 0;
+    private int counter_max = 0;
+    private int counter_current = 0;
+    private int iterations_max = 0;
+    private int iterations_current = 0;
 
     public ProgressThread() {
     }
@@ -21,31 +21,29 @@ public class ProgressThread {
     public void refresh() {
 
         int max, min, current;
-        double percentage = 0.0;
+        double percentage;
 
         max = (counter_max + 1) * (iterations_max + 1);
         min = 0;
         current = (counter_current + 1) * (iterations_current + 1);
-        percentage = ((float)current / (float)max )*100;
+        percentage = ((float) current / (float) max) * 100;
 
         if (max != current) {
             this.window.progressBar1.setMaximum(max);
             this.window.progressBar1.setMinimum(min);
             this.window.progressBar1.setValue(current);
             this.window.progressInformation.setText(current + " von " + max + " Elementen");
-            this.window.progressPercentage.setText(String.format("%.2f", percentage)+" %");
-        }
-        else{
+            this.window.progressPercentage.setText(String.format("%.2f", percentage) + " %");
+        } else {
             this.window.progressBar1.setMaximum(100);
             this.window.progressBar1.setMinimum(0);
             this.window.progressBar1.setValue(100);
             this.window.progressInformation.setText(max + " Elemente");
             this.window.progressPercentage.setText(" ... ");
         }
-
     }
 
-    public void increaseMaxCounter() {
+    private void increaseMaxCounter() {
         this.counter_max++;
         refresh();
     }
@@ -98,7 +96,6 @@ public class ProgressThread {
         this.iterations_current = this.iterations_max;
         refresh();
     }
-
 
     public int getStatus() {
         if (iterations_max != 0) {

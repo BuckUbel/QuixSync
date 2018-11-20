@@ -1,12 +1,7 @@
 package models;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import fileWriter.JSONCreator;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,6 +34,7 @@ public class StorageElementList extends ElementList {
     public long getListCreatedAt(){
         return this.listCreatedAt;
     }
+
     public List<StorageElement> getElements() {
         return elementList;
     }
@@ -68,13 +64,8 @@ public class StorageElementList extends ElementList {
         return returnValue;
     }
 
-    public static boolean isBetween(StorageElement x, Position pos) {
-
-        if (pos.lft < x.getLft() && x.getRgt() < pos.rgt) {
-            return true;
-        }
-        return false;
-
+    private static boolean isBetween(StorageElement x, Position pos) {
+        return pos.lft < x.getLft() && x.getRgt() < pos.rgt;
     }
 
     public String getDirPath() {
@@ -89,7 +80,7 @@ public class StorageElementList extends ElementList {
         this.count = size;
     }
 
-    public void sort() {
+    private void sort() {
         this.elementList.sort(Collections.reverseOrder(StorageElement::compareTo));
     }
 
@@ -100,16 +91,6 @@ public class StorageElementList extends ElementList {
 
     public StorageElementList readJSON(String path) {
 
-        Gson gson = new GsonBuilder().create();
-        StorageElementList stlist = new StorageElementList();
-
-        try (Reader reader = new FileReader(path)) {
-            stlist = gson.fromJson(reader, StorageElementList.class);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return stlist;
+        return (StorageElementList) JSONCreator.read(path, StorageElementList.class);
     }
-
 }

@@ -22,7 +22,6 @@ public class Controller implements ActionListener {
     public static final String STOP = "STOP";
     public static final String ADD_FTP_CONNECTION = "ADD_FTP_CONNECTION";
 
-
     private mainView window;
     private BackgroundTask bt;
     private Thread lastThread;
@@ -39,11 +38,9 @@ public class Controller implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         String command = e.getActionCommand();
-
         String indexPath;
         String compareFilePath;
-        boolean successfully = false;
-
+        boolean successfully;
 
         switch (command) {
             case Controller.WHOLE_SYNC:
@@ -94,9 +91,6 @@ public class Controller implements ActionListener {
 
                 Logger.print("COMPARE");
 
-                // TODO: get index-filePaths
-                // @QuentinWeber assigned
-
                 String sourceIndex = window.tfQuellIndexdatei.getText();
                 String targetIndex = window.tfZielIndexdatei.getText();
 
@@ -110,13 +104,9 @@ public class Controller implements ActionListener {
                     // now: say user, that another process is running
                 }
                 break;
-
             case Controller.SYNC:
 
                 Logger.print("SYNC");
-
-                // TODO: get index-filePaths
-                // @QuentinWeber assigned
 
                 compareFilePath = window.tfVergleichsdatei.getText();
                 successfully = this.sync(compareFilePath);
@@ -128,7 +118,6 @@ public class Controller implements ActionListener {
                     // Feature: add to Process chain
                     // now: say user, that another process is running
                 }
-
                 break;
             case Controller.ADD_FTP_CONNECTION:
 
@@ -138,7 +127,6 @@ public class Controller implements ActionListener {
             case Controller.STOP:
 
                 this.lastThread.stop();
-                // TODO: add FTP-Connection credentials in extra store and save it in json
 
                 break;
             default:
@@ -158,7 +146,6 @@ public class Controller implements ActionListener {
             System.out.println("Before Indexing");
             t.start();
             System.out.println("After Indexing");
-
             return tempFile;
         }
         return null;
@@ -173,7 +160,6 @@ public class Controller implements ActionListener {
             Thread t = new Thread(this.bt);
             lastThread = t;
             t.start();
-
             return tempFile;
         }
         return null;
