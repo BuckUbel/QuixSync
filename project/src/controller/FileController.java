@@ -14,12 +14,15 @@ import java.util.List;
 
 public class FileController {
 
-    public static IndexFile[] getFilesWithSpecificString(String path, String matchString) {
+    public static TypeFile[] getFilesWithSpecificString(String path, String matchString) {
 
-        IndexFile[] iF;
+        boolean forCompareFiles = matchString.equals(SettingsController.getCompareFileEnding());
+        CompareFile[] cF = new CompareFile[0];
+        IndexFile[] iF =  new IndexFile[0];
+
         File[] indexFiles = new File[0];
-        File[] files = new File(path).listFiles();
 
+        File[] files = new File(path).listFiles();
 
         if (files != null) {
 
@@ -34,15 +37,25 @@ public class FileController {
                     .filter(s -> (s != null && s.length() > 0))
                     .toArray(File[]::new);
 
-            iF = new IndexFile[indexFiles.length];
+            if (forCompareFiles) {
+                cF = new CompareFile[indexFiles.length];
 
-            for (int i = 0; i < indexFiles.length; i++) {
-                iF[i] = new IndexFile(indexFiles[i]);
+                for (int i = 0; i < indexFiles.length; i++) {
+                    cF[i] = new CompareFile(indexFiles[i]);
+                }
+            } else {
+
+                iF = new IndexFile[indexFiles.length];
+
+                for (int i = 0; i < indexFiles.length; i++) {
+                    iF[i] = new IndexFile(indexFiles[i]);
+                }
             }
-        } else {
-            iF = new IndexFile[0];
         }
-        return iF;
+        if (forCompareFiles) {
+            return cF;
+        }
+            return iF;
     }
 
     public static StorageElementList getAllElements(String path) {

@@ -8,8 +8,12 @@ import logger.Logger;
 import views.mainView;
 import models.IndexFile;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class Controller implements ActionListener {
 
@@ -17,9 +21,7 @@ public class Controller implements ActionListener {
 
     public static final String WHOLE_SYNC = "WHOLE_SYNC";
     public static final String INDEXING = "INDEXING";
-    public static final String GET_INDEXING_FILES = "GET_INDEXING_FILES";
     public static final String COMPARE = "COMPARE";
-    public static final String GET_COMPARE_FILES = "GET_COMPARE_FILES";
     public static final String SYNC = "SYNC";
     public static final String ADD_FTP_CONNECTION = "ADD_FTP_CONNECTION";
 
@@ -27,10 +29,13 @@ public class Controller implements ActionListener {
     private mainView window;
     private BackgroundTask bt;
     private Thread lastThread;
+    public ChangeController cc;
 
     public Controller(mainView window, BackgroundTask bt) {
         this.window = window;
         this.bt = bt;
+
+        cc = new ChangeController(window,bt);
     }
 
     @Override
@@ -41,7 +46,6 @@ public class Controller implements ActionListener {
         String indexPath;
         String compareFilePath;
         boolean successfully = false;
-        IndexFile[] sel;
 
 
         switch (command) {
@@ -66,35 +70,23 @@ public class Controller implements ActionListener {
 
                 Logger.print("INDEXING");
 
-                // TODO: get Directories
-                // @QuentinWeber assigned
+                String dir = window.tfQuellverzeichnisI.getText();
+                File f = new File(dir);
+                if (f.isDirectory()) {
 
+                    String indexFilePath = this.indexing(dir);
 
-                String dir = "D:\\Quentin\\Schule\\BA Leipzig";
-                String indexFilePath = this.indexing(dir);
-
-//                String dir = "D:\\Quentin\\Schule\\BA Leipzig2";
-//                String indexFilePath = this.indexing(dir);
-//                System.out.println("Success! Index: " + indexFilePath);
-//
-//                dir = "D:\\Quentin\\Schule\\BA Leipzig3";
-//                indexFilePath = this.indexing(dir);
-
-                if (indexFilePath == null) {
-                    System.out.println("Try later.");
-                    // TODO: the user should try this action a little time later
-                } else {
-                    System.out.println("Success! Index: " + indexFilePath);
-                    // TODO: set indexFilePath in View, for so it can be resumed immediately.
+                    if (indexFilePath == null) {
+                        System.out.println("Try later.");
+                        // TODO: the user should try this action a little time later
+                    } else {
+                        System.out.println("Success! Index: " + indexFilePath);
+                        // TODO: set indexFilePath in View, for so it can be resumed immediately.
+                    }
                 }
-
-                break;
-            case Controller.GET_INDEXING_FILES:
-
-                Logger.print("GET_INDEXING_FILES");
-                sel = FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getIndexFileEnding());
-
-                // TODO: set in View to display the files to select two of them to compare
+                else{
+                    // TODO: ask the user after another path, because, the specified string was no path to a folder
+                }
 
                 break;
             case Controller.COMPARE:
@@ -104,8 +96,9 @@ public class Controller implements ActionListener {
                 // TODO: get index-filePaths
                 // @QuentinWeber assigned
 
-                String sourceIndex = "";
-                String targetIndex = "";
+                String sourceIndex = window.tfQuellIndexdatei.getText();
+                String targetIndex = window.tfZielIndexdatei.getText();
+
                 compareFilePath = this.compare(sourceIndex, targetIndex);
 
                 if (compareFilePath == null) {
@@ -117,12 +110,6 @@ public class Controller implements ActionListener {
                 }
                 break;
 
-            case Controller.GET_COMPARE_FILES:
-
-                Logger.print("GET_COMPARE_FILES");
-                sel = FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getCompareFileEnding());
-                // TODO: set in View to display the files to select one of them to sync
-                break;
             case Controller.SYNC:
 
                 Logger.print("SYNC");
@@ -130,7 +117,7 @@ public class Controller implements ActionListener {
                 // TODO: get index-filePaths
                 // @QuentinWeber assigned
 
-                compareFilePath = "";
+                compareFilePath = window.tfVergleichsdatei.getText();
                 successfully = this.sync(compareFilePath);
 
                 if (successfully) {
@@ -157,7 +144,7 @@ public class Controller implements ActionListener {
         String tempFile = SettingsController.getTempDir() + System.currentTimeMillis() + SettingsController.getIndexFileEnding() + SettingsController.getFileEnding();
         IndexTask r = new IndexTask(dir, tempFile);
         thread = ThreadController.createNewThread(r);
-        if (thread!= null) {
+        if (thread != null) {
             r.connectThread(thread);
             thread.start();
             return tempFile;

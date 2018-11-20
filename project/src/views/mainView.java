@@ -3,50 +3,56 @@ package views;
 import controller.Controller;
 import logger.Logger;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 
 public class mainView extends JFrame {
-    private JPanel rootPanel;
-    private JTabbedPane tabbedPane1;
-    private JLabel lbQuellverzeichnisG;
-    private JLabel lbZielverzeichnisG;
-    private JButton btnSyncG;
-    private JButton btnAutoSyncG;
-    private JButton btnQuellverzeichnisG;
-    private JButton btnZielverzeichnisG;
-    private JButton btnIndexErstellen1;
-    private JButton btnIndexErstellen2;
-    private JButton btnBeideIndizes;
-    private JTextField tfQuellIndexdatei;
-    private JTextField tfZielIndexdatei;
-    private JButton btnVergleichen;
-    private JTextField tfVergleichsdatei;
-    private JButton btnSynchronisieren;
-    private JTextField tfTempVerzeichnis;
-    private JRadioButton rbHardSync;
-    private JRadioButton rbDaemonBetrieb;
-    private JButton btnFTPVerbindung;
-    private JButton btnSpeichern;
-    private JTextField tfQuellverzeichnisG;
-    private JTextField tfZielverzeichnisG;
-    private JLabel lbQuellverzeichnisI;
-    private JButton btnQuellverzeichnisI;
-    private JTextField tfQuellverzeichnisI;
-    private JLabel lbZielverzeichnisI;
-    private JTextField tfZielverzeichnisI;
-    private JButton btnZielverzeichnisI;
-    private JLabel lbQuellIndexdatei;
-    private JLabel lbZielIndexdatei;
-    private JLabel lbVergleichsdatei;
-    private JLabel lbTempVerzeichnis;
-    private JPanel pnGesamtsync;
-    private JPanel pnIndexierung;
-    private JPanel pnVergleichen;
-    private JPanel pnSync;
-    private JPanel pnEinstellungen;
+    public JPanel rootPanel;
+    public JTabbedPane tabbedPane1;
+    public JLabel lbQuellverzeichnisG;
+    public JLabel lbZielverzeichnisG;
+    public JButton btnSyncG;
+    public JButton btnAutoSyncG;
+    public JButton btnQuellverzeichnisG;
+    public JButton btnZielverzeichnisG;
+    public JButton btnIndexErstellen1;
+    public JButton btnIndexErstellen2;
+    public JTextField tfQuellIndexdatei;
+    public JTextField tfZielIndexdatei;
+    public JButton btnVergleichen;
+    public JTextField tfVergleichsdatei;
+    public JButton btnSynchronisieren;
+    public JTextField tfTempVerzeichnis;
+    public JRadioButton rbHardSync;
+    public JRadioButton rbDaemonBetrieb;
+    public JButton btnFTPVerbindung;
+    public JButton btnSpeichern;
+    public JTextField tfQuellverzeichnisG;
+    public JTextField tfZielverzeichnisG;
+    public JLabel lbQuellverzeichnisI;
+    public JButton btnQuellverzeichnisI;
+    public JTextField tfQuellverzeichnisI;
+    public JTextField tfZielverzeichnisI;
+    public JButton btnZielverzeichnisI;
+    public JLabel lbQuellIndexdatei;
+    public JLabel lbZielIndexdatei;
+    public JLabel lbVergleichsdatei;
+    public JLabel lbTempVerzeichnis;
+    public JPanel pnGesamtsync;
+    public JPanel pnIndexierung;
+    public JPanel pnVergleichen;
+    public JPanel pnSync;
+    public JPanel pnEinstellungen;
+    private JProgressBar progressBar1;
+    private JButton stopButton;
+    public JTable tbltargetIndexFiles;
+    public JTable tblCompareFiles;
+    public JTable tblSourceIndexFiles;
+    private JPanel progressPanel;
 
     private int width = 0;
     private int height = 0;
@@ -81,9 +87,6 @@ public class mainView extends JFrame {
         btnIndexErstellen1.setActionCommand(Controller.INDEXING);
         btnIndexErstellen1.addActionListener(c);
 
-        btnIndexErstellen2.setActionCommand(Controller.INDEXING);
-        btnIndexErstellen2.addActionListener(c);
-
         btnVergleichen.setActionCommand(Controller.COMPARE);
         btnVergleichen.addActionListener(c);
 
@@ -111,12 +114,8 @@ public class mainView extends JFrame {
             }
         });
 
-        btnZielverzeichnisI.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                openFileChooser(tfZielverzeichnisI);
-            }
-        });
+        tabbedPane1.addChangeListener(c.cc);
+
 
         add(rootPanel);
 

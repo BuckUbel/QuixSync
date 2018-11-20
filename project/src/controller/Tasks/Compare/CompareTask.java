@@ -22,7 +22,7 @@ public class CompareTask extends BackgroundTask {
 
     @Override
     public void run() {
-//        FileController.compareJSONFiles(this.sourceIndexPath, this.targetIndexPath, this.comparePath, this.isHardSync, this.slowMode);
-        FileControllerWithFeedback.compareJSONFiles(this.sourceIndexPath, this.targetIndexPath, this.comparePath, this.isHardSync, this.slowMode, this.pt);
+        FileController.compareJSONFiles(this.sourceIndexPath, this.targetIndexPath, this.comparePath, this.isHardSync, this.slowMode);
+//        FileControllerWithFeedback.compareJSONFiles(this.sourceIndexPath, this.targetIndexPath, this.comparePath, this.isHardSync, this.slowMode, this.pt);
     }
 }

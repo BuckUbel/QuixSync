@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="views.mainView">
-  <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="694" height="254"/>
+      <xy x="20" y="20" width="694" height="314"/>
     </constraints>
-    <properties/>
+    <properties>
+      <preferredSize width="600" height="250"/>
+    </properties>
     <border type="none"/>
     <children>
       <tabbedpane id="e1135" binding="tabbedPane1" default-binding="true">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="200" height="200"/>
           </grid>
         </constraints>
@@ -41,14 +43,30 @@
                   <text value="Zielverzeichnis"/>
                 </properties>
               </component>
-              <component id="e7b0" class="javax.swing.JButton" binding="btnSyncG">
+              <component id="42dcc" class="javax.swing.JTextField" binding="tfQuellverzeichnisG">
                 <constraints>
-                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="122" height="30"/>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="9f6e9" class="javax.swing.JTextField" binding="tfZielverzeichnisG">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="113f1" class="javax.swing.JButton" binding="btnAutoSyncG">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="197" height="30"/>
                   </grid>
                 </constraints>
                 <properties>
-                  <text value="Synchronisieren"/>
+                  <text value="Als Auto-Synchronisierung speichern"/>
                 </properties>
               </component>
               <component id="36555" class="javax.swing.JButton" binding="btnQuellverzeichnisG">
@@ -68,35 +86,19 @@
                   <text value="Zielverzeichnis auswählen"/>
                 </properties>
               </component>
-              <component id="113f1" class="javax.swing.JButton" binding="btnAutoSyncG">
+              <component id="e7b0" class="javax.swing.JButton" binding="btnSyncG">
                 <constraints>
-                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="197" height="30"/>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="122" height="30"/>
                   </grid>
                 </constraints>
                 <properties>
-                  <text value="Als Auto-Synchronisierung speichern"/>
+                  <text value="Synchronisieren"/>
                 </properties>
-              </component>
-              <component id="42dcc" class="javax.swing.JTextField" binding="tfQuellverzeichnisG">
-                <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties/>
-              </component>
-              <component id="9f6e9" class="javax.swing.JTextField" binding="tfZielverzeichnisG">
-                <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties/>
               </component>
             </children>
           </grid>
-          <grid id="fde28" binding="pnIndexierung" layout-manager="GridLayoutManager" row-count="3" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="fde28" binding="pnIndexierung" layout-manager="GridLayoutManager" row-count="3" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Indexierung"/>
@@ -109,79 +111,54 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Quellverzeichnis"/>
+                  <text value="Verzeichnis"/>
                 </properties>
               </component>
               <component id="af2b7" class="javax.swing.JButton" binding="btnQuellverzeichnisI">
                 <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="146" height="30"/>
                   </grid>
                 </constraints>
                 <properties>
-                  <text value="Quellverzeichnis auswählen"/>
+                  <text value="Verzeichnis auswählen"/>
                   <verticalAlignment value="0"/>
-                </properties>
-              </component>
-              <component id="79160" class="javax.swing.JButton" binding="btnIndexErstellen1">
-                <constraints>
-                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Index erstellen"/>
                 </properties>
               </component>
               <component id="c06bb" class="javax.swing.JTextField" binding="tfQuellverzeichnisI">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="0" column="1" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="122" height="30"/>
                   </grid>
                 </constraints>
                 <properties/>
               </component>
-              <component id="b41a2" class="javax.swing.JLabel" binding="lbZielverzeichnisI">
+              <hspacer id="c1014">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties>
-                  <text value="Zielverzeichnis"/>
-                </properties>
-              </component>
-              <component id="7da54" class="javax.swing.JTextField" binding="tfZielverzeichnisI">
+              </hspacer>
+              <hspacer id="e5795">
                 <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="122" height="30"/>
-                  </grid>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties/>
-              </component>
-              <component id="6d7b1" class="javax.swing.JButton" binding="btnZielverzeichnisI">
+              </hspacer>
+              <component id="79160" class="javax.swing.JButton" binding="btnIndexErstellen1">
                 <constraints>
-                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Zielverzeichnis auswählen"/>
-                </properties>
-              </component>
-              <component id="8327e" class="javax.swing.JButton" binding="btnIndexErstellen2">
-                <constraints>
-                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Index erstellen"/>
                 </properties>
               </component>
-              <component id="10808" class="javax.swing.JButton" binding="btnBeideIndizes">
+              <vspacer id="7088b">
                 <constraints>
-                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties>
-                  <text value="Beide Indizes erstellen"/>
-                </properties>
-              </component>
+              </vspacer>
             </children>
           </grid>
-          <grid id="d222e" binding="pnVergleichen" layout-manager="GridLayoutManager" row-count="3" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="d222e" binding="pnVergleichen" layout-manager="GridLayoutManager" row-count="3" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Vergleichen"/>
@@ -203,50 +180,71 @@
                     <preferred-size width="150" height="-1"/>
                   </grid>
                 </constraints>
-                <properties/>
+                <properties>
+                  <enabled value="false"/>
+                </properties>
               </component>
-              <hspacer id="dfeed">
+              <component id="a6344" class="javax.swing.JTextField" binding="tfZielIndexdatei">
                 <constraints>
-                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
                 </constraints>
-              </hspacer>
+                <properties>
+                  <enabled value="false"/>
+                </properties>
+              </component>
               <component id="f0765" class="javax.swing.JLabel" binding="lbZielIndexdatei">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Ziel-Indexdatei"/>
                 </properties>
               </component>
-              <hspacer id="37bfc">
-                <constraints>
-                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <hspacer id="3d4bb">
-                <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <component id="a6344" class="javax.swing.JTextField" binding="tfZielIndexdatei">
-                <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties/>
-              </component>
               <component id="d317a" class="javax.swing.JButton" binding="btnVergleichen">
                 <constraints>
-                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Vergleichen"/>
                 </properties>
               </component>
+              <scrollpane id="93c0a">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <horizontalScrollBarPolicy value="30"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="91e28" class="javax.swing.JTable" binding="tblSourceIndexFiles">
+                    <constraints/>
+                    <properties>
+                      <gridColor color="-1"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <scrollpane id="dd329">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="4f1f2" class="javax.swing.JTable" binding="tbltargetIndexFiles">
+                    <constraints/>
+                    <properties>
+                      <gridColor color="-1"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
             </children>
           </grid>
-          <grid id="2c445" binding="pnSync" layout-manager="GridLayoutManager" row-count="2" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="2c445" binding="pnSync" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Synchronisieren"/>
@@ -268,29 +266,37 @@
                     <preferred-size width="150" height="-1"/>
                   </grid>
                 </constraints>
-                <properties/>
+                <properties>
+                  <editable value="false"/>
+                  <enabled value="false"/>
+                </properties>
               </component>
-              <hspacer id="d2b1">
-                <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-              <hspacer id="8acf0">
-                <constraints>
-                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
               <component id="3573d" class="javax.swing.JButton" binding="btnSynchronisieren">
                 <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Synchronisieren"/>
                 </properties>
               </component>
+              <scrollpane id="cf3">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="27886" class="javax.swing.JTable" binding="tblCompareFiles">
+                    <constraints/>
+                    <properties>
+                      <gridColor color="-1"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
             </children>
           </grid>
-          <grid id="50eb4" binding="pnEinstellungen" layout-manager="GridLayoutManager" row-count="4" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="50eb4" binding="pnEinstellungen" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Einstellungen"/>
@@ -324,25 +330,25 @@
                   <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
               </hspacer>
-              <component id="895e9" class="javax.swing.JRadioButton" binding="rbHardSync">
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Harte Synchronisierung"/>
-                </properties>
-              </component>
               <component id="beec1" class="javax.swing.JRadioButton" binding="rbDaemonBetrieb">
                 <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Daemon Betrieb erlauben"/>
                 </properties>
               </component>
+              <component id="895e9" class="javax.swing.JRadioButton" binding="rbHardSync">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Harte Synchronisierung"/>
+                </properties>
+              </component>
               <component id="5a050" class="javax.swing.JButton" binding="btnFTPVerbindung">
                 <constraints>
-                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="FTP-Verbindung hinzufügen"/>
@@ -350,7 +356,7 @@
               </component>
               <component id="c5079" class="javax.swing.JButton" binding="btnSpeichern">
                 <constraints>
-                  <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Speichern"/>
@@ -360,6 +366,42 @@
           </grid>
         </children>
       </tabbedpane>
+      <grid id="2d95e" binding="progressPanel" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <minimum-size width="-1" height="50"/>
+            <preferred-size width="-1" height="50"/>
+            <maximum-size width="-1" height="50"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none" title="Fortschritt der aktuelle Aktion"/>
+        <children>
+          <component id="50ebf" class="javax.swing.JProgressBar" binding="progressBar1" default-binding="true">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="6a59b" class="javax.swing.JButton" binding="stopButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Stop"/>
+            </properties>
+          </component>
+          <component id="66692" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Aktion A"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
     </children>
   </grid>
 </form>

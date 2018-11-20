@@ -17,7 +17,6 @@ public class StorageElementList extends ElementList {
     private double count = 0;
     private int latestLft;
     private long lastModified;
-    private long listCreatedAt;
 
     public StorageElementList() {
     }
@@ -35,10 +34,6 @@ public class StorageElementList extends ElementList {
         this.dirPath = dirPath;
         this.latestLft = latestLft;
         this.lastModified = lastModified;
-    }
-
-    public void setListCreatedAt(long listCreatedAt) {
-        this.listCreatedAt = listCreatedAt;
     }
 
     public long getListCreatedAt(){
@@ -103,11 +98,6 @@ public class StorageElementList extends ElementList {
         return this;
     }
 
-    @Override
-    public void saveAsJSON(String path) {
-        this.setListCreatedAt(System.currentTimeMillis());
-        super.saveAsJSON(path);
-    }
     public StorageElementList readJSON(String path) {
 
         Gson gson = new GsonBuilder().create();

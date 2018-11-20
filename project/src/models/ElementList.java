@@ -14,7 +14,15 @@ import java.util.logging.Logger;
 
 public class ElementList {
 
+    long listCreatedAt;
+
+
+    public void setListCreatedAt(long listCreatedAt) {
+        this.listCreatedAt = listCreatedAt;
+    }
+
     public void saveAsJSON(String path) {
+        this.setListCreatedAt(System.currentTimeMillis());
 
         //        Gson gson = new GsonBuilder().create();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();   // Formatted Output
