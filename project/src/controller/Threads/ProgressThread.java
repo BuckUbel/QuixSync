@@ -1,37 +1,70 @@
 package controller.Threads;
 
+import views.mainView;
+
 public class ProgressThread {
 
-    public Thread mainThread;
+    private mainView window;
 
     public int counter_max = 0;
     public int counter_current = 0;
     public int iterations_max = 0;
     public int iterations_current = 0;
 
-    public ProgressThread(Thread mainThread) {
-        this.mainThread = mainThread;
+    public ProgressThread() {
     }
 
-    public ProgressThread(){}
+    public void setWindow(mainView window) {
+        this.window = window;
+    }
+
+    public void refresh() {
+
+        int max, min, current;
+        double percentage = 0.0;
+
+        max = (counter_max + 1) * (iterations_max + 1);
+        min = 0;
+        current = (counter_current + 1) * (iterations_current + 1);
+        percentage = ((float)current / (float)max )*100;
+
+        if (max != current) {
+            this.window.progressBar1.setMaximum(max);
+            this.window.progressBar1.setMinimum(min);
+            this.window.progressBar1.setValue(current);
+            this.window.progressInformation.setText(current + " von " + max + " Elementen");
+            this.window.progressPercentage.setText(String.format("%.2f", percentage)+" %");
+        }
+        else{
+            this.window.progressBar1.setMaximum(100);
+            this.window.progressBar1.setMinimum(0);
+            this.window.progressBar1.setValue(100);
+            this.window.progressInformation.setText(max + " Elemente");
+            this.window.progressPercentage.setText(" ... ");
+        }
+
+    }
 
     public void increaseMaxCounter() {
         this.counter_max++;
+        refresh();
     }
 
     public void setMaxCounter(int a) {
         this.counter_max = a;
         this.counter_current = 0;
+        refresh();
     }
 
     public void setMaxCounterAndIteration(int a) {
         this.increaseCurrentIterations();
         this.setMaxCounter(a);
+        refresh();
     }
 
     public void increaseCurrentCounter() {
         this.counter_current++;
-        this.print();
+        refresh();
     }
 
     public void startWithCounting() {
@@ -39,26 +72,31 @@ public class ProgressThread {
         this.counter_current = 0;
         this.iterations_max = 0;
         this.iterations_current = 0;
+        refresh();
     }
 
     public void count() {
         this.increaseMaxCounter();
         this.increaseCurrentCounter();
+        refresh();
     }
 
     public void setMaxIterations(int a) {
         this.iterations_max = a;
         this.iterations_current = 0;
+        refresh();
     }
 
     public void increaseCurrentIterations() {
         this.iterations_current++;
-        this.print();
+        this.counter_current = 0;
+        refresh();
     }
 
     public void finish() {
         this.counter_current = this.counter_max;
         this.iterations_current = this.iterations_max;
+        refresh();
     }
 
 
@@ -97,9 +135,9 @@ public class ProgressThread {
     }
 
     public void print() {
-//        System.out.println("Counter Max: " + this.counter_max);
-//        System.out.println("Counter Current: " + this.counter_current);
-//        System.out.println("Iteration Max: " + this.iterations_max);
-//        System.out.println("Iteration Current: " + this.iterations_current);
+        System.out.println("Counter Max: " + this.counter_max);
+        System.out.println("Counter Current: " + this.counter_current);
+        System.out.println("Iteration Max: " + this.iterations_max);
+        System.out.println("Iteration Current: " + this.iterations_current);
     }
 }

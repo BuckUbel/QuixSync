@@ -30,7 +30,7 @@ public class FileControllerWithFeedback {
 
             indexFiles = new File[files.length];
 
-            for (int i=0; i < files.length; i++) {
+            for (int i = 0; i < files.length; i++) {
                 if (files[i].getName().contains(matchString)) {
                     indexFiles[i] = files[i];
                 }
@@ -46,13 +46,12 @@ public class FileControllerWithFeedback {
 
             iF = new IndexFile[indexFiles.length];
 
-            for(int i=0; i< indexFiles.length; i++){
+            for (int i = 0; i < indexFiles.length; i++) {
                 iF[i] = new IndexFile(indexFiles[i]);
                 pt.increaseCurrentCounter();
             }
             pt.finish();
-        }
-        else{
+        } else {
             iF = new IndexFile[0];
         }
         return iF;
@@ -162,11 +161,23 @@ public class FileControllerWithFeedback {
         sourceElementsList = null;
         targetElementsList = null;
 
-        getNotContainedElements(sourceElements, targetElements, false, slowMode, comparedList, deleteList, pt);
+        pt.startWithCounting();
+        pt.setMaxCounter(sourceElements.length);
+        if(isHardSync){
+            pt.setMaxIterations(2);
+        }
+        else{
+            pt.setMaxIterations(1);
+        }
+        getNotContainedElements(sourceElements, targetElements, false, isHardSync, slowMode, comparedList, deleteList, pt);
+        pt.increaseCurrentIterations();
 
         if (isHardSync) {
-            getNotContainedElements(targetElements, sourceElements, true, slowMode, comparedList, deleteList, pt);
+            getNotContainedElements(targetElements, sourceElements, true, isHardSync, slowMode, comparedList, deleteList, pt);
+            pt.increaseCurrentIterations();
         }
+
+        pt.finish();
 
         compareFile.setCopyList(comparedList);
         compareFile.setDeleteList(deleteList);
@@ -175,7 +186,7 @@ public class FileControllerWithFeedback {
     }
 
 
-    private static void getNotContainedElements(StorageElement[] firstElements, StorageElement[] secondElements, boolean collectElementsToDelete, boolean slowMode, List<StorageElement> comparedList, List<StorageElement> deleteList, ProgressThread pt) {
+    private static void getNotContainedElements(StorageElement[] firstElements, StorageElement[] secondElements, boolean collectElementsToDelete, boolean isHardSync, boolean slowMode, List<StorageElement> comparedList, List<StorageElement> deleteList, ProgressThread pt) {
 
         //TODO: einzelne datei in vielen neuen unterordnern --> legt jeden ordner zum Kopieren an
 
@@ -183,7 +194,7 @@ public class FileControllerWithFeedback {
         int indexInTarget;
 
         StorageElement element2, tmpElement2;
-        boolean changedAtFound, nameFound, isDifferent, sameName, laterChangeDate, sameChangeDate, earlierChangeDate, sameSize, sameChildrenCount, isDirAndDiffChilds, hasChildren, renamed;
+        boolean nameFound, isDifferent, sameName, laterChangeDate, earlierChangeDate, sameSize, sameChildrenCount, hasChildren, renamed;
 
         List<StorageElement> returnList = new ArrayList<>();
 
@@ -193,77 +204,44 @@ public class FileControllerWithFeedback {
                 if (element1.getLft() > minRgt) {
                     indexInTarget = 0;
                     element2 = new StorageElement();
-
-                    changedAtFound = false;
                     nameFound = false;
 
                     // find the source File in the target
-
-                    // Try 1
-                    // contains target the sourceElement with the specific property 'changed_at'
-                    if (slowMode || collectElementsToDelete) {
-                        while (indexInTarget < secondElements.length) {
-                            tmpElement2 = secondElements[indexInTarget];
-                            if (tmpElement2 != null && tmpElement2.getLft() > 1) {
-                                if (tmpElement2.getLastModified() == element1.getLastModified() && tmpElement2.isDir() == element1.isDir()) {
-                                    element2 = tmpElement2;
-                                    changedAtFound = true;
-                                    break;
-                                }
-                            }
-                            indexInTarget++;
-                        }
-                    }
-                    // Try 2
-                    // if not
                     // contains target the sourceElement with the specific property 'relative_path' (name)
-                    if (!changedAtFound) {
-                        indexInTarget = 0;
-                        while (indexInTarget < secondElements.length) {
-                            tmpElement2 = secondElements[indexInTarget];
-                            if (tmpElement2 != null && tmpElement2.getLft() > 1) {
-                                if (tmpElement2.getRelativePath().equals(element1.getRelativePath())) {
-                                    element2 = tmpElement2;
-                                    nameFound = true;
-                                    break;
-                                }
+                    indexInTarget = 0;
+                    while (indexInTarget < secondElements.length) {
+                        tmpElement2 = secondElements[indexInTarget];
+                        if (tmpElement2 != null && tmpElement2.getLft() > 1) {
+                            if (tmpElement2.getRelativePath().equals(element1.getRelativePath())) {
+                                element2 = tmpElement2;
+                                nameFound = true;
+                                break;
                             }
-                            indexInTarget++;
                         }
+                        indexInTarget++;
                     }
 
-                    // if an element is found with path or changed_at
+                    // if an element is found with path
                     // then check if name, size or changed_at is different
-                    if (changedAtFound || nameFound) {
+                    if (nameFound) {
 
                         element2.setIsCompared(true);
                         element1.setIsCompared(true);
 
                         isDifferent = false;
 
-                        if (!nameFound) {
-                            sameName = element1.getRelativePath().equals(element2.getRelativePath());
-                            if (!sameName) {
-                                isDifferent = true;
-                                element1.setDifferentName(true);
-                            }
-                        }
-
-                        if (!changedAtFound) {
+                        if (!collectElementsToDelete) {
                             laterChangeDate = element1.getLastModified() > element2.getLastModified();
                             if (laterChangeDate) {
                                 isDifferent = true;
                                 element1.setDifferentChanged(true);
                             }
-                            sameChangeDate = element1.getLastModified() == element2.getLastModified();
-                            if (sameChangeDate) {
-                                // ???
-                            }
-                            earlierChangeDate = element1.getLastModified() < element2.getLastModified();
-                            if (earlierChangeDate) {
-                                // newTargetList.add(source);
-                                isDifferent = true;
-                                element1.setDifferentChanged(true);
+                            if (isHardSync) {
+                                earlierChangeDate = element1.getLastModified() < element2.getLastModified();
+                                if (earlierChangeDate) {
+                                    isDifferent = true;
+                                    element1.setDifferentChanged(true);
+                                }
                             }
                         }
 
@@ -278,10 +256,6 @@ public class FileControllerWithFeedback {
                             isDifferent = true;
                             element1.setDifferentChildrenCount(true);
                         }
-
-                        // In cases where there is a new file in B,
-                        // the different number of children should not result in copying a folder.
-                        isDirAndDiffChilds = element1.isDifferentChildrenCount() && element1.isDir();
 
                         // Dirs are only copy, if these are empty
                         hasChildren = element1.getChildrenCount() > 0;
@@ -311,30 +285,13 @@ public class FileControllerWithFeedback {
                                 minRgt = element1.getRgt();
                             }
                         }
-
-                        if (!nameFound && element1.isDifferentName() && collectElementsToDelete && !hasChildren) {
-                            boolean found = false;      // if the element found in the source tree, then this don't has to delete, because it is still there
-                            indexInTarget = 0;
-                            while (indexInTarget < secondElements.length) { //also the really source tree
-                                tmpElement2 = secondElements[indexInTarget];
-                                if (tmpElement2 != null && tmpElement2.getLft() > 1) {
-                                    if (tmpElement2.getRelativePath().equals(element1.getRelativePath())) {
-                                        found = true;
-                                        break;
-                                    }
-                                }
-                                indexInTarget++;
-                            }
-                            if (!found) {
-                                deleteList.add(element1);
-                            }
-                        }
                     } else {
                         element1.setIsNewFile(true);
                         returnList.add(element1);
                     }
                 }
             }
+            pt.increaseCurrentCounter();
         }
         if (collectElementsToDelete) {
             deleteList.addAll(returnList);
@@ -359,6 +316,9 @@ public class FileControllerWithFeedback {
         File targetDir;
         boolean canCopy;
 
+        pt.startWithCounting();
+        pt.setMaxCounter(copyingElements.length + deletingElements.length);
+
         for (minimizedStorageElement copyingElement : copyingElements) {
             filePath = copyingElement.getRelativePath();
 
@@ -375,11 +335,13 @@ public class FileControllerWithFeedback {
             if (canCopy) {
                 Files.copy(new File(sourcePath + filePath).toPath(), new File(targetPath + filePath).toPath(), REPLACE_EXISTING, COPY_ATTRIBUTES);
             }
+            pt.increaseCurrentCounter();
         }
 
         for (minimizedStorageElement deletingElement : deletingElements) {
             filePath = deletingElement.getAbsolutePath();
             Files.deleteIfExists(new File(filePath).toPath());
+            pt.increaseCurrentCounter();
         }
     }
 }

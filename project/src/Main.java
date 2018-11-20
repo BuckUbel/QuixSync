@@ -8,14 +8,14 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         BackgroundTask bt = new BackgroundTask();
-
         mainView window = new mainView("QuixSync", 800, 400);
-        Logger.setWindow(window);
-        window.setVisible(true);
-
         Controller controller = new Controller(window, bt);
 
+        bt.pt.setWindow(window);
+
         window.setController(controller);
+        Logger.setWindow(window);
+        window.setVisible(true);
         window.createGUI();
 
     }

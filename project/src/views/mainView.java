@@ -47,12 +47,16 @@ public class mainView extends JFrame {
     public JPanel pnVergleichen;
     public JPanel pnSync;
     public JPanel pnEinstellungen;
-    private JProgressBar progressBar1;
+    public JProgressBar progressBar1;
     private JButton stopButton;
     public JTable tbltargetIndexFiles;
     public JTable tblCompareFiles;
     public JTable tblSourceIndexFiles;
     private JPanel progressPanel;
+    private JButton anzeigenButton;
+    public JLabel progressPercentage;
+    public JLabel progressInformation;
+    public JLabel progressAction;
 
     private int width = 0;
     private int height = 0;
@@ -92,6 +96,9 @@ public class mainView extends JFrame {
 
         btnSynchronisieren.setActionCommand(Controller.SYNC);
         btnSynchronisieren.addActionListener(c);
+
+        stopButton.setActionCommand(Controller.STOP);
+        stopButton.addActionListener(c);
 
         btnQuellverzeichnisG.addMouseListener(new MouseAdapter() {
             @Override
