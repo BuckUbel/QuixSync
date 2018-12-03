@@ -9,9 +9,9 @@ public class Main {
 
         BackgroundTask bt = new BackgroundTask();
         mainView window = new mainView("QuixSync", 800, 400);
-
-
         Controller controller = new Controller(window, bt);
+
+        // TODO: load Settings from a settings.json
 
         bt.pt.setWindow(window);
 

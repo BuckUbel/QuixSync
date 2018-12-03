@@ -1,9 +1,6 @@
 package controller;
 
-import controller.Tasks.BackgroundTask;
-import controller.Tasks.CompareTaskProps;
-import controller.Tasks.IndexTaskProps;
-import controller.Tasks.SyncTaskProps;
+import controller.Tasks.*;
 import logger.Logger;
 import views.compareFileView;
 import views.mainView;
@@ -32,20 +29,33 @@ public class Controller implements ActionListener {
     private Thread lastThread;
     public ChangeController cc;
 
+    private String pathToIndex = "";
+    private String pathToIndex2 = "";   // only for whole sync
+    private String pathToIndexFileSrc = "";
+    private String pathToIndexFileTrg = "";
+    private String pathToCompareFile = "";
+
+
+    //private IndexTaskProps indexProps = new IndexTaskProps();
+    //private IndexTaskProps indexProps2 = new IndexTaskProps(); // only for whole sync
+    //private CompareTaskProps compareProps = new CompareTaskProps();
+    //private SyncTaskProps syncProps = new SyncTaskProps();
+
+    private String nextActionModus = "";
+
+
     public Controller(mainView window, BackgroundTask bt) {
         this.window = window;
         this.bt = bt;
 
-        cc = new ChangeController(window,this, bt);
+        cc = new ChangeController(window, this, bt);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
         String command = e.getActionCommand();
-        String indexPath;
-        String compareFilePath;
-        boolean successfully;
+        boolean success;
 
         switch (command) {
             case Controller.WHOLE_SYNC:
@@ -53,78 +63,91 @@ public class Controller implements ActionListener {
                 String source = window.tfQuellverzeichnisG.getText();
                 String target = window.tfZielverzeichnisG.getText();
 
-                Logger.print("WHOLE SYNC:  SRC[\"" + source + "\"]  TRG[\"" + target + "\" ]");
+                File sourceF = new File(source);
+                File targetF = new File(target);
+                success = false;
+                if (sourceF.isDirectory()) {
+                    if (targetF.isDirectory()) {
 
-                Logger.print("Indexing1: " + this.bt.isFree());
-                while (!this.bt.isFree()) ;
-                String indexPath1 = this.indexing(source);
+                        this.pathToIndex = source;
+                        this.pathToIndex2 = target;
+                        success = this.wholeIndexing();
 
-                Logger.print("Indexing2: " + this.bt.isFree());
-                while (!this.bt.isFree()) ;
-                String indexPath2 = this.indexing(target);
+                        if (success) {
+                            lastThread.start();
 
-                Logger.print("Compare: " + this.bt.isFree());
-                while (!this.bt.isFree()) ;
-                compareFilePath = this.compare(indexPath1, indexPath2);
+                        } else {
+                            // TODO: say user, that another process is running
+                            // Feature: add to Process chain
+                        }
+                    } else {
+                        // TODO: ask the user after another target path, because, the specified string was no path to a folder
+                    }
+                } else {
+                    // TODO: ask the user after another source path, because, the specified string was no path to a folder
+                }
 
-                Logger.print("Sync1: " + this.bt.isFree());
-                while (!this.bt.isFree()) ;
-                this.sync(compareFilePath);
+
+//                while (!this.bt.isFree()) ;
+//                String indexPath1 = this.indexing(source);
+
+//                while (!this.bt.isFree()) ;
+//                String indexPath2 = this.indexing(target);
+
+//                while (!this.bt.isFree()) ;
+//                compareFilePath = this.compare(indexPath1, indexPath2);
+
+//                while (!this.bt.isFree()) ;
+//                this.sync(compareFilePath);
 
                 break;
             case Controller.INDEXING:
 
                 String dir = window.tfQuellverzeichnisI.getText();
 
-                Logger.print("INDEXING: " + dir);
 
                 File f = new File(dir);
                 if (f.isDirectory()) {
+                    this.pathToIndex = window.tfQuellverzeichnisI.getText();
+                    success = this.indexing();
 
-                    String indexFilePath = this.indexing(dir);
-
-                    if (indexFilePath != null) {
-                        // set path to compare this
+                    if (success) {
+                        lastThread.start();
                     } else {
+                        // TODO: say user, that another process is running
                         // Feature: add to Process chain
-                        // now: say user, that another process is running
                     }
 
                 } else {
                     // TODO: ask the user after another path, because, the specified string was no path to a folder
                 }
 
-
                 break;
             case Controller.COMPARE:
 
 
-                String sourceIndex = window.tfQuellIndexdatei.getText();
-                String targetIndex = window.tfZielIndexdatei.getText();
+                this.pathToIndexFileSrc = window.tfQuellIndexdatei.getText();
+                this.pathToIndexFileTrg = window.tfZielIndexdatei.getText();
 
-                Logger.print("COMPARE:  SRC[\"" + sourceIndex + "\"]  TRG[\"" + targetIndex + "\" ]");
+                success = this.compare();
 
-                compareFilePath = this.compare(sourceIndex, targetIndex);
-
-                if (compareFilePath != null) {
-                    // set path to sync this
+                if (success) {
+                    lastThread.start();
                 } else {
+                    // TODO: say user, that another process is running
                     // Feature: add to Process chain
-                    // now: say user, that another process is running
                 }
                 break;
             case Controller.SYNC:
 
-                compareFilePath = window.tfVergleichsdatei.getText();
-                Logger.print("SYNC: " + compareFilePath);
+                this.pathToCompareFile = window.tfVergleichsdatei.getText();
+                success = this.sync();
 
-                successfully = this.sync(compareFilePath);
-
-                if (successfully) {
-                    // is Running
+                if (success) {
+                    lastThread.start();
                 } else {
+                    // TODO: say user, that another process is running
                     // Feature: add to Process chain
-                    // now: say user, that another process is running
                 }
                 break;
             case Controller.ADD_FTP_CONNECTION:
@@ -151,25 +174,16 @@ public class Controller implements ActionListener {
             case Controller.OPEN_README:
 
                 this.openReadme();
-
-
                 break;
 
             case Controller.NEXT_ACTION:
 
-                int modus = 1;
-
-                switch(modus){
-                    case(1):
-                        // Indexing
-                        break;
-                    case(2):
-                        // Comparing
-                        break;
-                    case(3):
-                        // Syncing
-                        break;
+                if (this.bt.isFree()) {
+                    this.bt.setModus(this.nextActionModus);
+                    lastThread = new Thread(this.bt);
+                    lastThread.start();
                 }
+
                 break;
             default:
                 break;
@@ -177,48 +191,98 @@ public class Controller implements ActionListener {
 
     }
 
-    private String indexing(String dir) {
+
+    private boolean wholeIndexing() {
         if (this.bt.isFree()) {
             this.window.progressAction.setText(Controller.INDEXING);
             String tempFile = SettingsController.getTempDir() + System.currentTimeMillis() + SettingsController.getIndexFileEnding() + SettingsController.getFileEnding();
-            this.bt.setModus(Controller.INDEXING);
-            this.bt.setIndexProps(new IndexTaskProps(dir, tempFile));
-            Thread t = new Thread(this.bt);
-            lastThread = t;
-            t.start();
-            return tempFile;
-        }
-        return null;
-    }
+            String tempFile2 = SettingsController.getTempDir() + (System.currentTimeMillis() + 1) + SettingsController.getIndexFileEnding() + SettingsController.getFileEnding();
+            String tempFile3 = SettingsController.getTempDir() + (System.currentTimeMillis() + 2) + SettingsController.getCompareFileEnding() + SettingsController.getFileEnding();
 
-    private String compare(String file1, String file2) {
-        if (this.bt.isFree()) {
-            this.window.progressAction.setText(Controller.COMPARE);
-            String tempFile = SettingsController.getTempDir() + System.currentTimeMillis() + SettingsController.getCompareFileEnding() + SettingsController.getFileEnding();
-            this.bt.setModus(Controller.COMPARE);
-            this.bt.setCompareProps(new CompareTaskProps(file1, file2, tempFile, true, true));
-            Thread t = new Thread(this.bt);
-            lastThread = t;
-            t.start();
-            return tempFile;
-        }
-        return null;
-    }
+            this.bt.setWholeProps(
+                    new IndexTaskProps(this.pathToIndex, tempFile),
+                    new IndexTaskProps(this.pathToIndex2, tempFile2),
+                    new CompareTaskProps(tempFile, tempFile2, tempFile3, true, true),
+                    new SyncTaskProps(tempFile3)
+            );
 
-    private boolean sync(String compareFilePath) {
-        if (this.bt.isFree()) {
-            this.window.progressAction.setText(Controller.SYNC);
-            this.bt.setModus(Controller.SYNC);
-            this.bt.setSyncProps(new SyncTaskProps(compareFilePath));
-            Thread t = new Thread(this.bt);
-            lastThread = t;
-            t.start();
+            this.nextActionModus = Controller.WHOLE_SYNC;
+            this.bt.setModus(this.nextActionModus);
+            lastThread = new Thread(this.bt);
             return true;
         }
         return false;
     }
 
-    void displayCompareFile(){
+    private void preIndexing() {
+        this.window.progressAction.setText(Controller.INDEXING);
+        String tempFile = SettingsController.getTempDir() + System.currentTimeMillis() + SettingsController.getIndexFileEnding() + SettingsController.getFileEnding();
+        this.nextActionModus = Controller.INDEXING;
+        this.bt.setIndexProps(new IndexTaskProps(this.pathToIndex, tempFile));
+    }
+
+    private boolean indexing() {
+        if (this.bt.isFree()) {
+            this.preIndexing();
+            this.bt.setModus(this.nextActionModus);
+            lastThread = new Thread(this.bt);
+            this.postIndexing();
+            return true;
+        }
+        return false;
+    }
+
+    private void postIndexing() {
+        this.pathToIndex = "";
+    }
+
+
+    private void preCompare() {
+        this.window.progressAction.setText(Controller.COMPARE);
+        String tempFile = SettingsController.getTempDir() + System.currentTimeMillis() + SettingsController.getCompareFileEnding() + SettingsController.getFileEnding();
+        this.nextActionModus = Controller.COMPARE;
+        this.bt.setCompareProps(new CompareTaskProps(this.pathToIndexFileSrc, this.pathToIndexFileTrg, tempFile, true, true));
+    }
+
+    private boolean compare() {
+        if (this.bt.isFree()) {
+            this.preCompare();
+            this.bt.setModus(this.nextActionModus);
+            lastThread = new Thread(this.bt);
+            this.postCompare();
+            return true;
+        }
+        return false;
+    }
+
+    private void postCompare() {
+        this.pathToIndexFileSrc = "";
+        this.pathToIndexFileTrg = "";
+    }
+
+    private void preSync() {
+
+        this.window.progressAction.setText(Controller.SYNC);
+        nextActionModus = Controller.SYNC;
+        this.bt.setSyncProps(new SyncTaskProps(this.pathToCompareFile));
+    }
+
+    private boolean sync() {
+        if (this.bt.isFree()) {
+            this.preSync();
+            this.bt.setModus(this.nextActionModus);
+            lastThread = new Thread(this.bt);
+            this.postSync();
+            return true;
+        }
+        return false;
+    }
+
+    private void postSync() {
+        this.pathToCompareFile = "";
+    }
+
+    void displayCompareFile() {
 
         String path = window.tfVergleichsdatei.getText();
         compareFileView cfv = new compareFileView("Comparing", 400, 700);
@@ -227,7 +291,7 @@ public class Controller implements ActionListener {
         cfv.createGUI();
     }
 
-    public void openReadme(){
+    public void openReadme() {
 
         Logger.print("Open Readme");
 
@@ -237,5 +301,28 @@ public class Controller implements ActionListener {
         } catch (Exception error) {
             Logger.printErr(error.toString());
         }
+    }
+
+    public void setPathToIndexForNextAction(String pathToIndex) {
+        this.pathToIndex = pathToIndex;
+        this.preIndexing();
+    }
+
+    public void setPathToIndexFilesForNextAction(String pathToIndexFile) {
+        if (this.pathToIndexFileSrc.equals("")) {
+            this.pathToIndexFileSrc = pathToIndexFile;
+        } else if (this.pathToIndexFileTrg.equals("")) {
+            this.pathToIndexFileTrg = pathToIndexFile;
+            this.preCompare();
+        } else {
+            this.pathToIndexFileSrc = pathToIndexFile;
+            this.pathToIndexFileTrg = "";
+        }
+    }
+
+    public void setPathToCompareFileForNextAction(String pathToCompareFile) {
+        this.pathToCompareFile = pathToCompareFile;
+        this.preSync();
+        this.postSync();
     }
 }

@@ -4,7 +4,7 @@ import views.mainView;
 
 public class ProgressThread {
 
-    private mainView window;
+    public mainView window;
 
     private int counter_max = 0;
     private int counter_current = 0;

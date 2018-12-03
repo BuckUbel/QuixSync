@@ -27,7 +27,6 @@ public class mainView extends JFrame {
     public JTextField tfVergleichsdatei;
     public JButton btnSynchronisieren;
     public JTextField tfTempVerzeichnis;
-    public JRadioButton rbHardSync;
     public JRadioButton rbDaemonBetrieb;
     public JButton btnFTPVerbindung;
     public JButton btnSpeichern;
@@ -59,13 +58,18 @@ public class mainView extends JFrame {
     public JLabel progressAction;
     private JLabel helpIcon;
     private JButton nextActionButton;
+    private JButton deleteCache;
+    private JCheckBox harteSynchronisierungCheckBox;
+    private JCheckBox langsamerModusCheckBox1;
+    private JCheckBox rbHardSync;
+    private JCheckBox langsamerModusCheckBox;
 
     private int width;
     private int height;
 
     private String title;
 
-    private Controller c;
+    public Controller c;
 
     public int imageCounter = 0;
     public int currentImage = 0;
@@ -148,7 +152,6 @@ public class mainView extends JFrame {
                 openReadme();
             }
         });
-
 
         // TODO: edit new Action button to start the nex Action
 
