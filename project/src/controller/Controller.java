@@ -2,6 +2,8 @@ package controller;
 
 import controller.Tasks.*;
 import logger.Logger;
+import views.AnotherRunningProcessDialog;
+import views.OtherDirDialog;
 import views.compareFileView;
 import views.mainView;
 
@@ -69,14 +71,17 @@ public class Controller implements ActionListener {
                             lastThread.start();
 
                         } else {
-                            // TODO: say user, that another process is running
+                            this.displayAnotherRunningDialog();
                             // Feature: add to Process chain
                         }
                     } else {
-                        // TODO: ask the user after another target path, because, the specified string was no path to a folder
+                        // here trg
+                        this.displayOtherDirDialog();
                     }
                 } else {
-                    // TODO: ask the user after another source path, because, the specified string was no path to a folder
+                    // TODO: difference between source and target
+                    // here src
+                    this.displayOtherDirDialog();
                 }
 
                 break;
@@ -93,17 +98,16 @@ public class Controller implements ActionListener {
                     if (success) {
                         lastThread.start();
                     } else {
-                        // TODO: say user, that another process is running
+                        this.displayAnotherRunningDialog();
                         // Feature: add to Process chain
                     }
 
                 } else {
-                    // TODO: ask the user after another path, because, the specified string was no path to a folder
+                    this.displayOtherDirDialog();
                 }
 
                 break;
             case Controller.COMPARE:
-
 
                 this.compareProps.sourceIndexPath = window.tfQuellIndexdatei.getText();
                 this.compareProps.targetIndexPath = window.tfZielIndexdatei.getText();
@@ -114,7 +118,7 @@ public class Controller implements ActionListener {
                 if (success) {
                     lastThread.start();
                 } else {
-                    // TODO: say user, that another process is running
+                    this.displayAnotherRunningDialog();
                     // Feature: add to Process chain
                 }
                 break;
@@ -126,7 +130,7 @@ public class Controller implements ActionListener {
                 if (success) {
                     lastThread.start();
                 } else {
-                    // TODO: say user, that another process is running
+                    this.displayAnotherRunningDialog();
                     // Feature: add to Process chain
                 }
                 break;
@@ -261,8 +265,20 @@ public class Controller implements ActionListener {
         this.syncProps = new SyncTaskProps();
     }
 
-    void displayCompareFile() {
+    private void displayAnotherRunningDialog(){
+        AnotherRunningProcessDialog arpv = new AnotherRunningProcessDialog("is Running...");
+        arpv.setVisible(true);
+        arpv.createGUI();
+    }
 
+    private void displayOtherDirDialog(){
+        OtherDirDialog odd = new OtherDirDialog("Falscher Pfad");
+        odd.setVisible(true);
+        odd.createGUI();
+    }
+
+
+    void displayCompareFile() {
         String path = window.tfVergleichsdatei.getText();
         compareFileView cfv = new compareFileView("Comparing", 400, 700);
         cfv.setFile(path);

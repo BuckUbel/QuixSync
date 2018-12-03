@@ -71,10 +71,6 @@ public class mainView extends JFrame {
 
     public Controller c;
 
-    public int imageCounter = 0;
-    public int currentImage = 0;
-
-
     public mainView(String title, int width, int height) {
         this.width = width;
         this.height = height;

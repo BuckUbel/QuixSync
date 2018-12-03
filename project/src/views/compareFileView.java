@@ -24,9 +24,6 @@ public class compareFileView extends JFrame {
 
     private Controller c;
 
-    public int imageCounter = 0;
-    public int currentImage = 0;
-
     private minimizedStorageElement[] copyList;
     private minimizedStorageElement[] deleteList;
 
