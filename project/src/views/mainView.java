@@ -57,7 +57,7 @@ public class mainView extends JFrame {
     public JLabel progressInformation;
     public JLabel progressAction;
     private JLabel helpIcon;
-    private JButton nextActionButton;
+    public JButton nextActionButton;
     private JButton deleteCache;
     private JCheckBox harteSynchronisierungCheckBox;
     private JCheckBox langsamerModusCheckBox1;
@@ -148,8 +148,6 @@ public class mainView extends JFrame {
                 openReadme();
             }
         });
-
-        // TODO: edit new Action button to start the nex Action
 
         add(rootPanel);
         this.finish();

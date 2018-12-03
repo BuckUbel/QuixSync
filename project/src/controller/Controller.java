@@ -166,6 +166,7 @@ public class Controller implements ActionListener {
                     this.bt.setModus(this.nextActionModus);
                     lastThread = new Thread(this.bt);
                     lastThread.start();
+                    this.window.nextActionButton.setEnabled(false);
                 }
 
                 break;
@@ -302,24 +303,32 @@ public class Controller implements ActionListener {
         this.indexProps.pathToIndex = pathToIndex;
         this.preIndexing();
         this.postIndexing();
+        this.window.nextActionButton.setEnabled(true);
     }
 
     public void setPathToIndexFilesForNextAction(String pathToIndexFile) {
-        if (this.indexProps.indexFilePath.equals("")) {
-            this.indexProps.indexFilePath = pathToIndexFile;
-        } else if (this.indexPropsTarget.indexFilePath.equals("")) {
-            this.indexPropsTarget.indexFilePath = pathToIndexFile;
+        if (this.compareProps.sourceIndexPath.equals("")) {
+            this.compareProps.sourceIndexPath = pathToIndexFile;
+            this.window.nextActionButton.setEnabled(false);
+        } else if (this.compareProps.targetIndexPath.equals("")) {
+            this.compareProps.targetIndexPath = pathToIndexFile;
             this.preCompare();
             this.postCompare();
+            this.window.nextActionButton.setText("Compare");
+            this.window.nextActionButton.setEnabled(true);
         } else {
-            this.indexProps.indexFilePath = pathToIndexFile;
-            this.indexPropsTarget.indexFilePath = "";
+            this.compareProps.sourceIndexPath= pathToIndexFile;
+            this.compareProps.targetIndexPath = "";
+            this.window.nextActionButton.setEnabled(false);
         }
+
     }
 
     public void setPathToCompareFileForNextAction(String pathToCompareFile) {
-        this.compareProps.comparePath = pathToCompareFile;
+        this.syncProps.compareFilePath = pathToCompareFile;
         this.preSync();
         this.postSync();
+        this.window.nextActionButton.setText("Sync");
+        this.window.nextActionButton.setEnabled(true);
     }
 }
