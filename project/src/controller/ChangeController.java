@@ -8,9 +8,9 @@ import views.mainView;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ChangeController implements ChangeListener {
 
@@ -19,17 +19,18 @@ public class ChangeController implements ChangeListener {
 
     private mainView window;
     private BackgroundTask bt;
+    private Controller c;
 
-    ChangeController(mainView window, BackgroundTask bt) {
+    ChangeController(mainView window, Controller c, BackgroundTask bt) {
         this.window = window;
         this.bt = bt;
+        this.c = c;
     }
 
     @Override
     public void stateChanged(ChangeEvent e) {
         TypeFile[] sel;
 
-        System.out.println("CC");
         if (window.tabbedPane1.getSelectedIndex() == SettingsController.TAB_NUMBER.COMPARE.getValue()) { // Comp
             Logger.print("GET_INDEXING_FILES");
             sel = FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getIndexFileEnding());
@@ -47,6 +48,16 @@ public class ChangeController implements ChangeListener {
 
             FileTableModel ftm = new CompareFileTableModel(sel);
             tblToFileTbl(window.tblCompareFiles, window.tfVergleichsdatei, ftm);
+
+            Controller controller = this.c;
+            window.tblCompareFiles.addMouseListener(new MouseAdapter() {
+                public void mousePressed(MouseEvent mouseEvent) {
+                    JTable table =(JTable) mouseEvent.getSource();
+                    if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
+                        controller.displayCompareFile();
+                    }
+                }
+            });
         }
     }
 

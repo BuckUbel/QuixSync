@@ -1,12 +1,7 @@
 package models;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import fileWriter.JSONCreator;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
 import java.util.List;
 import java.util.stream.Stream;
 

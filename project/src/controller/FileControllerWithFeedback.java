@@ -23,7 +23,7 @@ public class FileControllerWithFeedback {
 
         if (files != null) {
 
-            pt.startWithCounting();
+            pt.startWithCounting(false);
             pt.setMaxIterations(2);
             pt.setMaxCounterAndIteration(files.length);
 
@@ -57,7 +57,7 @@ public class FileControllerWithFeedback {
     }
 
     public static StorageElementList getAllElements(String path, ProgressThread pt) {
-        pt.startWithCounting();
+        pt.startWithCounting(true);
         StorageElementList a = FileControllerWithFeedback.getAllElements(path, path, 1, pt).sortAndGet();
         pt.finish();
         return a;
@@ -153,16 +153,15 @@ public class FileControllerWithFeedback {
         sourceElementsList = null;
         targetElementsList = null;
 
-        pt.startWithCounting();
-        pt.setMaxCounter(sourceElements.length);
-        if(isHardSync){
-            pt.setMaxIterations(2);
+        pt.startWithCounting(false);
+        if (isHardSync) {
+            pt.setMaxCounter(sourceElements.length + targetElements.length);
+        } else {
+            pt.setMaxCounter(sourceElements.length);
         }
-        else{
-            pt.setMaxIterations(1);
-        }
+        pt.setMaxIterations(1);
+
         getNotContainedElements(sourceElements, targetElements, false, isHardSync, slowMode, comparedList, deleteList, pt);
-        pt.increaseCurrentIterations();
 
         if (isHardSync) {
             getNotContainedElements(targetElements, sourceElements, true, isHardSync, slowMode, comparedList, deleteList, pt);
@@ -292,14 +291,27 @@ public class FileControllerWithFeedback {
         File targetDir;
         boolean canCopy;
 
-        pt.startWithCounting();
+        pt.startWithCounting(false);
         pt.setMaxCounter(copyingElements.length + deletingElements.length);
+
+        for (minimizedStorageElement deletingElement : deletingElements) {
+
+            filePath = targetPath + deletingElement.getRelativePath();
+            try {
+                Files.deleteIfExists(new File(filePath).toPath());
+            } catch (Exception e) {
+                Logger.printErr(e.toString());
+            }
+            pt.increaseCurrentCounter();
+        }
 
         for (minimizedStorageElement copyingElement : copyingElements) {
             filePath = copyingElement.getRelativePath();
 
+            File specificFile = new File(targetPath + filePath);
+
             // get target Dir and create all dirs to this
-            targetDir = new File((new File(targetPath + filePath)).getParentFile().getAbsolutePath());
+            targetDir = new File((specificFile).getParentFile().getAbsolutePath());
             canCopy = false;
             if (!targetDir.exists()) {
                 if (targetDir.mkdirs()) {
@@ -308,15 +320,20 @@ public class FileControllerWithFeedback {
             } else {
                 canCopy = true;
             }
-            if (canCopy) {
-                Files.copy(new File(sourcePath + filePath).toPath(), new File(targetPath + filePath).toPath(), REPLACE_EXISTING, COPY_ATTRIBUTES);
+            if (specificFile.isDirectory()) {
+                File[] files = specificFile.listFiles();
+                if (files != null) {
+                    if (files.length > 0) {
+                        canCopy = false;
+                    }
+                }
             }
-            pt.increaseCurrentCounter();
-        }
-
-        for (minimizedStorageElement deletingElement : deletingElements) {
-            filePath = deletingElement.getAbsolutePath();
-            Files.deleteIfExists(new File(filePath).toPath());
+            if (canCopy) {
+                if (specificFile.isDirectory()) {
+                    Files.deleteIfExists(specificFile.toPath());
+                }
+                Files.copy(new File(sourcePath + filePath).toPath(), specificFile.toPath(), REPLACE_EXISTING, COPY_ATTRIBUTES);
+            }
             pt.increaseCurrentCounter();
         }
     }

@@ -1,6 +1,7 @@
 package views;
 
 import controller.Controller;
+import controller.SettingsController;
 import logger.Logger;
 
 import javax.swing.*;
@@ -56,6 +57,8 @@ public class mainView extends JFrame {
     public JLabel progressPercentage;
     public JLabel progressInformation;
     public JLabel progressAction;
+    private JLabel helpIcon;
+    private JButton nextActionButton;
 
     private int width;
     private int height;
@@ -83,6 +86,8 @@ public class mainView extends JFrame {
     public void createGUI() {
 
         this.setTitle(this.title);
+        ImageIcon img = new ImageIcon(SettingsController.getLogoFile());
+        this.setIconImage(img.getImage());
 
         btnSyncG.setActionCommand(Controller.WHOLE_SYNC);
         btnSyncG.addActionListener(c);
@@ -95,6 +100,9 @@ public class mainView extends JFrame {
 
         btnSynchronisieren.setActionCommand(Controller.SYNC);
         btnSynchronisieren.addActionListener(c);
+
+        anzeigenButton.setActionCommand(Controller.DISPLAY_COMPARE_FILE);
+        anzeigenButton.addActionListener(c);
 
         btnFTPVerbindung.setActionCommand(Controller.ADD_FTP_CONNECTION);
         btnFTPVerbindung.addActionListener(c);
@@ -125,25 +133,31 @@ public class mainView extends JFrame {
 
         tabbedPane1.addChangeListener(c.cc);
 
+        nextActionButton.setActionCommand(Controller.NEXT_ACTION);
+        nextActionButton.addActionListener(c);
+
+
+        ImageIcon helpImage = new ImageIcon(SettingsController.getHelpFileLogo());
+        Image newImage = helpImage.getImage().getScaledInstance(50, 35, Image.SCALE_DEFAULT);
+        helpIcon.setIcon(new ImageIcon(newImage));
+        helpIcon.setText("");
+
+        helpIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                openReadme();
+            }
+        });
+
+
+        // TODO: edit new Action button to start the nex Action
 
         add(rootPanel);
-
-        Logger.print("GUI is finished");
         this.finish();
     }
 
-    // helper function
-    public void refreshSlider(int value, int minimum, int maximum, JSlider slider) {
-        slider.setMinimum(minimum);
-        slider.setMaximum(maximum);
-        slider.setMajorTickSpacing(5);
-        slider.setMinorTickSpacing(1);
-        slider.createStandardLabels(Math.max(1, maximum / 5));
-        slider.setPaintTicks(true);
-        slider.setPaintLabels(true);
-        slider.setValue(value);
-
-        this.setVisible(true);
+    private void openReadme(){
+        this.c.openReadme();
     }
 
     private void finish() {

@@ -11,11 +11,37 @@ public class ProgressThread {
     private int iterations_max = 0;
     private int iterations_current = 0;
 
+    private boolean onlyCounting;
+    private boolean isFinish;
+
     public ProgressThread() {
     }
 
     public void setWindow(mainView window) {
         this.window = window;
+    }
+
+    private static String beautify(int i){
+        String integerString = Integer.toString(i);
+        String returnString = "";
+        int length = integerString.length();
+
+        if(i > 1000000){
+            returnString += integerString.substring(0, length-6);
+            returnString += ".";
+            returnString += integerString.substring(length-6, length-3);
+            returnString += ".";
+            returnString += integerString.substring(length-3, length);
+        }
+        else if(i > 1000){
+            returnString += integerString.substring(0, length-3);
+            returnString += ".";
+            returnString += integerString.substring(length-3, length);
+        }
+        else{
+            returnString += integerString;
+        }
+        return returnString;
     }
 
     public void refresh() {
@@ -27,74 +53,100 @@ public class ProgressThread {
         min = 0;
         current = (counter_current + 1) * (iterations_current + 1);
         percentage = ((float) current / (float) max) * 100;
-
-        if (max != current) {
+        //this.print();
+        if (!onlyCounting) {
             this.window.progressBar1.setMaximum(max);
             this.window.progressBar1.setMinimum(min);
             this.window.progressBar1.setValue(current);
-            this.window.progressInformation.setText(current + " von " + max + " Elementen");
+            this.window.progressInformation.setText(ProgressThread.beautify(current) + " von " + ProgressThread.beautify(max) + " Elementen");
             this.window.progressPercentage.setText(String.format("%.2f", percentage) + " %");
         } else {
-            this.window.progressBar1.setMaximum(100);
-            this.window.progressBar1.setMinimum(0);
-            this.window.progressBar1.setValue(100);
-            this.window.progressInformation.setText(max + " Elemente");
-            this.window.progressPercentage.setText(" ... ");
+            if (isFinish) {
+                this.window.progressBar1.setMaximum(100);
+                this.window.progressBar1.setMinimum(0);
+                this.window.progressBar1.setValue(100);
+                this.window.progressInformation.setText(ProgressThread.beautify(max) + " Elemente");
+                this.window.progressPercentage.setText("gefunden und indexiert ");
+            } else {
+                if (counter_current != 0) {
+                    this.window.progressBar1.setMaximum(100);
+                    this.window.progressBar1.setMinimum(0);
+                    this.window.progressBar1.setValue(100);
+                    this.window.progressInformation.setText(ProgressThread.beautify(current) + " Elemente");
+                    this.window.progressPercentage.setText("bisher gefunden");
+
+                } else {
+                    this.window.progressBar1.setMaximum(0);
+                    this.window.progressBar1.setMinimum(0);
+                    this.window.progressBar1.setValue(0);
+                    this.window.progressInformation.setText("");
+                    this.window.progressPercentage.setText("");
+                }
+            }
         }
     }
 
     private void increaseMaxCounter() {
         this.counter_max++;
-        refresh();
+        this.refresh();
     }
 
     public void setMaxCounter(int a) {
         this.counter_max = a;
         this.counter_current = 0;
-        refresh();
+        this.refresh();
     }
 
     public void setMaxCounterAndIteration(int a) {
         this.increaseCurrentIterations();
         this.setMaxCounter(a);
-        refresh();
+        this.refresh();
     }
 
     public void increaseCurrentCounter() {
         this.counter_current++;
-        refresh();
+        this.refresh();
     }
 
-    public void startWithCounting() {
-        this.counter_max = 0;
-        this.counter_current = 0;
-        this.iterations_max = 0;
-        this.iterations_current = 0;
-        refresh();
+    public void startWithCounting(boolean onlyCounting) {
+        this.reset();
+        this.onlyCounting = onlyCounting;
+        this.refresh();
     }
 
     public void count() {
         this.increaseMaxCounter();
         this.increaseCurrentCounter();
-        refresh();
+        this.refresh();
     }
 
     public void setMaxIterations(int a) {
         this.iterations_max = a;
         this.iterations_current = 0;
-        refresh();
+        this.refresh();
     }
 
     public void increaseCurrentIterations() {
         this.iterations_current++;
         this.counter_current = 0;
-        refresh();
+        this.refresh();
     }
 
     public void finish() {
+        this.isFinish = true;
         this.counter_current = this.counter_max;
         this.iterations_current = this.iterations_max;
-        refresh();
+        this.refresh();
+    }
+
+    public void reset() {
+        this.isFinish = false;
+        this.onlyCounting = true;
+        this.counter_max = 0;
+        this.counter_current = 0;
+        this.iterations_max = 0;
+        this.iterations_current = 0;
+        this.refresh();
     }
 
     public int getStatus() {

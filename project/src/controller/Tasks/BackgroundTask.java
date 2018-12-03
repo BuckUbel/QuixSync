@@ -11,7 +11,7 @@ public class BackgroundTask implements Runnable {
 
     private String modus = "";
 
-    private int status = 0;
+    public int status = 0;
 
     private IndexTaskProps indexProps;
     private CompareTaskProps compareProps;
@@ -23,22 +23,35 @@ public class BackgroundTask implements Runnable {
 
     @Override
     public void run() {
+        long startTime = System.currentTimeMillis();
+
         switch (this.modus) {
             case Controller.INDEXING:
+                Logger.print("Start Indexing");
                 FileControllerWithFeedback.getAllElements(indexProps.pathToIndex, this.pt).saveAsJSON(indexProps.indexFilePath);
+                Logger.print("Start Indexing");
                 break;
             case Controller.COMPARE:
+                Logger.print("Start Comparing");
                 FileControllerWithFeedback.compareJSONFiles(compareProps.sourceIndexPath, compareProps.targetIndexPath, compareProps.comparePath, compareProps.isHardSync, compareProps.slowMode, this.pt);
+                Logger.print("Start Comparing");
                 break;
             case Controller.SYNC:
                 try {
+                    Logger.print("Start Sync");
                     FileControllerWithFeedback.sync(syncProps.compareFilePath, this.pt);
+                    Logger.print("Start Sync");
                 } catch (Exception e) {
                     Logger.printErr(e);
                 }
                 break;
         }
         this.status = 0;
+        long endTime = System.currentTimeMillis();
+        double seconds = (endTime-startTime);
+        seconds = seconds/1000;
+
+        Logger.print("Der Vorgang dauerte " + String.format("%.2f", seconds) + " Sekunden.");
     }
 
     public boolean isFree() {
@@ -55,6 +68,9 @@ public class BackgroundTask implements Runnable {
 
     public void setModus(String s) {
         this.modus = s;
+    }
+    public String getModus() {
+        return this.modus;
     }
 
     public void setIndexProps(IndexTaskProps itp) {

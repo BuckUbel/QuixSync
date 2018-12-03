@@ -22,13 +22,13 @@ public class StorageElement {
     private int state = 0;
 
     // use a Binary Map for the state
-    private final static int COMPARED = 1;
-    private final static int NAME = 2;
-    private final static int CHANGED = 4;
-    private final static int SIZE = 8;
-    private final static int CHILDREN_COUNT = 16;
-    private final static int NEW = 32;
-    private final static int DIR = 64;
+    final static int COMPARED = 1;
+    final static int NAME = 2;
+    final static int CHANGED = 4;
+    final static int SIZE = 8;
+    final static int CHILDREN_COUNT = 16;
+    final static int NEW = 32;
+    final static int DIR = 64;
 
 
     public StorageElement() {
