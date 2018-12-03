@@ -1,9 +1,11 @@
 package controller.Tasks;
 
-public class SyncTaskProps extends TaskProps{
-    String compareFilePath;
+public class SyncTaskProps extends TaskProps {
+    public String compareFilePath;
 
-    public SyncTaskProps(){}
+    public SyncTaskProps() {
+        this.compareFilePath = "";
+    }
 
     public SyncTaskProps(String compareFilePath) {
         this.compareFilePath = compareFilePath;

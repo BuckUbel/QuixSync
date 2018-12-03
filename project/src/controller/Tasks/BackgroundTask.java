@@ -5,8 +5,6 @@ import controller.FileControllerWithFeedback;
 import controller.Threads.ProgressThread;
 import logger.Logger;
 
-import java.util.Set;
-
 public class BackgroundTask implements Runnable {
 
     public ProgressThread pt;
@@ -16,7 +14,7 @@ public class BackgroundTask implements Runnable {
     public int status = 0;
 
     private IndexTaskProps indexProps;
-    private IndexTaskProps indexProps2; // only for whole sync
+    private IndexTaskProps indexPropsTarget; // only for whole sync
     private CompareTaskProps compareProps;
     private SyncTaskProps syncProps;
 
@@ -31,18 +29,21 @@ public class BackgroundTask implements Runnable {
         switch (this.modus) {
             case Controller.INDEXING:
                 this.indexing(this.indexProps.pathToIndex, this.indexProps.indexFilePath);
+                this.pt.window.c.setPathToIndexFilesForNextAction(this.indexProps.indexFilePath);
+
                 break;
             case Controller.COMPARE:
                 this.comparing(this.compareProps.sourceIndexPath, this.compareProps.targetIndexPath, this.compareProps.comparePath, this.compareProps.isHardSync, this.compareProps.slowMode);
+                this.pt.window.c.setPathToCompareFileForNextAction(this.compareProps.comparePath);
                 break;
             case Controller.SYNC:
                 this.sync(this.syncProps.compareFilePath);
                 break;
             case Controller.WHOLE_SYNC:
                 try {
-                    Logger.print("Start Whole Sync SRC[\"" + this.indexProps.pathToIndex + "\"]  TRG[\"" + this.indexProps2.pathToIndex + "\" ] ");
+                    Logger.print("Start Whole Sync SRC[\"" + this.indexProps.pathToIndex + "\"]  TRG[\"" + this.indexPropsTarget.pathToIndex + "\" ] ");
                     this.indexing(this.indexProps.pathToIndex, this.indexProps.indexFilePath);
-                    this.indexing(this.indexProps2.pathToIndex, this.indexProps2.indexFilePath);
+                    this.indexing(this.indexPropsTarget.pathToIndex, this.indexPropsTarget.indexFilePath);
                     this.comparing(this.compareProps.sourceIndexPath, this.compareProps.targetIndexPath, this.compareProps.comparePath, this.compareProps.isHardSync, this.compareProps.slowMode);
                     this.sync(this.syncProps.compareFilePath);
                     Logger.print("End Whole Sync");
@@ -63,14 +64,12 @@ public class BackgroundTask implements Runnable {
         Logger.print("Start Indexing: " + pathToIndex);
         FileControllerWithFeedback.getAllElements(pathToIndex, this.pt).saveAsJSON(indexFilePath);
         Logger.print("End Indexing: " + indexFilePath);
-        this.pt.window.c.setPathToIndexFilesForNextAction(indexFilePath);
     }
 
     private void comparing(String sourceIndexPath, String targetIndexPath, String comparePath, boolean isHardSync, boolean slowMode) {
         Logger.print("Start Comparing SRC[\"" + sourceIndexPath + "\"]  TRG[\"" + targetIndexPath + "\" ] HardSync: " + isHardSync + " SlowMode: " + slowMode);
         FileControllerWithFeedback.compareJSONFiles(sourceIndexPath, targetIndexPath, comparePath, isHardSync, slowMode, this.pt);
         Logger.print("End Comparing: " + comparePath);
-        this.pt.window.c.setPathToCompareFileForNextAction(comparePath);
     }
 
     private void sync(String compareFilePath) {
@@ -106,7 +105,7 @@ public class BackgroundTask implements Runnable {
     public void setWholeProps(IndexTaskProps itp, IndexTaskProps itp2, CompareTaskProps ctp, SyncTaskProps stp) {
         this.status = 1;
         this.indexProps = itp;
-        this.indexProps2 = itp2;
+        this.indexPropsTarget = itp2;
         this.compareProps = ctp;
         this.syncProps = stp;
     }

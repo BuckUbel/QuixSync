@@ -1,14 +1,22 @@
 package controller.Tasks;
 
-public class CompareTaskProps extends TaskProps{
+import controller.SettingsController;
 
-    String sourceIndexPath;
-    String targetIndexPath;
+public class CompareTaskProps extends TaskProps {
+
+    public String sourceIndexPath;
+    public String targetIndexPath;
     public String comparePath;
-    boolean isHardSync;
-    boolean slowMode;
+    public boolean isHardSync;
+    public boolean slowMode;
 
-    public CompareTaskProps(){}
+    public CompareTaskProps() {
+        this.sourceIndexPath = "";
+        this.targetIndexPath = "";
+        this.comparePath = "";
+        this.isHardSync = SettingsController.getIsHardSync();
+        this.slowMode = SettingsController.getIsSlowMode();
+    }
 
     public CompareTaskProps(String sourceIndexPath, String targetIndexPath, String comparePath, boolean isHardSync, boolean slowMode) {
         this.sourceIndexPath = sourceIndexPath;

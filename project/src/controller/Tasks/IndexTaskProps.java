@@ -1,11 +1,14 @@
 package controller.Tasks;
 
-public class IndexTaskProps extends TaskProps{
+public class IndexTaskProps extends TaskProps {
 
-    String pathToIndex;
-    String indexFilePath;
+    public String pathToIndex;
+    public String indexFilePath;
 
-    public IndexTaskProps(){}
+    public IndexTaskProps() {
+        this.pathToIndex = "";
+        this.indexFilePath = "";
+    }
 
     public IndexTaskProps(String pathToIndex, String indexFilePath) {
         this.pathToIndex = pathToIndex;

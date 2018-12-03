@@ -27,8 +27,8 @@ public class SettingsController {
     private static final String LOGO_FILE = "img//Quix.png";
     private static final String HELP_FILE_LOGO = "img//Quix_transparent.png";
     private static final boolean PRETTY_LOGGING = true;
-    private static final boolean IS_HARD_SYNC = true;
-    private static final boolean IS_SLOW_MODE = true;
+    private static final boolean STANDARD_IS_HARD_SYNC = true;
+    private static final boolean STANDARD_IS_SLOW_MODE = true;
 
     static String getCompareFileEnding() {
         return COMPARE_FILE_ENDING;
@@ -57,9 +57,9 @@ public class SettingsController {
     }
 
     public static boolean getIsHardSync() {
-        return IS_HARD_SYNC;
+        return STANDARD_IS_HARD_SYNC;
     }
     public static boolean getIsSlowMode() {
-        return IS_SLOW_MODE;
+        return STANDARD_IS_SLOW_MODE;
     }
 }
