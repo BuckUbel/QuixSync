@@ -18,16 +18,16 @@ public class Controller implements ActionListener {
 
     private Thread thread;
 
-    public static final String WHOLE_SYNC = "WHOLE_SYNC";
-    public static final String INDEXING = "INDEXING";
-    public static final String COMPARE = "COMPARE";
-    public static final String SYNC = "SYNC";
+    public static final String WHOLE_SYNC = "GESAMTSYNCHRONISIERUNG";
+    public static final String INDEXING = "INDEXIERUNG";
+    public static final String COMPARE = "VERGLEICHEN";
+    public static final String SYNC = "SYNCHRONISIERUNG";
     public static final String STOP = "STOP";
-    public static final String DISPLAY_COMPARE_FILE = "DISPLAY_COMPARE_FILE";
-    public static final String OPEN_README = "OPEN_README";
-    public static final String NEXT_ACTION = "NEXT_ACTION";
-    public static final String ADD_FTP_CONNECTION = "ADD_FTP_CONNECTION";
-    public static final String CLEAR_CACHE = "CLEAR_CACHE";
+    public static final String DISPLAY_COMPARE_FILE = "VERGLEICHSDATEI_ANZEIGEN";
+    public static final String OPEN_README = "README_OEFFNEN";
+    public static final String NEXT_ACTION = "NAECHSTE_AKTION";
+    public static final String ADD_FTP_CONNECTION = "FTP_VERBINDUNG_HINZUFUEGEN";
+    public static final String CLEAR_CACHE = "CACHE_LEEREN";
 
     private mainView window;
     private BackgroundTask bt;
@@ -156,7 +156,7 @@ public class Controller implements ActionListener {
                 break;
             case Controller.DISPLAY_COMPARE_FILE:
 
-                Logger.print("Display Compare File");
+                Logger.print("Vergleichsdatei anzeigen");
                 displayCompareFile();
                 break;
             case Controller.OPEN_README:
@@ -285,7 +285,7 @@ public class Controller implements ActionListener {
     }
 
     private void displayAnotherRunningDialog() {
-        AnotherRunningProcessDialog arpv = new AnotherRunningProcessDialog("is Running...");
+        AnotherRunningProcessDialog arpv = new AnotherRunningProcessDialog("ist in Betrieb...");
         arpv.setVisible(true);
         arpv.createGUI();
     }
@@ -299,7 +299,7 @@ public class Controller implements ActionListener {
 
     void displayCompareFile() {
         String path = window.tfVergleichsdatei.getText();
-        compareFileView cfv = new compareFileView("Comparing");
+        compareFileView cfv = new compareFileView("Vergleichen");
         cfv.setFile(path);
         cfv.setVisible(true);
         cfv.createGUI();
@@ -307,7 +307,7 @@ public class Controller implements ActionListener {
 
     public void openReadme() {
 
-        Logger.print("Open Readme");
+        Logger.print("Readme öffnen");
         File openFile = new File("README.md");
         try {
             Desktop.getDesktop().browse(openFile.toURI());
@@ -317,7 +317,7 @@ public class Controller implements ActionListener {
     }
 
     public void clearCache() throws Exception {
-        Logger.print("Clear Cache");
+        Logger.print("Cache leeren");
 
         TypeFile[] sel = FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getIndexFileEnding());
         TypeFile[] sel2 = FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getCompareFileEnding());
@@ -346,7 +346,7 @@ public class Controller implements ActionListener {
             this.compareProps.targetIndexPath = pathToIndexFile;
             this.preCompare();
             this.postCompare();
-            this.window.nextActionButton.setText("Compare");
+            this.window.nextActionButton.setText("Vergleichen");
             this.window.nextActionButton.setEnabled(true);
         } else {
             this.compareProps.sourceIndexPath = pathToIndexFile;
@@ -360,7 +360,7 @@ public class Controller implements ActionListener {
         this.syncProps.compareFilePath = pathToCompareFile;
         this.preSync();
         this.postSync();
-        this.window.nextActionButton.setText("Sync");
+        this.window.nextActionButton.setText("Synchronisieren");
         this.window.nextActionButton.setEnabled(true);
     }
 }
