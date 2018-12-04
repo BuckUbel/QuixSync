@@ -172,6 +172,7 @@ public class mainView extends JFrame {
 
     private void openFileChooser(JTextField TextField) {
         JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new File("C:/"));
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int returnVal = fc.showOpenDialog(null);
         File f;
