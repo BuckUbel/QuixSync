@@ -68,7 +68,7 @@ public class ChangeController implements ChangeListener {
             width += ftm.headerWidth[i];
             tbl.getColumn(ftm.header[i]).setPreferredWidth(ftm.headerWidth[i]);
         }
-        tbl.setPreferredSize(new Dimension(width, 500));
+        tbl.setPreferredSize(new Dimension(width, ftm.data.length*16));
         tbl.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tbl.getSelectionModel().addListSelectionListener(e -> {
             int index = ((DefaultListSelectionModel) e.getSource()).getLeadSelectionIndex();
@@ -76,5 +76,6 @@ public class ChangeController implements ChangeListener {
                 tf.setText(ftm.data[index].indexPath);
             }
         });
+
     }
 }

@@ -32,12 +32,11 @@ public class compareFileView extends JFrame {
     private static final Color BLUE = new Color(178,178,255);
 
 
-    public compareFileView(String title, int width, int height) {
-        this.width = width;
-        this.height = height;
+    public compareFileView(String title) {
+        this.width = 800;
+        this.height = 600;
         this.title = title;
         this.setLayout(new BorderLayout());
-
     }
 
     public void setController(Controller c) {

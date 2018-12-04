@@ -57,6 +57,7 @@ public class AnotherRunningProcessDialog extends JDialog implements ActionListen
     private void finish() {
 
         this.setSize(this.width, this.height);
+        this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setVisible(true);
     }

@@ -52,6 +52,7 @@ public class BackgroundTask implements Runnable {
                 }
                 break;
         }
+        this.pt.window.stopButton.setEnabled(false);
         this.status = 0;
         long endTime = System.currentTimeMillis();
         double seconds = (endTime - startTime);

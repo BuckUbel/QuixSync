@@ -2,6 +2,7 @@ package controller;
 
 import controller.Tasks.*;
 import logger.Logger;
+import models.TypeFile;
 import views.AnotherRunningProcessDialog;
 import views.OtherDirDialog;
 import views.compareFileView;
@@ -11,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.nio.file.Files;
 
 public class Controller implements ActionListener {
 
@@ -25,6 +27,7 @@ public class Controller implements ActionListener {
     public static final String OPEN_README = "OPEN_README";
     public static final String NEXT_ACTION = "NEXT_ACTION";
     public static final String ADD_FTP_CONNECTION = "ADD_FTP_CONNECTION";
+    public static final String CLEAR_CACHE = "CLEAR_CACHE";
 
     private mainView window;
     private BackgroundTask bt;
@@ -141,8 +144,9 @@ public class Controller implements ActionListener {
                 break;
             case Controller.STOP:
 
-                Logger.print("SYNC: " + this.bt.status);
-
+                Logger.print("Stopping Process: " + this.bt.status);
+                this.window.stopButton.setEnabled(false);
+                this.window.progressAction.setText("keine Aktion");
                 this.lastThread.stop();
                 this.bt.pt.finish();
                 this.bt.pt.reset();
@@ -159,7 +163,14 @@ public class Controller implements ActionListener {
 
                 this.openReadme();
                 break;
-
+            case Controller.CLEAR_CACHE:
+                try {
+                    this.clearCache();
+                }
+                catch(Exception error){
+                    Logger.printErr(e.toString());
+                }
+                break;
             case Controller.NEXT_ACTION:
 
                 if (this.bt.isFree()) {
@@ -167,6 +178,7 @@ public class Controller implements ActionListener {
                     lastThread = new Thread(this.bt);
                     lastThread.start();
                     this.window.nextActionButton.setEnabled(false);
+                    this.window.stopButton.setEnabled(true);
                 }
 
                 break;
@@ -200,6 +212,8 @@ public class Controller implements ActionListener {
 
     private void preIndexing() {
         this.window.progressAction.setText(Controller.INDEXING);
+        this.window.stopButton.setEnabled(true);
+
         this.nextActionModus = Controller.INDEXING;
         this.indexProps.indexFilePath = SettingsController.getTempDir() + System.currentTimeMillis() + SettingsController.getIndexFileEnding() + SettingsController.getFileEnding();
         this.bt.setIndexProps(this.indexProps);
@@ -223,6 +237,8 @@ public class Controller implements ActionListener {
 
     private void preCompare() {
         this.window.progressAction.setText(Controller.COMPARE);
+        this.window.stopButton.setEnabled(true);
+
         String tempFile = SettingsController.getTempDir() + System.currentTimeMillis() + SettingsController.getCompareFileEnding() + SettingsController.getFileEnding();
         this.nextActionModus = Controller.COMPARE;
         this.compareProps.comparePath = tempFile;
@@ -247,6 +263,8 @@ public class Controller implements ActionListener {
     private void preSync() {
 
         this.window.progressAction.setText(Controller.SYNC);
+        this.window.stopButton.setEnabled(true);
+
         nextActionModus = Controller.SYNC;
         this.bt.setSyncProps(this.syncProps);
     }
@@ -266,13 +284,13 @@ public class Controller implements ActionListener {
         this.syncProps = new SyncTaskProps();
     }
 
-    private void displayAnotherRunningDialog(){
+    private void displayAnotherRunningDialog() {
         AnotherRunningProcessDialog arpv = new AnotherRunningProcessDialog("is Running...");
         arpv.setVisible(true);
         arpv.createGUI();
     }
 
-    private void displayOtherDirDialog(){
+    private void displayOtherDirDialog() {
         OtherDirDialog odd = new OtherDirDialog("Falscher Pfad");
         odd.setVisible(true);
         odd.createGUI();
@@ -281,7 +299,7 @@ public class Controller implements ActionListener {
 
     void displayCompareFile() {
         String path = window.tfVergleichsdatei.getText();
-        compareFileView cfv = new compareFileView("Comparing", 400, 700);
+        compareFileView cfv = new compareFileView("Comparing");
         cfv.setFile(path);
         cfv.setVisible(true);
         cfv.createGUI();
@@ -290,12 +308,26 @@ public class Controller implements ActionListener {
     public void openReadme() {
 
         Logger.print("Open Readme");
-
         File openFile = new File("README.md");
         try {
             Desktop.getDesktop().browse(openFile.toURI());
         } catch (Exception error) {
             Logger.printErr(error.toString());
+        }
+    }
+
+    public void clearCache() throws Exception {
+        Logger.print("Clear Cache");
+
+        TypeFile[] sel = FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getIndexFileEnding());
+        TypeFile[] sel2 = FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getCompareFileEnding());
+        for (TypeFile tf : sel) {
+            File f = new File(tf.indexPath);
+            Files.deleteIfExists(f.toPath());
+        }
+        for (TypeFile tf : sel2) {
+            File f = new File(tf.indexPath);
+            Files.deleteIfExists(f.toPath());
         }
     }
 
@@ -317,7 +349,7 @@ public class Controller implements ActionListener {
             this.window.nextActionButton.setText("Compare");
             this.window.nextActionButton.setEnabled(true);
         } else {
-            this.compareProps.sourceIndexPath= pathToIndexFile;
+            this.compareProps.sourceIndexPath = pathToIndexFile;
             this.compareProps.targetIndexPath = "";
             this.window.nextActionButton.setEnabled(false);
         }

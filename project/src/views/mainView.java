@@ -27,7 +27,6 @@ public class mainView extends JFrame {
     public JTextField tfVergleichsdatei;
     public JButton btnSynchronisieren;
     public JTextField tfTempVerzeichnis;
-    public JRadioButton rbDaemonBetrieb;
     public JButton btnFTPVerbindung;
     public JButton btnSpeichern;
     public JTextField tfQuellverzeichnisG;
@@ -47,7 +46,7 @@ public class mainView extends JFrame {
     public JPanel pnSync;
     public JPanel pnEinstellungen;
     public JProgressBar progressBar1;
-    private JButton stopButton;
+    public JButton stopButton;
     public JTable tbltargetIndexFiles;
     public JTable tblCompareFiles;
     public JTable tblSourceIndexFiles;
@@ -58,11 +57,12 @@ public class mainView extends JFrame {
     public JLabel progressAction;
     private JLabel helpIcon;
     public JButton nextActionButton;
-    private JButton deleteCache;
+    private JButton deleteCacheBtn;
     private JCheckBox harteSynchronisierungCheckBox;
-    private JCheckBox langsamerModusCheckBox1;
+    private JCheckBox slowModeBox1;
     private JCheckBox rbHardSync;
-    private JCheckBox langsamerModusCheckBox;
+    private JCheckBox slowModeBox2;
+    private JCheckBox rbDaemonBetrieb;
 
     private int width;
     private int height;
@@ -136,6 +136,8 @@ public class mainView extends JFrame {
         nextActionButton.setActionCommand(Controller.NEXT_ACTION);
         nextActionButton.addActionListener(c);
 
+        deleteCacheBtn.setActionCommand(Controller.CLEAR_CACHE);
+        deleteCacheBtn.addActionListener(c);
 
         ImageIcon helpImage = new ImageIcon(SettingsController.getHelpFileLogo());
         Image newImage = helpImage.getImage().getScaledInstance(50, 35, Image.SCALE_DEFAULT);
@@ -148,6 +150,10 @@ public class mainView extends JFrame {
                 openReadme();
             }
         });
+
+        slowModeBox1.setSelected(true);
+        slowModeBox2.setSelected(true);
+
 
         add(rootPanel);
         this.finish();

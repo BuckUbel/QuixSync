@@ -71,7 +71,7 @@ public class ProgressThread {
                 if (counter_current != 0) {
                     this.window.progressBar1.setMaximum(100);
                     this.window.progressBar1.setMinimum(0);
-                    this.window.progressBar1.setValue(100);
+                    this.window.progressBar1.setValue(0);
                     this.window.progressInformation.setText(ProgressThread.beautify(current) + " Elemente");
                     this.window.progressPercentage.setText("bisher gefunden");
 

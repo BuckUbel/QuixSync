@@ -51,6 +51,7 @@ public class OtherDirDialog extends JDialog implements ActionListener {
     private void finish() {
 
         this.setSize(this.width, this.height);
+        this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setVisible(true);
     }
