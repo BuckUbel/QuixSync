@@ -146,7 +146,7 @@ public class Controller implements ActionListener {
 
                 Logger.print("Stopping Process: " + this.bt.status);
                 this.window.stopButton.setEnabled(false);
-                this.window.progressAction.setText("keine Aktion");
+                this.window.progressAction.setText(SettingsController.getNoNextActionString());
                 this.lastThread.stop();
                 this.bt.pt.finish();
                 this.bt.pt.reset();
@@ -342,6 +342,7 @@ public class Controller implements ActionListener {
         if (this.compareProps.sourceIndexPath.equals("")) {
             this.compareProps.sourceIndexPath = pathToIndexFile;
             this.window.nextActionButton.setEnabled(false);
+            this.window.nextActionButton.setText(SettingsController.getNoNextActionString());
         } else if (this.compareProps.targetIndexPath.equals("")) {
             this.compareProps.targetIndexPath = pathToIndexFile;
             this.preCompare();
@@ -349,9 +350,10 @@ public class Controller implements ActionListener {
             this.window.nextActionButton.setText("Compare");
             this.window.nextActionButton.setEnabled(true);
         } else {
-            this.compareProps.sourceIndexPath = pathToIndexFile;
-            this.compareProps.targetIndexPath = "";
-            this.window.nextActionButton.setEnabled(false);
+            this.compareProps.sourceIndexPath = this.compareProps.targetIndexPath;
+            this.compareProps.targetIndexPath = pathToIndexFile;
+            this.window.nextActionButton.setText("Compare");
+            this.window.nextActionButton.setEnabled(true);
         }
 
     }

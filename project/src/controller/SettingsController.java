@@ -29,6 +29,7 @@ public class SettingsController {
     private static final boolean PRETTY_LOGGING = true;
     private static final boolean STANDARD_IS_HARD_SYNC = false;
     private static final boolean STANDARD_IS_SLOW_MODE = false;
+    private static final String NO_NEXT_ACTION_STRING = "Nächste Aktion";
 
     static String getCompareFileEnding() {
         return COMPARE_FILE_ENDING;
@@ -45,9 +46,11 @@ public class SettingsController {
     static String getTempDir() {
         return TEMP_DIR;
     }
+
     public static String getLogoFile() {
         return LOGO_FILE;
     }
+
     public static String getHelpFileLogo() {
         return HELP_FILE_LOGO;
     }
@@ -59,7 +62,12 @@ public class SettingsController {
     public static boolean getIsHardSync() {
         return STANDARD_IS_HARD_SYNC;
     }
+
     public static boolean getIsSlowMode() {
         return STANDARD_IS_SLOW_MODE;
+    }
+
+    public static String getNoNextActionString() {
+        return NO_NEXT_ACTION_STRING;
     }
 }

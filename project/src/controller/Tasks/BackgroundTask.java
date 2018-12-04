@@ -2,6 +2,7 @@ package controller.Tasks;
 
 import controller.Controller;
 import controller.FileControllerWithFeedback;
+import controller.SettingsController;
 import controller.Threads.ProgressThread;
 import logger.Logger;
 
@@ -38,6 +39,8 @@ public class BackgroundTask implements Runnable {
                 break;
             case Controller.SYNC:
                 this.sync(this.syncProps.compareFilePath);
+                this.pt.window.nextActionButton.setEnabled(false);
+                this.pt.window.nextActionButton.setText(SettingsController.getNoNextActionString());
                 break;
             case Controller.WHOLE_SYNC:
                 try {
