@@ -1,5 +1,7 @@
 package models;
 
+import controller.FormattingController;
+
 public class IndexFileTableModel extends FileTableModel{
 
     private static String[] indexHeader = {"Indiziert am", "Indizierter Pfad"};
@@ -16,7 +18,7 @@ public class IndexFileTableModel extends FileTableModel{
     @Override
     public void init() {
         for (TypeFile aData : this.data) {
-            this.addRow(new Object[]{FileTableModel.millisToDate(((IndexFile) aData).createdAt), ((IndexFile) aData).path});
+            this.addRow(new Object[]{FormattingController.millisToDate(((IndexFile) aData).createdAt), ((IndexFile) aData).path});
         }
     }
 }

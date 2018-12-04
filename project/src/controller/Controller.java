@@ -3,10 +3,7 @@ package controller;
 import controller.Tasks.*;
 import logger.Logger;
 import models.TypeFile;
-import views.AnotherRunningProcessDialog;
-import views.OtherDirDialog;
-import views.compareFileView;
-import views.mainView;
+import views.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,7 +21,8 @@ public class Controller implements ActionListener {
     public static final String SYNC = "SYNC";
     public static final String STOP = "STOP";
     public static final String DISPLAY_COMPARE_FILE = "DISPLAY_COMPARE_FILE";
-    public static final String OPEN_README = "OPEN_README";
+    public static final String DISPLAY_LOG_FILE = "DISPLAY_LOG_FILE";
+    private static final String OPEN_README = "OPEN_README";
     public static final String NEXT_ACTION = "NEXT_ACTION";
     public static final String ADD_FTP_CONNECTION = "ADD_FTP_CONNECTION";
     public static final String CLEAR_CACHE = "CLEAR_CACHE";
@@ -159,6 +157,12 @@ public class Controller implements ActionListener {
                 Logger.print("Display Compare File");
                 displayCompareFile();
                 break;
+            case Controller.DISPLAY_LOG_FILE:
+
+                Logger.print("Display Log File");
+                displayLogFile();
+                break;
+
             case Controller.OPEN_README:
 
                 this.openReadme();
@@ -303,6 +307,18 @@ public class Controller implements ActionListener {
         cfv.setFile(path);
         cfv.setVisible(true);
         cfv.createGUI();
+    }
+    void displayLogFile(){
+        try {
+            String loggerFilepath = SettingsController.getLoggerFilePath();
+            loggerFileView cfv = new loggerFileView("Log File");
+            cfv.setFile(loggerFilepath);
+            cfv.setVisible(true);
+            cfv.createGUI();
+        }
+        catch (Exception e){
+            Logger.printErr(e.toString());
+        }
     }
 
     public void openReadme() {

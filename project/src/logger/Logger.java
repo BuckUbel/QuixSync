@@ -1,5 +1,6 @@
 package logger;
 
+import controller.SettingsController;
 import org.apache.logging.log4j.LogManager;
 import views.mainView;
 
@@ -13,8 +14,7 @@ public class Logger {
     }
 
     // Log4J
-    private static org.apache.logging.log4j.Logger log = LogManager.getLogger("RollingFileJSONLogger");
-//    private static org.apache.logging.log4j.Logger log = LogManager.getLogger("RollingFilePatternLogger");
+    private static org.apache.logging.log4j.Logger log = LogManager.getLogger(SettingsController.getLoggerMode());
 
     public static void print(String s) {
         if (system) {

@@ -2,6 +2,8 @@ package views;
 
 import controller.Controller;
 import controller.SettingsController;
+import views.defaultViews.QuixView;
+import views.viewInterfaces.QuixViewI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 
-public class mainView extends JFrame {
+public class mainView extends QuixView implements QuixViewI {
     public JPanel rootPanel;
     public JTabbedPane tabbedPane1;
     public JLabel lbQuellverzeichnisG;
@@ -63,31 +65,15 @@ public class mainView extends JFrame {
     private JCheckBox slowModeBox2;
     private JCheckBox rbDaemonBetrieb;
     private JLabel loadIcon;
-
-    private int width;
-    private int height;
-
-    private String title;
-
-    public Controller c;
+    private JButton displayLogFile;
 
     public mainView(String title, int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.title = title;
-        this.setLayout(new BorderLayout());
-
-    }
-
-    public void setController(Controller c) {
-        this.c = c;
+        super(width,height,title);
     }
 
     public void createGUI() {
 
-        this.setTitle(this.title);
-        ImageIcon img = new ImageIcon(SettingsController.getLogoFile());
-        this.setIconImage(img.getImage());
+        super.createGUI(this.rootPanel);
 
         btnSyncG.setActionCommand(Controller.WHOLE_SYNC);
         btnSyncG.addActionListener(c);
@@ -139,19 +125,15 @@ public class mainView extends JFrame {
         deleteCacheBtn.setActionCommand(Controller.CLEAR_CACHE);
         deleteCacheBtn.addActionListener(c);
 
+        displayLogFile.setActionCommand(Controller.DISPLAY_LOG_FILE);
+        displayLogFile.addActionListener(c);
+
         ImageIcon normalQuix  = new ImageIcon(SettingsController.getHelpFileLogo());
         ImageIcon animatedQuix = new ImageIcon(SettingsController.getLoadingFileLogo());
 
         Image newHelpImage = normalQuix.getImage().getScaledInstance(50, 35, Image.SCALE_DEFAULT);
         helpIcon.setIcon(new ImageIcon(newHelpImage));
         helpIcon.setText("");
-
-        Image newLoadImage = animatedQuix.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-        Image newLoadDisabledImage = normalQuix.getImage().getScaledInstance(50, 35, Image.SCALE_DEFAULT);
-        loadIcon.setIcon(new ImageIcon(newLoadImage));
-        loadIcon.setDisabledIcon(new ImageIcon((newLoadDisabledImage)));
-        loadIcon.setText("");
-
 
         helpIcon.addMouseListener(new MouseAdapter() {
             @Override
@@ -160,22 +142,20 @@ public class mainView extends JFrame {
             }
         });
 
+        Image newLoadImage = animatedQuix.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+        Image newLoadDisabledImage = normalQuix.getImage().getScaledInstance(50, 35, Image.SCALE_DEFAULT);
+        loadIcon.setIcon(new ImageIcon(newLoadImage));
+        loadIcon.setDisabledIcon(new ImageIcon((newLoadDisabledImage)));
+        loadIcon.setText("");
+
         slowModeBox1.setSelected(true);
         slowModeBox2.setSelected(true);
 
-        add(rootPanel);
         this.finish();
     }
 
     private void openReadme(){
         this.c.openReadme();
-    }
-
-    private void finish() {
-
-        this.setSize(this.width, this.height);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setVisible(true);
     }
 
     private void openFileChooser(JTextField TextField) {
@@ -192,8 +172,6 @@ public class mainView extends JFrame {
     public void activateLoading(boolean b){
         this.loadIcon.setEnabled(b);
         this.stopButton.setEnabled(b);
-
-
     }
 
 }

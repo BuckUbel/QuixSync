@@ -1,5 +1,6 @@
 package models;
 
+import controller.FormattingController;
 import logger.Logger;
 
 import java.io.File;
@@ -186,7 +187,7 @@ public class StorageElement {
     }
 
     public String getFileSizeFormatted() {
-        return FileSize.getFormattedString(this.fileSize);
+        return FormattingController.getFormattedFileSize(this.fileSize);
     }
 
     private void setFileSize() {

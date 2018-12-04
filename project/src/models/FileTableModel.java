@@ -19,8 +19,4 @@ public abstract class FileTableModel extends DefaultTableModel {
     public boolean isCellEditable(int row, int column) {
         return false;
     }
-
-    static String millisToDate(long timestamp) {
-        return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(timestamp);
-    }
 }

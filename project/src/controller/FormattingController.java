@@ -1,8 +1,14 @@
-package models;
+package controller;
 
-public class FileSize {
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-    static String getFormattedString(double count) {
+public class FormattingController {
+
+    public static String millisToDate(long timestamp) {
+        return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(timestamp);
+    }
+    public static String getFormattedFileSize(double count) {
         int factor = 1;
         char format = '\u0000';
 
