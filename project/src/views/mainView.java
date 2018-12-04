@@ -2,7 +2,6 @@ package views;
 
 import controller.Controller;
 import controller.SettingsController;
-import logger.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -63,6 +62,7 @@ public class mainView extends JFrame {
     private JCheckBox rbHardSync;
     private JCheckBox slowModeBox2;
     private JCheckBox rbDaemonBetrieb;
+    private JLabel loadIcon;
 
     private int width;
     private int height;
@@ -139,10 +139,19 @@ public class mainView extends JFrame {
         deleteCacheBtn.setActionCommand(Controller.CLEAR_CACHE);
         deleteCacheBtn.addActionListener(c);
 
-        ImageIcon helpImage = new ImageIcon(SettingsController.getHelpFileLogo());
-        Image newImage = helpImage.getImage().getScaledInstance(50, 35, Image.SCALE_DEFAULT);
-        helpIcon.setIcon(new ImageIcon(newImage));
+        ImageIcon normalQuix  = new ImageIcon(SettingsController.getHelpFileLogo());
+        ImageIcon animatedQuix = new ImageIcon(SettingsController.getLoadingFileLogo());
+
+        Image newHelpImage = normalQuix.getImage().getScaledInstance(50, 35, Image.SCALE_DEFAULT);
+        helpIcon.setIcon(new ImageIcon(newHelpImage));
         helpIcon.setText("");
+
+        Image newLoadImage = animatedQuix.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+        Image newLoadDisabledImage = normalQuix.getImage().getScaledInstance(50, 35, Image.SCALE_DEFAULT);
+        loadIcon.setIcon(new ImageIcon(newLoadImage));
+        loadIcon.setDisabledIcon(new ImageIcon((newLoadDisabledImage)));
+        loadIcon.setText("");
+
 
         helpIcon.addMouseListener(new MouseAdapter() {
             @Override
@@ -153,7 +162,6 @@ public class mainView extends JFrame {
 
         slowModeBox1.setSelected(true);
         slowModeBox2.setSelected(true);
-
 
         add(rootPanel);
         this.finish();
@@ -179,6 +187,13 @@ public class mainView extends JFrame {
             f = fc.getSelectedFile();
             TextField.setText(f.getPath());
         }
+    }
+
+    public void activateLoading(boolean b){
+        this.loadIcon.setEnabled(b);
+        this.stopButton.setEnabled(b);
+
+
     }
 
 }

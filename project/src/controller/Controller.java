@@ -145,7 +145,7 @@ public class Controller implements ActionListener {
             case Controller.STOP:
 
                 Logger.print("Stopping Process: " + this.bt.status);
-                this.window.stopButton.setEnabled(false);
+                this.window.activateLoading(false);
                 this.window.progressAction.setText(SettingsController.getNoNextActionString());
                 this.lastThread.stop();
                 this.bt.pt.finish();
@@ -178,7 +178,7 @@ public class Controller implements ActionListener {
                     lastThread = new Thread(this.bt);
                     lastThread.start();
                     this.window.nextActionButton.setEnabled(false);
-                    this.window.stopButton.setEnabled(true);
+                    this.window.activateLoading(true);
                 }
 
                 break;
@@ -212,7 +212,7 @@ public class Controller implements ActionListener {
 
     private void preIndexing() {
         this.window.progressAction.setText(Controller.INDEXING);
-        this.window.stopButton.setEnabled(true);
+        this.window.activateLoading(true);
 
         this.nextActionModus = Controller.INDEXING;
         this.indexProps.indexFilePath = SettingsController.getTempDir() + System.currentTimeMillis() + SettingsController.getIndexFileEnding() + SettingsController.getFileEnding();
@@ -237,7 +237,7 @@ public class Controller implements ActionListener {
 
     private void preCompare() {
         this.window.progressAction.setText(Controller.COMPARE);
-        this.window.stopButton.setEnabled(true);
+        this.window.activateLoading(true);
 
         String tempFile = SettingsController.getTempDir() + System.currentTimeMillis() + SettingsController.getCompareFileEnding() + SettingsController.getFileEnding();
         this.nextActionModus = Controller.COMPARE;
@@ -263,7 +263,7 @@ public class Controller implements ActionListener {
     private void preSync() {
 
         this.window.progressAction.setText(Controller.SYNC);
-        this.window.stopButton.setEnabled(true);
+        this.window.activateLoading(true);
 
         nextActionModus = Controller.SYNC;
         this.bt.setSyncProps(this.syncProps);

@@ -68,7 +68,9 @@ public class ChangeController implements ChangeListener {
             width += ftm.headerWidth[i];
             tbl.getColumn(ftm.header[i]).setPreferredWidth(ftm.headerWidth[i]);
         }
-        tbl.setPreferredSize(new Dimension(width, ftm.data.length*16));
+        // important for viewport of scrollpane
+        tbl.setPreferredSize(new Dimension(width, ftm.data.length * SettingsController.getTableRowHeight()));
+
         tbl.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tbl.getSelectionModel().addListSelectionListener(e -> {
             int index = ((DefaultListSelectionModel) e.getSource()).getLeadSelectionIndex();
