@@ -8,22 +8,22 @@ public class CompareTaskProps extends TaskProps {
     public String targetIndexPath;
     public String comparePath;
     public boolean isHardSync;
-    public boolean slowMode;
+    public boolean fastMode;
 
     public CompareTaskProps() {
         this.sourceIndexPath = "";
         this.targetIndexPath = "";
         this.comparePath = "";
         this.isHardSync = SettingsController.getIsHardSync();
-        this.slowMode = SettingsController.getIsSlowMode();
+        this.fastMode = SettingsController.getIsFastMode();
     }
 
-    public CompareTaskProps(String sourceIndexPath, String targetIndexPath, String comparePath, boolean isHardSync, boolean slowMode) {
+    public CompareTaskProps(String sourceIndexPath, String targetIndexPath, String comparePath, boolean isHardSync, boolean fastMode) {
         this.sourceIndexPath = sourceIndexPath;
         this.targetIndexPath = targetIndexPath;
         this.comparePath = comparePath;
         this.isHardSync = isHardSync;
-        this.slowMode = slowMode;
+        this.fastMode = fastMode;
     }
 
 }

@@ -11,7 +11,7 @@ public class Settings {
 
     public boolean PRETTY_LOGGING = true;
     public boolean STANDARD_IS_HARD_SYNC = false;
-    public boolean STANDARD_IS_SLOW_MODE = false;
+    public boolean STANDARD_IS_FAST_MODE = false;
     public boolean IS_DAEMON = false;
 
 

@@ -59,10 +59,10 @@ public class mainView extends QuixView implements QuixViewI {
     private JLabel helpIcon;
     public JButton nextActionButton;
     private JButton deleteCacheBtn;
-    private JCheckBox harteSynchronisierungCheckBox;
-    private JCheckBox slowModeBox1;
+    public JCheckBox rbHardSync2;
+    public JCheckBox fastModeBox2;
     public JCheckBox rbHardSync;
-    public JCheckBox slowModeBox2;
+    public JCheckBox fastModeBox;
     public JCheckBox rbDaemonBetrieb;
     private JLabel loadIcon;
     private JButton displayLogFile;
@@ -151,9 +151,6 @@ public class mainView extends QuixView implements QuixViewI {
         this.loadIcon.setDisabledIcon(new ImageIcon((newLoadDisabledImage)));
         this.loadIcon.setText("");
 
-        this.slowModeBox1.setSelected(true);
-        this.slowModeBox2.setSelected(true);
-
         this.refreshSettings();
 
         this.finish();
@@ -182,8 +179,11 @@ public class mainView extends QuixView implements QuixViewI {
 
     public void refreshSettings(){
 
+        this.fastModeBox.setSelected(SettingsController.getIsFastMode());
+        this.fastModeBox2.setSelected(SettingsController.getIsFastMode());
         this.rbHardSync.setSelected(SettingsController.getIsHardSync());
-        this.slowModeBox2.setSelected(SettingsController.getIsSlowMode());
+        this.rbHardSync2.setSelected(SettingsController.getIsHardSync());
+        this.fastModeBox.setSelected(SettingsController.getIsFastMode());
         this.rbDaemonBetrieb.setSelected(SettingsController.getIsDaemon());
         this.tfTempVerzeichnis.setText(SettingsController.getTempDir());
 

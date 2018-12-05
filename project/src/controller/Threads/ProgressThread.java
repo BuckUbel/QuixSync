@@ -21,24 +21,22 @@ public class ProgressThread {
         this.window = window;
     }
 
-    private static String beautify(int i){
+    private static String beautify(int i) {
         String integerString = Integer.toString(i);
         String returnString = "";
         int length = integerString.length();
 
-        if(i > 1000000){
-            returnString += integerString.substring(0, length-6);
+        if (i > 1000000) {
+            returnString += integerString.substring(0, length - 6);
             returnString += ".";
-            returnString += integerString.substring(length-6, length-3);
+            returnString += integerString.substring(length - 6, length - 3);
             returnString += ".";
-            returnString += integerString.substring(length-3, length);
-        }
-        else if(i > 1000){
-            returnString += integerString.substring(0, length-3);
+            returnString += integerString.substring(length - 3, length);
+        } else if (i > 1000) {
+            returnString += integerString.substring(0, length - 3);
             returnString += ".";
-            returnString += integerString.substring(length-3, length);
-        }
-        else{
+            returnString += integerString.substring(length - 3, length);
+        } else {
             returnString += integerString;
         }
         return returnString;
@@ -100,6 +98,11 @@ public class ProgressThread {
     public void setMaxCounterAndIteration(int a) {
         this.increaseCurrentIterations();
         this.setMaxCounter(a);
+        this.refresh();
+    }
+
+    public void increaseCurrentCounter(int a) {
+        this.counter_current += a;
         this.refresh();
     }
 

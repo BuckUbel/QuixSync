@@ -1,9 +1,8 @@
 package controller;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
-public class FormattingController {
+public abstract class FormattingController {
 
     public static String millisToDate(long timestamp) {
         return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(timestamp);

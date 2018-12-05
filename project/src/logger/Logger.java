@@ -4,7 +4,7 @@ import controller.SettingsController;
 import org.apache.logging.log4j.LogManager;
 import views.mainView;
 
-public class Logger {
+public abstract class Logger {
 
     private static mainView window;
     private static Boolean system = false;

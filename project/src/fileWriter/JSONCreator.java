@@ -7,7 +7,7 @@ import logger.Logger;
 
 import java.io.*;
 
-public class JSONCreator {
+public abstract class JSONCreator {
 
     public static void save(String path, Object object) {
         JSONCreator.save(path, object, SettingsController.getIsPrettyLogging());

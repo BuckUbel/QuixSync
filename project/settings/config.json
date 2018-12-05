@@ -1,7 +1,7 @@
 {
   "PRETTY_LOGGING": true,
   "STANDARD_IS_HARD_SYNC": true,
-  "STANDARD_IS_SLOW_MODE": true,
+  "STANDARD_IS_FAST_MODE": false,
   "IS_DAEMON": false,
   "COMPARE_FILE_ENDING": ".comp",
   "INDEX_FILE_ENDING": ".index",

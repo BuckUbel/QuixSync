@@ -108,8 +108,8 @@ public class Controller implements ActionListener {
             case Controller.COMPARE:
                 this.compareProps.sourceIndexPath = window.tfQuellIndexdatei.getText();
                 this.compareProps.targetIndexPath = window.tfZielIndexdatei.getText();
-                this.compareProps.isHardSync = true;
-                this.compareProps.slowMode = true;
+                this.compareProps.isHardSync = window.rbHardSync2.isSelected();
+                this.compareProps.fastMode = window.fastModeBox2.isSelected();
                 success = this.compare();
 
                 if (success) {
@@ -154,12 +154,10 @@ public class Controller implements ActionListener {
                 displayLogFile();
                 break;
             case Controller.OPEN_README:
-                this.window.progressAction.setText(Controller.OPEN_README);
                 this.openReadme();
                 break;
             case Controller.CLEAR_CACHE:
                 try {
-                    this.window.progressAction.setText(Controller.CLEAR_CACHE);
                     this.clearCache();
                 }
                 catch(Exception error){
@@ -167,7 +165,6 @@ public class Controller implements ActionListener {
                 }
                 break;
             case Controller.SAVE_SETTINGS:
-                this.window.progressAction.setText(Controller.SAVE_SETTINGS);
                 this.applySettingChanges();
                 SettingsController.saveSettings();
                 break;
@@ -355,7 +352,7 @@ public class Controller implements ActionListener {
 //        SettingsController.setNoNextActionString();
 //        SettingsController.setPrettyLogging();
         SettingsController.setStandardIsHardSync(this.window.rbHardSync.isSelected());
-        SettingsController.setStandardIsSlowMode(this.window.slowModeBox2.isSelected());
+        SettingsController.setStandardIsFastMode(this.window.fastModeBox.isSelected());
         SettingsController.setIsDaemon(this.window.rbDaemonBetrieb.isSelected());
         SettingsController.setTempDir(this.window.tfTempVerzeichnis.getText());
 

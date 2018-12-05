@@ -34,7 +34,7 @@ public class BackgroundTask implements Runnable {
 
                 break;
             case Controller.COMPARE:
-                this.comparing(this.compareProps.sourceIndexPath, this.compareProps.targetIndexPath, this.compareProps.comparePath, this.compareProps.isHardSync, this.compareProps.slowMode);
+                this.comparing(this.compareProps.sourceIndexPath, this.compareProps.targetIndexPath, this.compareProps.comparePath, this.compareProps.isHardSync, this.compareProps.fastMode);
                 this.pt.window.c.setPathToCompareFileForNextAction(this.compareProps.comparePath);
                 break;
             case Controller.SYNC:
@@ -47,7 +47,7 @@ public class BackgroundTask implements Runnable {
                     Logger.print("Start Whole Sync SRC[\"" + this.indexProps.pathToIndex + "\"]  TRG[\"" + this.indexPropsTarget.pathToIndex + "\" ] ");
                     this.indexing(this.indexProps.pathToIndex, this.indexProps.indexFilePath);
                     this.indexing(this.indexPropsTarget.pathToIndex, this.indexPropsTarget.indexFilePath);
-                    this.comparing(this.compareProps.sourceIndexPath, this.compareProps.targetIndexPath, this.compareProps.comparePath, this.compareProps.isHardSync, this.compareProps.slowMode);
+                    this.comparing(this.compareProps.sourceIndexPath, this.compareProps.targetIndexPath, this.compareProps.comparePath, this.compareProps.isHardSync, this.compareProps.fastMode);
                     this.sync(this.syncProps.compareFilePath);
                     Logger.print("End Whole Sync");
                 } catch (Exception e) {
@@ -70,9 +70,9 @@ public class BackgroundTask implements Runnable {
         Logger.print("End Indexing: " + indexFilePath);
     }
 
-    private void comparing(String sourceIndexPath, String targetIndexPath, String comparePath, boolean isHardSync, boolean slowMode) {
-        Logger.print("Start Comparing SRC[\"" + sourceIndexPath + "\"]  TRG[\"" + targetIndexPath + "\" ] HardSync: " + isHardSync + " SlowMode: " + slowMode);
-        FileControllerWithFeedback.compareJSONFiles(sourceIndexPath, targetIndexPath, comparePath, isHardSync, slowMode, this.pt);
+    private void comparing(String sourceIndexPath, String targetIndexPath, String comparePath, boolean isHardSync, boolean fastMode) {
+        Logger.print("Start Comparing SRC[\"" + sourceIndexPath + "\"]  TRG[\"" + targetIndexPath + "\" ] HardSync: " + isHardSync + " FastMode: " + fastMode);
+        FileControllerWithFeedback.compareJSONFiles(sourceIndexPath, targetIndexPath, comparePath, isHardSync, fastMode, this.pt);
         Logger.print("End Comparing: " + comparePath);
     }
 

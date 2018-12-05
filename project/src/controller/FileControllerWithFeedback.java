@@ -5,56 +5,21 @@ import logger.Logger;
 import models.*;
 
 import java.io.File;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
-public class FileControllerWithFeedback {
+public abstract class FileControllerWithFeedback {
 
-    public static IndexFile[] getFilesWithSpecificString(String path, String matchString, ProgressThread pt) {
-
-        IndexFile[] iF;
-        File[] indexFiles;
-        File[] files = new File(path).listFiles();
-
-        if (files != null) {
-
-            pt.startWithCounting(false);
-            pt.setMaxIterations(2);
-            pt.setMaxCounterAndIteration(files.length);
-
-            indexFiles = new File[files.length];
-
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].getName().contains(matchString)) {
-                    indexFiles[i] = files[i];
-                }
-
-                pt.increaseCurrentCounter();
-            }
-
-            indexFiles = Arrays.stream(indexFiles)
-                    .filter(s -> (s != null && s.length() > 0))
-                    .toArray(File[]::new);
-
-            pt.setMaxCounterAndIteration(indexFiles.length);
-
-            iF = new IndexFile[indexFiles.length];
-
-            for (int i = 0; i < indexFiles.length; i++) {
-                iF[i] = new IndexFile(indexFiles[i]);
-                pt.increaseCurrentCounter();
-            }
-            pt.finish();
-        } else {
-            iF = new IndexFile[0];
-        }
-        return iF;
-    }
+    private static CopyOption[] copySyncOptions = new CopyOption[]{
+            StandardCopyOption.REPLACE_EXISTING,
+            StandardCopyOption.COPY_ATTRIBUTES
+    };
 
     public static StorageElementList getAllElements(String path, ProgressThread pt) {
         pt.startWithCounting(true);
@@ -108,9 +73,9 @@ public class FileControllerWithFeedback {
                 }
                 storageElementDir.setRgt(index);
                 index++;
-                if (lastModified != 0) {
+//                if (lastModified != 0) {
                     storageElementDir.setChangedAtSpecific(lastModified);
-                }
+//                }
                 returnArray.add(storageElementDir);
 
             } catch (Exception e) {
@@ -120,7 +85,7 @@ public class FileControllerWithFeedback {
         return new StorageElementList(returnArray, rootDir, index, lastModified);
     }
 
-    public static void compareJSONFiles(String sourcePath, String targetPath, String compareFilePath, boolean isHardSync, boolean slowMode, ProgressThread pt) {
+    public static void compareJSONFiles(String sourcePath, String targetPath, String compareFilePath, boolean isHardSync, boolean fastMode, ProgressThread pt) {
 
         // there are two ways, a safe way with renaming detection, and another way without this
         // the other way is faster, because there will skip folders with a earlier modified date
@@ -161,10 +126,10 @@ public class FileControllerWithFeedback {
         }
         pt.setMaxIterations(1);
 
-        getNotContainedElements(sourceElements, targetElements, false, isHardSync, slowMode, comparedList, deleteList, pt);
+        getNotContainedElements(sourceElements, targetElements, false, isHardSync, fastMode, comparedList, deleteList, pt);
 
         if (isHardSync) {
-            getNotContainedElements(targetElements, sourceElements, true, isHardSync, slowMode, comparedList, deleteList, pt);
+            getNotContainedElements(targetElements, sourceElements, true, isHardSync, fastMode, comparedList, deleteList, pt);
             pt.increaseCurrentIterations();
         }
 
@@ -175,14 +140,12 @@ public class FileControllerWithFeedback {
         compareFile.saveAsJSON(compareFilePath);
     }
 
-
-    private static void getNotContainedElements(StorageElement[] firstElements, StorageElement[] secondElements, boolean collectElementsToDelete, boolean isHardSync, boolean slowMode, List<StorageElement> comparedList, List<StorageElement> deleteList, ProgressThread pt) {
-
+    private static void getNotContainedElements(StorageElement[] firstElements, StorageElement[] secondElements, boolean collectElementsToDelete, boolean isHardSync, boolean fastMode, List<StorageElement> comparedList, List<StorageElement> deleteList, ProgressThread pt) {
 
         int minRgt = 1; // because the first source Element should be ignored
         int indexInTarget;
         StorageElement element2, tmpElement2;
-        boolean nameFound, isDifferent, sameName, laterChangeDate, earlierChangeDate, sameSize, sameChildrenCount, hasChildren, renamed;
+        boolean nameFound, isDifferent, laterChangeDate, earlierChangeDate, sameSize, sameChildrenCount, hasChildren;
         List<StorageElement> returnList = new ArrayList<>();
 
         for (StorageElement element1 : firstElements) {
@@ -259,10 +222,11 @@ public class FileControllerWithFeedback {
                                 }
                             }
                         } else {
-                            if (!slowMode && !collectElementsToDelete) {
+                            if (fastMode && !collectElementsToDelete) {
                                 // file will be ignored
                                 // if dir, all files in them will be ignored
                                 minRgt = element1.getRgt();
+                                pt.increaseCurrentCounter(element1.getChildrenCount());
                             }
                         }
                     } else {
@@ -308,10 +272,10 @@ public class FileControllerWithFeedback {
         for (minimizedStorageElement copyingElement : copyingElements) {
             filePath = copyingElement.getRelativePath();
 
-            File specificFile = new File(targetPath + filePath);
+            File targetFile = new File(targetPath + filePath);
 
             // get target Dir and create all dirs to this
-            targetDir = new File((specificFile).getParentFile().getAbsolutePath());
+            targetDir = new File((targetFile).getParentFile().getAbsolutePath());
             canCopy = false;
             if (!targetDir.exists()) {
                 if (targetDir.mkdirs()) {
@@ -320,8 +284,8 @@ public class FileControllerWithFeedback {
             } else {
                 canCopy = true;
             }
-            if (specificFile.isDirectory()) {
-                File[] files = specificFile.listFiles();
+            if (targetFile.isDirectory()) {
+                File[] files = targetFile.listFiles();
                 if (files != null) {
                     if (files.length > 0) {
                         canCopy = false;
@@ -329,10 +293,10 @@ public class FileControllerWithFeedback {
                 }
             }
             if (canCopy) {
-                if (specificFile.isDirectory()) {
-                    Files.deleteIfExists(specificFile.toPath());
+                if (targetFile.isDirectory()) {
+                    Files.deleteIfExists(targetFile.toPath());
                 }
-                Files.copy(new File(sourcePath + filePath).toPath(), specificFile.toPath(), REPLACE_EXISTING, COPY_ATTRIBUTES);
+                Files.copy(new File(sourcePath + filePath).toPath(), targetFile.toPath(), FileControllerWithFeedback.copySyncOptions);
             }
             pt.increaseCurrentCounter();
         }

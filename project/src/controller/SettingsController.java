@@ -6,7 +6,7 @@ import models.Settings;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-public class SettingsController {
+abstract public class SettingsController {
 
     private static Settings global_settings;
 
@@ -100,8 +100,8 @@ public class SettingsController {
         return global_settings.STANDARD_IS_HARD_SYNC;
     }
 
-    public static boolean getIsSlowMode() {
-        return global_settings.STANDARD_IS_SLOW_MODE;
+    public static boolean getIsFastMode() {
+        return global_settings.STANDARD_IS_FAST_MODE;
     }
 
     public static boolean getIsDaemon() {
@@ -116,8 +116,8 @@ public class SettingsController {
         global_settings.STANDARD_IS_HARD_SYNC = STANDARD_IS_HARD_SYNC;
     }
 
-    public static void setStandardIsSlowMode(boolean STANDARD_IS_SLOW_MODE) {
-        global_settings.STANDARD_IS_SLOW_MODE = STANDARD_IS_SLOW_MODE;
+    public static void setStandardIsFastMode(boolean STANDARD_IS_FAST_MODE) {
+        global_settings.STANDARD_IS_FAST_MODE = STANDARD_IS_FAST_MODE;
     }
 
     public static void setIsDaemon(boolean IS_DAEMON) {
