@@ -3,27 +3,51 @@ package fileWriter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import controller.SettingsController;
+import logger.Logger;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 
 public class JSONCreator {
 
     public static void save(String path, Object object) {
-        Gson gson;
-        if (SettingsController.getIsPrettyLogging()) {
-            gson = new GsonBuilder().setPrettyPrinting().create();
-        } else {
-            gson = new GsonBuilder().create();
+        JSONCreator.save(path, object, SettingsController.getIsPrettyLogging());
+    }
+
+    public static void save(String path, Object object, boolean prettyLogging) {
+
+        boolean allowToCreate = false;
+
+        try {
+
+            File dir = new File(path).getParentFile();
+            if (!dir.exists()) {
+                if (dir.mkdirs()) {
+                    allowToCreate = true;
+                } else {
+                    throw new FileNotFoundException("Ordner zur Datei " + path + " konnte nicht erstellt werden.");
+                }
+            } else {
+                allowToCreate = true;
+            }
+        } catch (Exception e) {
+            Logger.printErr(e.toString());
         }
-        String json = gson.toJson(object);
-        try (FileWriter writer = new FileWriter(path)) {
-            gson.toJson(object, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (allowToCreate) {
+
+            Gson gson;
+            if (prettyLogging) {
+                gson = new GsonBuilder().setPrettyPrinting().create();
+            } else {
+                gson = new GsonBuilder().create();
+            }
+            String json = gson.toJson(object);
+            try (FileWriter writer = new FileWriter(path)) {
+                gson.toJson(object, writer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     public static <T> Object read(String path, Class<T> c) {

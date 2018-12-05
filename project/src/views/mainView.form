@@ -358,7 +358,7 @@
                 </constraints>
                 <properties/>
               </component>
-              <component id="c5079" class="javax.swing.JButton" binding="btnSpeichern">
+              <component id="c5079" class="javax.swing.JButton" binding="btnSettingsSave">
                 <constraints>
                   <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>

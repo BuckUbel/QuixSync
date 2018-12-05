@@ -26,6 +26,7 @@ public class Controller implements ActionListener {
     public static final String NEXT_ACTION = "NEXT_ACTION";
     public static final String ADD_FTP_CONNECTION = "ADD_FTP_CONNECTION";
     public static final String CLEAR_CACHE = "CLEAR_CACHE";
+    public static final String SAVE_SETTINGS = "SAVE_SETTINGS";
 
     private mainView window;
     private BackgroundTask bt;
@@ -87,10 +88,7 @@ public class Controller implements ActionListener {
 
                 break;
             case Controller.INDEXING:
-
                 String dir = window.tfQuellverzeichnisI.getText();
-
-
                 File f = new File(dir);
                 if (f.isDirectory()) {
                     this.indexProps.pathToIndex = window.tfQuellverzeichnisI.getText();
@@ -106,10 +104,8 @@ public class Controller implements ActionListener {
                 } else {
                     this.displayOtherDirDialog();
                 }
-
                 break;
             case Controller.COMPARE:
-
                 this.compareProps.sourceIndexPath = window.tfQuellIndexdatei.getText();
                 this.compareProps.targetIndexPath = window.tfZielIndexdatei.getText();
                 this.compareProps.isHardSync = true;
@@ -124,7 +120,6 @@ public class Controller implements ActionListener {
                 }
                 break;
             case Controller.SYNC:
-
                 this.syncProps.compareFilePath = window.tfVergleichsdatei.getText();
                 success = this.sync();
 
@@ -141,7 +136,6 @@ public class Controller implements ActionListener {
 
                 break;
             case Controller.STOP:
-
                 Logger.print("Stopping Process: " + this.bt.status);
                 this.window.activateLoading(false);
                 this.window.progressAction.setText(SettingsController.getNoNextActionString());
@@ -150,33 +144,34 @@ public class Controller implements ActionListener {
                 this.bt.pt.reset();
                 this.bt.pt.refresh();
                 this.bt.status = 0;
-
                 break;
             case Controller.DISPLAY_COMPARE_FILE:
-
                 Logger.print("Display Compare File");
                 displayCompareFile();
                 break;
             case Controller.DISPLAY_LOG_FILE:
-
                 Logger.print("Display Log File");
                 displayLogFile();
                 break;
-
             case Controller.OPEN_README:
-
+                this.window.progressAction.setText(Controller.OPEN_README);
                 this.openReadme();
                 break;
             case Controller.CLEAR_CACHE:
                 try {
+                    this.window.progressAction.setText(Controller.CLEAR_CACHE);
                     this.clearCache();
                 }
                 catch(Exception error){
                     Logger.printErr(e.toString());
                 }
                 break;
+            case Controller.SAVE_SETTINGS:
+                this.window.progressAction.setText(Controller.SAVE_SETTINGS);
+                this.applySettingChanges();
+                SettingsController.saveSettings();
+                break;
             case Controller.NEXT_ACTION:
-
                 if (this.bt.isFree()) {
                     this.bt.setModus(this.nextActionModus);
                     lastThread = new Thread(this.bt);
@@ -184,7 +179,6 @@ public class Controller implements ActionListener {
                     this.window.nextActionButton.setEnabled(false);
                     this.window.activateLoading(true);
                 }
-
                 break;
             default:
                 break;
@@ -345,6 +339,26 @@ public class Controller implements ActionListener {
             File f = new File(tf.indexPath);
             Files.deleteIfExists(f.toPath());
         }
+    }
+
+    public void applySettingChanges(){
+//        SettingsController.setCompareFileEnding();
+//        SettingsController.setFileEnding();
+//        SettingsController.setHelpFileLogo();
+//        SettingsController.setIndexFileEnding();
+//        SettingsController.setLoadingFileLogo();
+//        SettingsController.setLogDir();
+//        SettingsController.setLoggerFileJson();
+//        SettingsController.setLoggerFileNormal();
+//        SettingsController.setLoggerMode();
+//        SettingsController.setLogoFile();
+//        SettingsController.setNoNextActionString();
+//        SettingsController.setPrettyLogging();
+        SettingsController.setStandardIsHardSync(this.window.rbHardSync.isSelected());
+        SettingsController.setStandardIsSlowMode(this.window.slowModeBox2.isSelected());
+        SettingsController.setIsDaemon(this.window.rbDaemonBetrieb.isSelected());
+        SettingsController.setTempDir(this.window.tfTempVerzeichnis.getText());
+
     }
 
     public void setPathToIndexForNextAction(String pathToIndex) {

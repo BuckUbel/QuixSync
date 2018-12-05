@@ -29,7 +29,7 @@ public class mainView extends QuixView implements QuixViewI {
     public JButton btnSynchronisieren;
     public JTextField tfTempVerzeichnis;
     public JButton btnFTPVerbindung;
-    public JButton btnSpeichern;
+    public JButton btnSettingsSave;
     public JTextField tfQuellverzeichnisG;
     public JTextField tfZielverzeichnisG;
     public JLabel lbQuellverzeichnisI;
@@ -61,9 +61,9 @@ public class mainView extends QuixView implements QuixViewI {
     private JButton deleteCacheBtn;
     private JCheckBox harteSynchronisierungCheckBox;
     private JCheckBox slowModeBox1;
-    private JCheckBox rbHardSync;
-    private JCheckBox slowModeBox2;
-    private JCheckBox rbDaemonBetrieb;
+    public JCheckBox rbHardSync;
+    public JCheckBox slowModeBox2;
+    public JCheckBox rbDaemonBetrieb;
     private JLabel loadIcon;
     private JButton displayLogFile;
 
@@ -75,67 +75,70 @@ public class mainView extends QuixView implements QuixViewI {
 
         super.createGUI(this.rootPanel);
 
-        btnSyncG.setActionCommand(Controller.WHOLE_SYNC);
-        btnSyncG.addActionListener(c);
+        this.btnSyncG.setActionCommand(Controller.WHOLE_SYNC);
+        this.btnSyncG.addActionListener(this.c);
 
-        btnIndexErstellen1.setActionCommand(Controller.INDEXING);
-        btnIndexErstellen1.addActionListener(c);
+        this.btnIndexErstellen1.setActionCommand(Controller.INDEXING);
+        this.btnIndexErstellen1.addActionListener(this.c);
 
-        btnVergleichen.setActionCommand(Controller.COMPARE);
-        btnVergleichen.addActionListener(c);
+        this.btnVergleichen.setActionCommand(Controller.COMPARE);
+        this.btnVergleichen.addActionListener(this.c);
 
-        btnSynchronisieren.setActionCommand(Controller.SYNC);
-        btnSynchronisieren.addActionListener(c);
+        this.btnSynchronisieren.setActionCommand(Controller.SYNC);
+        this.btnSynchronisieren.addActionListener(this.c);
 
-        anzeigenButton.setActionCommand(Controller.DISPLAY_COMPARE_FILE);
-        anzeigenButton.addActionListener(c);
+        this.anzeigenButton.setActionCommand(Controller.DISPLAY_COMPARE_FILE);
+        this.anzeigenButton.addActionListener(this.c);
 
-        btnFTPVerbindung.setActionCommand(Controller.ADD_FTP_CONNECTION);
-        btnFTPVerbindung.addActionListener(c);
+        this.btnFTPVerbindung.setActionCommand(Controller.ADD_FTP_CONNECTION);
+        this.btnFTPVerbindung.addActionListener(this.c);
 
-        stopButton.setActionCommand(Controller.STOP);
-        stopButton.addActionListener(c);
+        this.stopButton.setActionCommand(Controller.STOP);
+        this.stopButton.addActionListener(this.c);
 
-        btnQuellverzeichnisG.addMouseListener(new MouseAdapter() {
+        this.btnQuellverzeichnisG.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 openFileChooser(tfQuellverzeichnisG);
             }
         });
 
-        btnZielverzeichnisG.addMouseListener(new MouseAdapter() {
+        this.btnZielverzeichnisG.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 openFileChooser(tfZielverzeichnisG);
             }
         });
 
-        btnQuellverzeichnisI.addMouseListener(new MouseAdapter() {
+        this.btnQuellverzeichnisI.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 openFileChooser(tfQuellverzeichnisI);
             }
         });
 
-        tabbedPane1.addChangeListener(c.cc);
+        this.tabbedPane1.addChangeListener(this.c.cc);
 
-        nextActionButton.setActionCommand(Controller.NEXT_ACTION);
-        nextActionButton.addActionListener(c);
+        this.nextActionButton.setActionCommand(Controller.NEXT_ACTION);
+        this.nextActionButton.addActionListener(this.c);
 
-        deleteCacheBtn.setActionCommand(Controller.CLEAR_CACHE);
-        deleteCacheBtn.addActionListener(c);
+        this.deleteCacheBtn.setActionCommand(Controller.CLEAR_CACHE);
+        this.deleteCacheBtn.addActionListener(this.c);
 
-        displayLogFile.setActionCommand(Controller.DISPLAY_LOG_FILE);
-        displayLogFile.addActionListener(c);
+        this.displayLogFile.setActionCommand(Controller.DISPLAY_LOG_FILE);
+        this.displayLogFile.addActionListener(this.c);
+
+        this.btnSettingsSave.setActionCommand(Controller.SAVE_SETTINGS);
+        this.btnSettingsSave.addActionListener(this.c);
 
         ImageIcon normalQuix  = new ImageIcon(SettingsController.getHelpFileLogo());
         ImageIcon animatedQuix = new ImageIcon(SettingsController.getLoadingFileLogo());
 
         Image newHelpImage = normalQuix.getImage().getScaledInstance(50, 35, Image.SCALE_DEFAULT);
-        helpIcon.setIcon(new ImageIcon(newHelpImage));
-        helpIcon.setText("");
+        this.helpIcon.setIcon(new ImageIcon(newHelpImage));
+        this.helpIcon.setText("");
 
-        helpIcon.addMouseListener(new MouseAdapter() {
+        this.helpIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 openReadme();
@@ -144,12 +147,14 @@ public class mainView extends QuixView implements QuixViewI {
 
         Image newLoadImage = animatedQuix.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
         Image newLoadDisabledImage = normalQuix.getImage().getScaledInstance(50, 35, Image.SCALE_DEFAULT);
-        loadIcon.setIcon(new ImageIcon(newLoadImage));
-        loadIcon.setDisabledIcon(new ImageIcon((newLoadDisabledImage)));
-        loadIcon.setText("");
+        this.loadIcon.setIcon(new ImageIcon(newLoadImage));
+        this.loadIcon.setDisabledIcon(new ImageIcon((newLoadDisabledImage)));
+        this.loadIcon.setText("");
 
-        slowModeBox1.setSelected(true);
-        slowModeBox2.setSelected(true);
+        this.slowModeBox1.setSelected(true);
+        this.slowModeBox2.setSelected(true);
+
+        this.refreshSettings();
 
         this.finish();
     }
@@ -172,6 +177,15 @@ public class mainView extends QuixView implements QuixViewI {
     public void activateLoading(boolean b){
         this.loadIcon.setEnabled(b);
         this.stopButton.setEnabled(b);
+    }
+
+    public void refreshSettings(){
+
+        this.rbHardSync.setSelected(SettingsController.getIsHardSync());
+        this.slowModeBox2.setSelected(SettingsController.getIsSlowMode());
+        this.rbDaemonBetrieb.setSelected(SettingsController.getIsDaemon());
+        this.tfTempVerzeichnis.setText(SettingsController.getTempDir());
+
     }
 
 }
