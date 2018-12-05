@@ -25,7 +25,7 @@ public class compareFileView extends QuixFileView {
         super.createGUI(this.rootPanel, this.fileContentPane);
 
         for (minimizedStorageElement mse : this.copyList) {
-            this.writeInPane("+ " + mse.toString() + mse.getState(), Color.BLACK, QuixFileView.GREEN);
+            this.writeInPane("+ " + mse.toString(), Color.BLACK, QuixFileView.GREEN);
         }
         for (minimizedStorageElement mse : this.deleteList) {
             this.writeInPane("- " + mse.toString(), Color.BLACK, QuixFileView.RED);
