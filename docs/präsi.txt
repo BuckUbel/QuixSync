@@ -1,5 +1,16 @@
 
 - Vergleich von der Dauer von der Indizierung bei verschiedenen Datengrößen
+	Fast Mode without Hardsync
+		<
+	Normal Mode without Hardsync
+		<
+	Fast Mode with Hardsync
+		<
+	Normal Mode with HardSync
+
+	--> der Faktor um den das System schneller im Fast Mode ist kommt auf die Anzahl der Veränderungen an
+		--> worst case: gleich schnell
+
 
 - Aufgetretene Problem:
 	- JSON Konverter (Java Objekte --> JSON)	Lösung: Bibliothek GSON
