@@ -14,14 +14,12 @@ public class Main {
         mainView window = new mainView("QuixSync", 800, 400);
         Controller controller = new Controller(window, bt);
 
-
         bt.pt.setWindow(window);
 
         window.setController(controller);
-        Logger.setWindow(window);
-
         window.setVisible(true);
         window.createGUI();
 
+        Logger.print("The program has started successfully");
     }
 }

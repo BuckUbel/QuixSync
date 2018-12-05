@@ -27,7 +27,7 @@ public class loggerFileView extends QuixFileView {
                 this.writeInPane(
                         li.level
                                 + "\t"
-                                + FormattingController.millisToDate(li.instant.epochSecond*1000)
+                                + FormattingController.beautyMillis(li.instant.epochSecond*1000)
                                 + "\t"
                                 + li.message,
                         Color.BLACK,
@@ -38,7 +38,7 @@ public class loggerFileView extends QuixFileView {
                 this.writeInPane(
                         li.level
                                 + "\t"
-                                + FormattingController.millisToDate(li.instant.epochSecond*1000)
+                                + FormattingController.beautyMillis(li.instant.epochSecond*1000)
                                 + "\t"
                                 + li.message,
                         Color.BLACK,
@@ -58,7 +58,7 @@ public class loggerFileView extends QuixFileView {
 
     @Override
     public void setFile(String path) {
-        this.logList = (LogInformation[]) JSONCreator.read(path, LogInformation[].class);
+        this.logList = Logger.mergeMultipleLogArrays((LogInformation[][]) JSONCreator.read(path, LogInformation[][].class));
     }
 
     @Override

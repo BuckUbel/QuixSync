@@ -2,24 +2,21 @@ package logger;
 
 import controller.SettingsController;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.util.ArrayUtils;
 import views.mainView;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.io.*;
+import java.util.List;
 
-public class Logger {
+public abstract class Logger {
 
-    private static mainView window;
     private static Boolean system = false;
 
-    public static void setWindow(mainView window) {
-        Logger.window = window;
-    }
-
     // Log4J
-    private static org.apache.logging.log4j.Logger log = LogManager.getLogger("RollingFileJSONLogger");
-//    private static org.apache.logging.log4j.Logger log = LogManager.getLogger("RollingFilePatternLogger");
+    private static org.apache.logging.log4j.Logger log = LogManager.getLogger(SettingsController.getLoggerMode());
 
     public static void print(String s) {
         if (system) {
@@ -54,88 +51,88 @@ public class Logger {
     }
 
     private static void write(String s) {
-        Logger.write(s,false);
+        Logger.write(s, false);
     }
 
     private static void write(String s, boolean isError) {
-        if (!isError){
+        if (!isError) {
             log.info(s);
-        }else{
+        } else {
             log.error(s);
         }
     }
 
-    public static void mergeLogFiles(){
-        String absolutePath = new File("").getAbsolutePath();
-        File currentFile = new File(absolutePath+"\\logs\\logfile.json");
+    public static void mergeLogFiles() throws IOException {
 
-        File archivedir = new File(absolutePath+"\\logs\\archive");
+        String absolutePath = new File("").getAbsolutePath();
+        File currentFile = new File(absolutePath + "\\" + SettingsController.getLogFileDir() + "\\logfile.json");
+        File archivedir = new File(absolutePath + "\\" + SettingsController.getLogArchiveDir());
 
         File[] listOfArchiveFiles = archivedir.listFiles();
-
-        File mergefile = new File(absolutePath+"\\logs\\mergedlogfile.json");
+        String mergedFilePath = absolutePath + "\\" + SettingsController.getMergeLoggerFilePath();
+        File mergefile = new File(mergedFilePath);
 
         if (mergefile.exists()) {
-            mergefile.delete();
+            if(!mergefile.delete()){
+                throw new IOException("File "+ mergedFilePath + " konnte nicht gelöscht werden.");
+            }
         }
 
-        String mergedFilePath = absolutePath+"\\logs\\mergedlogfile.json";
+        FileWriter fwriter = new FileWriter(mergedFilePath, true);
+        BufferedWriter bfout = new BufferedWriter(fwriter);
 
-        FileWriter fwriter = null;
-        BufferedWriter bfout = null;
-
-        try {
-                fwriter = new FileWriter(mergedFilePath, true);
-                bfout = new BufferedWriter(fwriter);
-        } catch (IOException e1){
-            e1.printStackTrace();
-        }
+        bfout.write("["); // For the whole array
 
         // archive Files
-        for (File file : listOfArchiveFiles){
-            FileInputStream fis1;
-
-            try{
-                fis1 = new FileInputStream(file);
-                BufferedReader bfin = new BufferedReader(new InputStreamReader(fis1));
-
-                String line;
-                while((line = bfin.readLine()) != null){
-                    bfout.write(line);
-                    bfout.newLine();
-                }
-
-                bfin.close();
-            } catch (IOException e){
-                e.printStackTrace();
+        if (listOfArchiveFiles != null) {
+            for (File file : listOfArchiveFiles) {
+                Logger.saveLogFile(file, bfout, true);
             }
         }
         // Current File
+        Logger.saveLogFile(currentFile, bfout, false);
 
-            FileInputStream fis;
+        bfout.write("]"); // Closing Bracket for currentFile
+//        bfout.write("]"); // For the whole array
 
-            try{
-                fis = new FileInputStream(currentFile);
-                BufferedReader bfin = new BufferedReader(new InputStreamReader(fis));
+        bfout.close();
+    }
 
-                String line;
-                while((line = bfin.readLine()) != null){
-                    bfout.write(line);
-                    bfout.newLine();
+
+    private static void saveLogFile(File currentFile, BufferedWriter bfout, boolean withComma) throws IOException {
+            FileInputStream fis = new FileInputStream(currentFile);
+            BufferedReader bfin = new BufferedReader(new InputStreamReader(fis));
+
+            String line;
+            boolean containsCloseBracket = false;
+            while ((line = bfin.readLine()) != null) {
+                if(!containsCloseBracket){
+                    containsCloseBracket = line.contains("]");
                 }
-
-                bfin.close();
-            } catch (IOException e){
-                e.printStackTrace();
+                bfout.write(line);
+                bfout.newLine();
             }
 
+            if(!containsCloseBracket) {
+                bfout.write("]"); // Closing Bracket
+            }
+            if(withComma){
+                bfout.write(","); // Closing Bracket
+            }
+            bfout.newLine();
+            bfin.close();
+    }
+    public static LogInformation[] mergeMultipleLogArrays(LogInformation[][] logs){
 
-        try {
-            bfout.write("]"); // Closing Bracket
-            bfout.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        List<LogInformation> returnLog = new ArrayList<>();
+
+        for (LogInformation[] log1 : logs) {
+            returnLog.addAll(Arrays.asList(log1));
         }
 
+        LogInformation[] returnLogArray = new LogInformation[returnLog.size()];
+        returnLog.toArray(returnLogArray);
+
+        return returnLogArray;
     }
 }

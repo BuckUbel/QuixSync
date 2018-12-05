@@ -1,6 +1,7 @@
 package controller;
 
 import fileWriter.JSONCreator;
+import logger.Logger;
 import models.Settings;
 
 import java.io.File;
@@ -61,6 +62,14 @@ abstract public class SettingsController {
         return global_settings.TEMP_DIR;
     }
 
+    public static String getLogFileDir() {
+        return global_settings.LOG_DIR;
+    }
+
+    public static String getLogArchiveDir() {
+        return global_settings.LOG_DIR + "\\archive";
+    }
+
     public static String getLogoFile() {
         return global_settings.LOGO_FILE;
     }
@@ -82,13 +91,24 @@ abstract public class SettingsController {
     }
 
     public static String getLoggerFilePath() throws FileNotFoundException {
-        if (SettingsController.getLoggerMode().equals(global_settings.LOGGER_MODE_JSON)) {
-            return global_settings.LOG_DIR + global_settings.LOGGER_FILE_JSON;
-        } else if (SettingsController.getLoggerMode().equals(global_settings.LOGGER_MODE_NORMAL)) {
-            return global_settings.LOG_DIR + global_settings.LOGGER_FILE_NORMAL;
+        switch (SettingsController.getLoggerMode()) {
+            case Settings.LOGGER_MODE_JSON:
+                return global_settings.LOG_DIR + global_settings.LOGGER_FILE_JSON;
+            case Settings.LOGGER_MODE_NORMAL:
+                return global_settings.LOG_DIR + global_settings.LOGGER_FILE_NORMAL;
+            default:
+                throw new FileNotFoundException("No Logger File");
+        }
+    }
 
-        } else {
-            throw new FileNotFoundException("No Logger File");
+    public static String getMergeLoggerFilePath() throws FileNotFoundException {
+        switch (SettingsController.getLoggerMode()) {
+            case Settings.LOGGER_MODE_JSON:
+                return global_settings.LOG_DIR + "merge" + global_settings.LOGGER_FILE_JSON;
+            case Settings.LOGGER_MODE_NORMAL:
+                return global_settings.LOG_DIR + "merge" + global_settings.LOGGER_FILE_NORMAL;
+            default:
+                throw new FileNotFoundException("No Logger File");
         }
     }
 
@@ -148,32 +168,47 @@ abstract public class SettingsController {
         global_settings.LOADING_FILE_LOGO = LOADING_FILE_LOGO;
     }
 
-    public static void setTempDir(String TEMP_DIR) {
+    private static String pathToSavePath(String tmp) {
+        String TEMP_DIR = tmp;
         if (!TEMP_DIR.substring(TEMP_DIR.length() - 2).equals("\\\\")) {
             if (TEMP_DIR.substring(TEMP_DIR.length() - 1).equals("\\")) {
                 TEMP_DIR += "\\";
-            }
-            else{
+            } else {
                 TEMP_DIR += "\\\\";
             }
         }
         if (TEMP_DIR.substring(TEMP_DIR.length() - 2).equals("\\\\")) {
             // no problem
         }
+        return TEMP_DIR;
+    }
 
+    public static void setTempDir(String TEMP_DIR) {
+
+        TEMP_DIR = pathToSavePath(TEMP_DIR);
         File tempDir = new File(TEMP_DIR);
         if (!(tempDir.isDirectory() && tempDir.exists())) {
             if (tempDir.mkdirs()) {
                 global_settings.TEMP_DIR = TEMP_DIR;
             }
-        }
-        else{
+        } else {
             global_settings.TEMP_DIR = TEMP_DIR;
         }
     }
 
     public static void setLogDir(String LOG_DIR) {
-        global_settings.LOG_DIR = LOG_DIR;
+        LOG_DIR = pathToSavePath(LOG_DIR);
+        File logDir = new File(LOG_DIR);
+        File logArchiveDir = new File(SettingsController.getLogArchiveDir());
+        if (!(logDir.isDirectory() && logDir.exists())) {
+            if (logDir.mkdirs()) {
+                if (logArchiveDir.mkdirs()) {
+                    global_settings.LOG_DIR = LOG_DIR;
+                }
+            }
+        } else {
+            global_settings.LOG_DIR = LOG_DIR;
+        }
     }
 
     public static void setLoggerFileJson(String LOGGER_FILE_JSON) {

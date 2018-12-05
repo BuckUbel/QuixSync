@@ -11,7 +11,7 @@
   "LOADING_FILE_LOGO": "img//Quix_animated.gif",
   "TEMP_DIR": "testData\\\\",
   "LOG_DIR": "logs//",
-  "LOGGER_FILE_JSON": "logfile-old.json",
+  "LOGGER_FILE_JSON": "logFile.json",
   "LOGGER_FILE_NORMAL": "logfile.log",
   "LOGGER_MODE": "RollingFileJSONLogger",
   "NO_NEXT_ACTION_STRING": "Nächste Aktion"

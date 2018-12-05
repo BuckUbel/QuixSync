@@ -301,8 +301,10 @@ public class Controller implements ActionListener {
     }
     void displayLogFile(){
         try {
-            String loggerFilepath = SettingsController.getLoggerFilePath();
+            String loggerFilepath = SettingsController.getMergeLoggerFilePath();
+            System.out.println("Here: " + loggerFilepath);
             loggerFileView cfv = new loggerFileView("Log File");
+            Logger.mergeLogFiles();
             cfv.setFile(loggerFilepath);
             cfv.setVisible(true);
             cfv.createGUI();

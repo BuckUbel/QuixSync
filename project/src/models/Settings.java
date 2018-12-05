@@ -26,7 +26,7 @@ public class Settings {
     public String TEMP_DIR = "testdata//";
 
     public String LOG_DIR = "logs//";
-    public String LOGGER_FILE_JSON = "logfile-old.json";
+    public String LOGGER_FILE_JSON = "logfile.json";
     public String LOGGER_FILE_NORMAL = "logfile.log";
     public String LOGGER_MODE = "RollingFileJSONLogger";
 
