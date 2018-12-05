@@ -3,8 +3,12 @@ package logger;
 import controller.SettingsController;
 import org.apache.logging.log4j.LogManager;
 import views.mainView;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public abstract class Logger {
+import java.io.*;
+
+public class Logger {
 
     private static mainView window;
     private static Boolean system = false;
@@ -14,7 +18,8 @@ public abstract class Logger {
     }
 
     // Log4J
-    private static org.apache.logging.log4j.Logger log = LogManager.getLogger(SettingsController.getLoggerMode());
+    private static org.apache.logging.log4j.Logger log = LogManager.getLogger("RollingFileJSONLogger");
+//    private static org.apache.logging.log4j.Logger log = LogManager.getLogger("RollingFilePatternLogger");
 
     public static void print(String s) {
         if (system) {
@@ -58,5 +63,79 @@ public abstract class Logger {
         }else{
             log.error(s);
         }
+    }
+
+    public static void mergeLogFiles(){
+        String absolutePath = new File("").getAbsolutePath();
+        File currentFile = new File(absolutePath+"\\logs\\logfile.json");
+
+        File archivedir = new File(absolutePath+"\\logs\\archive");
+
+        File[] listOfArchiveFiles = archivedir.listFiles();
+
+        File mergefile = new File(absolutePath+"\\logs\\mergedlogfile.json");
+
+        if (mergefile.exists()) {
+            mergefile.delete();
+        }
+
+        String mergedFilePath = absolutePath+"\\logs\\mergedlogfile.json";
+
+        FileWriter fwriter = null;
+        BufferedWriter bfout = null;
+
+        try {
+                fwriter = new FileWriter(mergedFilePath, true);
+                bfout = new BufferedWriter(fwriter);
+        } catch (IOException e1){
+            e1.printStackTrace();
+        }
+
+        // archive Files
+        for (File file : listOfArchiveFiles){
+            FileInputStream fis1;
+
+            try{
+                fis1 = new FileInputStream(file);
+                BufferedReader bfin = new BufferedReader(new InputStreamReader(fis1));
+
+                String line;
+                while((line = bfin.readLine()) != null){
+                    bfout.write(line);
+                    bfout.newLine();
+                }
+
+                bfin.close();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        // Current File
+
+            FileInputStream fis;
+
+            try{
+                fis = new FileInputStream(currentFile);
+                BufferedReader bfin = new BufferedReader(new InputStreamReader(fis));
+
+                String line;
+                while((line = bfin.readLine()) != null){
+                    bfout.write(line);
+                    bfout.newLine();
+                }
+
+                bfin.close();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+
+
+        try {
+            bfout.write("]"); // Closing Bracket
+            bfout.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
