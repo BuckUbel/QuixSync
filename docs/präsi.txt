@@ -2,7 +2,9 @@
 - Vergleich von der Dauer von der Indizierung bei verschiedenen Datengrößen
 
 - Aufgetretene Problem:
-	- JSON Konverter (Java Objekte --> JSON)
+	- JSON Konverter (Java Objekte --> JSON)	Lösung: Bibliothek GSON
+	- nicht alle Exceptions werden dem Nutzer angezeigt --> schlimmsten Falle passiert nichts und der Nutzer merkt es nicht
+	
 
 - Projektverlauf
 	- Wer hatte welche Position?
