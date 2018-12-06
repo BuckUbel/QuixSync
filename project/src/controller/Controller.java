@@ -27,6 +27,7 @@ public class Controller implements ActionListener {
     public static final String ADD_FTP_CONNECTION = "FTP_VERBINDUNG_HINZUFUEGEN";
     public static final String CLEAR_CACHE = "CACHE_LEEREN";
     public static final String SAVE_SETTINGS = "SAVE_SETTINGS";
+    public static final String SET_LANGUAGE = "SET_LANGUAGE";
 
     private mainView window;
     private BackgroundTask bt;
@@ -64,6 +65,9 @@ public class Controller implements ActionListener {
 
                 if (sourceF.isDirectory()) {
                     if (targetF.isDirectory()) {
+
+                        this.window.progressAction.setText(Controller.WHOLE_SYNC);
+                        this.window.activateLoading(true);
 
                         this.indexProps.pathToIndex = source;
                         this.indexPropsTarget.pathToIndex = target;
@@ -167,6 +171,9 @@ public class Controller implements ActionListener {
             case Controller.SAVE_SETTINGS:
                 this.applySettingChanges();
                 SettingsController.saveSettings();
+                break;
+            case Controller.SET_LANGUAGE:
+                this.window.setNewLanguageStrings();
                 break;
             case Controller.NEXT_ACTION:
                 if (this.bt.isFree()) {
