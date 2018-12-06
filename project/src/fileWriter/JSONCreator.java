@@ -24,7 +24,7 @@ public abstract class JSONCreator {
                 if (dir.mkdirs()) {
                     allowToCreate = true;
                 } else {
-                    throw new FileNotFoundException("Ordner zur Datei " + path + " konnte nicht erstellt werden.");
+                    throw new FileNotFoundException(LanguageController.getLang().DIR_TO_FILE + path + LanguageController.getLang().COULDNT_BE_CREATED);
                 }
             } else {
                 allowToCreate = true;

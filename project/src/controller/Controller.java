@@ -15,18 +15,18 @@ public class Controller implements ActionListener {
 
     private Thread thread;
 
-    public static final String WHOLE_SYNC = "GESAMTSYNCHRONISIERUNG";
-    public static final String INDEXING = "INDEXIERUNG";
-    public static final String COMPARE = "VERGLEICHEN";
-    public static final String SYNC = "SYNCHRONISIERUNG";
-    public static final String STOP = "STOP";
-    public static final String DISPLAY_COMPARE_FILE = "VERGLEICHSDATEI_ANZEIGEN";
-    public static final String DISPLAY_LOG_FILE = "DISPLAY_LOG_FILE";
-    private static final String OPEN_README = "README_OEFFNEN";
-    public static final String NEXT_ACTION = "NAECHSTE_AKTION";
-    public static final String ADD_FTP_CONNECTION = "FTP_VERBINDUNG_HINZUFUEGEN";
-    public static final String CLEAR_CACHE = "CACHE_LEEREN";
-    public static final String SAVE_SETTINGS = "SAVE_SETTINGS";
+    public static final String WHOLE_SYNC = LanguageController.getLang().WHOLE_SYNC;
+    public static final String INDEXING = LanguageController.getLang().INDEXING;
+    public static final String COMPARE = LanguageController.getLang().COMPARING;
+    public static final String SYNC = LanguageController.getLang().SYNCHRONISATION;
+    public static final String STOP = LanguageController.getLang().STOP;
+    public static final String DISPLAY_COMPARE_FILE = LanguageController.getLang().DISPLAY_COMPAREFILE;
+    public static final String DISPLAY_LOG_FILE = LanguageController.getLang().DISPLAY_LOGFILE;
+    private static final String OPEN_README = LanguageController.getLang().OPEN_README;
+    public static final String NEXT_ACTION = LanguageController.getLang().NEXT_ACTION;
+    public static final String ADD_FTP_CONNECTION = LanguageController.getLang().ADD_FTP_CONNECTION;
+    public static final String CLEAR_CACHE = LanguageController.getLang().CLEAR_CACHE;
+    public static final String SAVE_SETTINGS = LanguageController.getLang().SAVE;
 
     private mainView window;
     private BackgroundTask bt;
@@ -136,7 +136,7 @@ public class Controller implements ActionListener {
 
                 break;
             case Controller.STOP:
-                Logger.print("Stopping Process: " + this.bt.status);
+                Logger.print(LanguageController.getLang().STOP_PROCESS+": " + this.bt.status);
                 this.window.activateLoading(false);
                 this.window.progressAction.setText(SettingsController.getNoNextActionString());
                 this.lastThread.stop();
@@ -146,11 +146,11 @@ public class Controller implements ActionListener {
                 this.bt.status = 0;
                 break;
             case Controller.DISPLAY_COMPARE_FILE:
-                Logger.print("Vergleichsdatei anzeigen");
+                Logger.print(LanguageController.getLang().DISPLAY_COMPAREFILE);
                 displayCompareFile();
                 break;
             case Controller.DISPLAY_LOG_FILE:
-                Logger.print("Display Log File");
+                Logger.print(LanguageController.getLang().DISPLAY_LOGFILE);
                 displayLogFile();
                 break;
             case Controller.OPEN_README:
@@ -280,13 +280,13 @@ public class Controller implements ActionListener {
     }
 
     private void displayAnotherRunningDialog() {
-        AnotherRunningProcessDialog arpv = new AnotherRunningProcessDialog("ist in Betrieb...");
+        AnotherRunningProcessDialog arpv = new AnotherRunningProcessDialog(LanguageController.getLang().IS_WORKING);
         arpv.setVisible(true);
         arpv.createGUI();
     }
 
     private void displayOtherDirDialog() {
-        OtherDirDialog odd = new OtherDirDialog("Falscher Pfad");
+        OtherDirDialog odd = new OtherDirDialog(LanguageController.getLang().WRONG_PATH);
         odd.setVisible(true);
         odd.createGUI();
     }
@@ -294,7 +294,7 @@ public class Controller implements ActionListener {
 
     void displayCompareFile() {
         String path = window.tfVergleichsdatei.getText();
-        compareFileView cfv = new compareFileView("Vergleichen");
+        compareFileView cfv = new compareFileView(LanguageController.getLang().COMPARING);
         cfv.setFile(path);
         cfv.setVisible(true);
         cfv.createGUI();
@@ -302,8 +302,8 @@ public class Controller implements ActionListener {
     void displayLogFile(){
         try {
             String loggerFilepath = SettingsController.getMergeLoggerFilePath();
-            System.out.println("Here: " + loggerFilepath);
-            loggerFileView cfv = new loggerFileView("Log File");
+            System.out.println(LanguageController.getLang().HERE+": " + loggerFilepath);
+            loggerFileView cfv = new loggerFileView(LanguageController.getLang().LOG_FILE);
             Logger.mergeLogFiles();
             cfv.setFile(loggerFilepath);
             cfv.setVisible(true);
@@ -316,7 +316,7 @@ public class Controller implements ActionListener {
 
     public void openReadme() {
 
-        Logger.print("Readme öffnen");
+        Logger.print(LanguageController.getLang().OPEN_README);
         File openFile = new File("README.md");
         try {
             Desktop.getDesktop().browse(openFile.toURI());
@@ -326,7 +326,7 @@ public class Controller implements ActionListener {
     }
 
     public void clearCache() throws Exception {
-        Logger.print("Cache leeren");
+        Logger.print(LanguageController.getLang().CLEAR_CACHE);
 
         TypeFile[] sel = FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getIndexFileEnding());
         TypeFile[] sel2 = FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getCompareFileEnding());
@@ -376,12 +376,12 @@ public class Controller implements ActionListener {
             this.compareProps.targetIndexPath = pathToIndexFile;
             this.preCompare();
             this.postCompare();
-            this.window.nextActionButton.setText("Vergleichen");
+            this.window.nextActionButton.setText(LanguageController.getLang().COMPARING);
             this.window.nextActionButton.setEnabled(true);
         } else {
             this.compareProps.sourceIndexPath = this.compareProps.targetIndexPath;
             this.compareProps.targetIndexPath = pathToIndexFile;
-            this.window.nextActionButton.setText("Compare");
+            this.window.nextActionButton.setText(LanguageController.getLang().COMPARING);
             this.window.nextActionButton.setEnabled(true);
         }
 
@@ -391,7 +391,7 @@ public class Controller implements ActionListener {
         this.syncProps.compareFilePath = pathToCompareFile;
         this.preSync();
         this.postSync();
-        this.window.nextActionButton.setText("Synchronisieren");
+        this.window.nextActionButton.setText(LanguageController.getLang().SYNC);
         this.window.nextActionButton.setEnabled(true);
     }
 }
