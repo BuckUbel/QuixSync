@@ -73,8 +73,8 @@ public abstract class Logger {
         File mergefile = new File(mergedFilePath);
 
         if (mergefile.exists()) {
-            if(!mergefile.delete()){
-                throw new IOException("File "+ mergedFilePath + " konnte nicht gelöscht werden.");
+            if (!mergefile.delete()) {
+                throw new IOException("File " + mergedFilePath + " konnte nicht gelöscht werden.");
             }
         }
 
@@ -100,29 +100,28 @@ public abstract class Logger {
 
 
     private static void saveLogFile(File currentFile, BufferedWriter bfout, boolean withComma) throws IOException {
-            FileInputStream fis = new FileInputStream(currentFile);
-            BufferedReader bfin = new BufferedReader(new InputStreamReader(fis));
+        FileInputStream fis = new FileInputStream(currentFile);
+        BufferedReader bfin = new BufferedReader(new InputStreamReader(fis));
 
-            String line;
-            boolean containsCloseBracket = false;
-            while ((line = bfin.readLine()) != null) {
-                if(!containsCloseBracket){
-                    containsCloseBracket = line.contains("]");
-                }
-                bfout.write(line);
-                bfout.newLine();
-            }
-
-            if(!containsCloseBracket) {
-                bfout.write("]"); // Closing Bracket
-            }
-            if(withComma){
-                bfout.write(","); // Closing Bracket
-            }
+        String line;
+        boolean containsCloseBracket = false;
+        while ((line = bfin.readLine()) != null) {
+            containsCloseBracket = line.contains("]");
+            bfout.write(line);
             bfout.newLine();
-            bfin.close();
+        }
+
+        if (!containsCloseBracket) {
+            bfout.write("]"); // Closing Bracket
+        }
+        if (withComma) {
+            bfout.write(","); // Closing Bracket
+        }
+        bfout.newLine();
+        bfin.close();
     }
-    public static LogInformation[] mergeMultipleLogArrays(LogInformation[][] logs){
+
+    public static LogInformation[] mergeMultipleLogArrays(LogInformation[][] logs) {
 
         List<LogInformation> returnLog = new ArrayList<>();
 
