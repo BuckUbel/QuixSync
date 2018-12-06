@@ -20,6 +20,6 @@ public class Main {
         window.setVisible(true);
         window.createGUI();
 
-        Logger.print("The program has started successfully");
+        Logger.print(LanguageController.getLang().PROGRAM_STARTED_SUCCESSFULLY);
     }
 }

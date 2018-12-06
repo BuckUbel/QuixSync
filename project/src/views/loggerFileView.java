@@ -48,10 +48,10 @@ public class loggerFileView extends QuixFileView {
 
         }
         if (this.logList.length == 0) {
-            this.writeInPane("Keine Logeinträge.", Color.BLACK, Color.WHITE);
+            this.writeInPane(LanguageController.getLang().NO_LOGENTRIES, Color.BLACK, Color.WHITE);
         }
         this.setTitle("Logs: " + this.logList.length);
-        Logger.print("Logs: " + this.logList.length + " wurden dargestellt.");
+        Logger.print("Logs: " + this.logList.length + LanguageController.getLang().WERE_PRINTED);
         this.finish();
     }
 

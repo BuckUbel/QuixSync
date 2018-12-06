@@ -1,11 +1,15 @@
 package views;
 
 import controller.Controller;
+import controller.LanguageController;
 import controller.SettingsController;
+import javafx.scene.control.SelectionModel;
+import models.Language;
 import views.defaultViews.QuixView;
 import views.viewInterfaces.QuixViewI;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -21,7 +25,6 @@ public class mainView extends QuixView implements QuixViewI {
     public JButton btnQuellverzeichnisG;
     public JButton btnZielverzeichnisG;
     public JButton btnIndexErstellen1;
-    public JButton btnIndexErstellen2;
     public JTextField tfQuellIndexdatei;
     public JTextField tfZielIndexdatei;
     public JButton btnVergleichen;
@@ -35,8 +38,6 @@ public class mainView extends QuixView implements QuixViewI {
     public JLabel lbQuellverzeichnisI;
     public JButton btnQuellverzeichnisI;
     public JTextField tfQuellverzeichnisI;
-    public JTextField tfZielverzeichnisI;
-    public JButton btnZielverzeichnisI;
     public JLabel lbQuellIndexdatei;
     public JLabel lbZielIndexdatei;
     public JLabel lbVergleichsdatei;
@@ -66,9 +67,11 @@ public class mainView extends QuixView implements QuixViewI {
     public JCheckBox rbDaemonBetrieb;
     private JLabel loadIcon;
     private JButton displayLogFile;
+    public JComboBox<String> langBox;
+    private JLabel defaultSettings;
 
     public mainView(String title, int width, int height) {
-        super(width,height,title);
+        super(width, height, title);
     }
 
     public void createGUI() {
@@ -131,7 +134,7 @@ public class mainView extends QuixView implements QuixViewI {
         this.btnSettingsSave.setActionCommand(Controller.SAVE_SETTINGS);
         this.btnSettingsSave.addActionListener(this.c);
 
-        ImageIcon normalQuix  = new ImageIcon(SettingsController.getHelpFileLogo());
+        ImageIcon normalQuix = new ImageIcon(SettingsController.getHelpFileLogo());
         ImageIcon animatedQuix = new ImageIcon(SettingsController.getLoadingFileLogo());
 
         Image newHelpImage = normalQuix.getImage().getScaledInstance(50, 35, Image.SCALE_DEFAULT);
@@ -151,12 +154,79 @@ public class mainView extends QuixView implements QuixViewI {
         this.loadIcon.setDisabledIcon(new ImageIcon((newLoadDisabledImage)));
         this.loadIcon.setText("");
 
+        this.setLanguageStrings();
+
         this.refreshSettings();
 
         this.finish();
     }
 
-    private void openReadme(){
+    private void setLanguageStrings() {
+        String[] languages = LanguageController.getAvailableLanguages();
+        DefaultComboBoxModel<String> dcbm = new DefaultComboBoxModel<String>(languages);
+        this.langBox.setModel(dcbm);
+        this.langBox.setSelectedIndex(LanguageController.getLangCode(SettingsController.getLanguage()));
+
+        this.langBox.setActionCommand(Controller.SET_LANGUAGE);
+        this.langBox.addActionListener(c);
+//        this.setNewLanguageStrings();
+    }
+    public void setNewLanguageStrings(){
+
+        LanguageController.loadLang((String) this.langBox.getSelectedItem());
+        Language std = LanguageController.getLang();
+
+        this.tabbedPane1.setTitleAt(SettingsController.TAB_NUMBER.WHOLE_SYNC.getValue(), std.WHOLE_SYNC);
+        this.tabbedPane1.setTitleAt(SettingsController.TAB_NUMBER.INDEXING.getValue(), std.INDEXING);
+        this.tabbedPane1.setTitleAt(SettingsController.TAB_NUMBER.COMPARE.getValue(), std.COMPARING);
+        this.tabbedPane1.setTitleAt(SettingsController.TAB_NUMBER.SYNC.getValue(), std.SYNC);
+        this.tabbedPane1.setTitleAt(SettingsController.TAB_NUMBER.SETTINGS.getValue(), std.SETTINGS);
+
+        Border border = BorderFactory.createTitledBorder(std.PROGRESS_OF_CURRENT_ACTION);
+        this.progressPanel.setBorder(border);
+
+        //tfQuellIndexdatei
+        //tfQuellverzeichnisG;
+        //tfQuellverzeichnisI;
+        //tfTempVerzeichnis;
+        //tfVergleichsdatei
+        //tfZielIndexdatei
+        //tfZielverzeichnisG;
+        this.defaultSettings.setText(std.DEFAULT_SETTINGS_FOR_COMPARING);
+        this.anzeigenButton.setText(std.SHOW_FILE);
+        this.btnAutoSyncG.setText(std.AS_AUTO_SYNC_SAVE);
+        this.btnFTPVerbindung.setText(std.ADD_FTP_CONNECTION);
+        this.btnIndexErstellen1.setText(std.CREATE_INDEX);
+        this.btnQuellverzeichnisG.setText(std.SOURCE_DIR + " " + std.SELECT);
+        this.btnQuellverzeichnisI.setText(std.DIRECTORY + " " + std.SELECT);
+        this.btnSettingsSave.setText(std.SAVE);
+        this.btnSyncG.setText(std.SYNC);
+        this.btnSynchronisieren.setText(std.SYNC);
+        this.btnVergleichen.setText(std.COMPARING);
+        this.btnZielverzeichnisG.setText(std.SOURCE_DIR + " " + std.SELECT);
+        this.deleteCacheBtn.setText(std.DELETE_CACHE);
+        this.displayLogFile.setText(std.DISPLAY_LOGFILE);
+        this.fastModeBox.setText(std.FAST_MODE_NO_RENAMING);
+        this.fastModeBox2.setText(std.FAST_MODE_NO_RENAMING);
+        this.helpIcon.setText("");
+        this.lbQuellIndexdatei.setText(std.SOURCE_INDEX_FILE);
+        this.lbQuellverzeichnisG.setText(std.SOURCE_DIR);
+        this.lbQuellverzeichnisI.setText(std.DIRECTORY);
+        this.lbTempVerzeichnis.setText(std.TEMP_DIR);
+        this.lbVergleichsdatei.setText(std.COMPARE_FILE);
+        this.lbZielIndexdatei.setText(std.TARGET_INDEX_FILE);
+        this.lbZielverzeichnisG.setText(std.TARGET_DIR);
+        this.nextActionButton.setText(std.NEXT_ACTION);
+        this.progressAction.setText(std.NO_ACTION);
+        this.progressInformation.setText("");
+        this.progressPercentage.setText("");
+        this.rbDaemonBetrieb.setText(std.ALLOW_DAEMON);
+        this.rbHardSync.setText(std.HARD_SYNC);
+        this.rbHardSync2.setText(std.HARD_SYNC);
+        this.stopButton.setText(std.STOP);
+    }
+
+    private void openReadme() {
         this.c.openReadme();
     }
 
@@ -172,12 +242,12 @@ public class mainView extends QuixView implements QuixViewI {
         }
     }
 
-    public void activateLoading(boolean b){
+    public void activateLoading(boolean b) {
         this.loadIcon.setEnabled(b);
         this.stopButton.setEnabled(b);
     }
 
-    public void refreshSettings(){
+    public void refreshSettings() {
 
         this.fastModeBox.setSelected(SettingsController.getIsFastMode());
         this.fastModeBox2.setSelected(SettingsController.getIsFastMode());

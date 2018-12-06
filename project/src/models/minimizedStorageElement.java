@@ -35,23 +35,23 @@ public class minimizedStorageElement {
         boolean extraInfo = false;
 
         if (this.isNewFile()) {
-            returnString += "Neue Datei";
+            returnString += LanguageController.getLang().NEW_FILE;
             extraInfo = true;
         }
         if (this.isDifferentName() && !extraInfo) {
-            returnString += "Verschiedene Namen";
+            returnString += LanguageController.getLang().DIFFERENT_NAME;
             extraInfo = true;
         }
         if (this.isDifferentSize() && !extraInfo) {
-            returnString += "Verschiedene Größe";
+            returnString += LanguageController.getLang().DIFFERENT_SIZE;
             extraInfo = true;
         }
         if (this.isDifferentChildrenCount() && !extraInfo) {
-            returnString += "Verschiedene Anzahl an Kindern";
+            returnString += LanguageController.getLang().DIFFERENT_CHILDREN_COUNT;
             extraInfo = true;
         }
         if (this.isDifferentChanged() && !extraInfo) {
-            returnString += "Verschiedene Veränderungsdaten";
+            returnString += LanguageController.getLang().DIFFERENT_CHANGEDATA;
             extraInfo = true;
         }
 

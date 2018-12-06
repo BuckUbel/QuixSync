@@ -4,7 +4,7 @@ import controller.FormattingController;
 
 public class IndexFileTableModel extends FileTableModel{
 
-    private static String[] indexHeader = {"Indiziert am", "Indizierter Pfad"};
+    private static String[] indexHeader = {LanguageController.getLang().INDEXED_AT, LanguageController.getLang().INDEX_PATH};
     private static int[] indexHeaderWidth = {135, 365};
 
     public IndexFileTableModel(TypeFile[] data) {
