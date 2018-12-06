@@ -13,7 +13,7 @@ public class Main {
         LanguageController.loadLang(SettingsController.getLanguage());
 
         BackgroundTask bt = new BackgroundTask();
-        mainView window = new mainView("QuixSync", 800, 400);
+        mainView window = new mainView("QuixSync", 1024, 450);
         Controller controller = new Controller(window, bt);
 
         bt.pt.setWindow(window);

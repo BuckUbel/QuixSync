@@ -324,7 +324,7 @@ public class Controller implements ActionListener {
     public void openReadme() {
 
         Logger.print(LanguageController.getLang().OPEN_README);
-        File openFile = new File("README.md");
+        File openFile = new File("HelpMe.pdf");
         try {
             Desktop.getDesktop().browse(openFile.toURI());
         } catch (Exception error) {
@@ -364,7 +364,7 @@ public class Controller implements ActionListener {
         SettingsController.setStandardIsFastMode(this.window.fastModeBox.isSelected());
         SettingsController.setIsDaemon(this.window.rbDaemonBetrieb.isSelected());
         SettingsController.setTempDir(this.window.tfTempVerzeichnis.getText());
-
+        SettingsController.setLanguage((String) this.window.langBox.getSelectedItem());
     }
 
     public void setPathToIndexForNextAction(String pathToIndex) {

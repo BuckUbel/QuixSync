@@ -30,9 +30,6 @@ public class Language {
     public String ALLOW_DAEMON = "allow daemon operation";
     public String ADD_FTP_CONNECTION = "add ftp connection";
     public String SAVE = "save";
-
-    // ---
-
     public String SYNCHRONISATION = "Synchronisierung";
     public String STOP_PROCESS = "Stopp Prozess";
     public String DISPLAY_COMPAREFILE = "Vergleichsdatei anzeigen";
@@ -51,15 +48,20 @@ public class Language {
     public String COMPARED_AT = "Verglichen am";
     public String SOURCE = "Quelle";
     public String TARGET = "Ziel";
-
     public String FILE = "Datei";
     public String COULDNT_BE_DELETED = " konnte nicht gelöscht werden.";
     public String DIR_TO_FILE = "Ordner zur Datei ";
     public String COULDNT_BE_CREATED = " konnte nicht erstellt werden.";
-    public String PROGRAM_STARTED_SUCCESSFULLY = "Das Programm ist erfolgreich gestartet worden";
+    public String PROGRAM_STARTED_SUCCESSFULLY = "Das Programm ist erfolgreich gestartet worden.";
     public String INDEXED_AT = "Indiziert am";
     public String INDEX_PATH = "Indizierter Pfad";
-    public String NO_LOGENTRIES = "Keine Logeinträge.";
+    public String NO_LOGENTRIES = "Keine Logeinträge";
     public String WERE_PRINTED = " wurden dargestellt.";
-
+    public String ELEMENTS = "Elements";
+    public String OF = "von";
+    public String FOUND_AND_INDEXED = "found and indexed";
+    public String FOUND_SO_FAR = "found so far";
+    public String THE_PROCESS_LASTED = "The process lasted";
+    public String SECONDS = "seconds";
+    public String WERE_DIPSLAYED = "wurden dargestellt";
 }

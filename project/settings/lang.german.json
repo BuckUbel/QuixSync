@@ -53,5 +53,13 @@
   "INDEXED_AT": "Indiziert am",
   "INDEX_PATH": "Indizierter Pfad",
   "NO_LOGENTRIES": "Keine Logeinträge.",
-  "WERE_PRINTED": " wurden dargestellt."
+  "WERE_PRINTED": " wurden dargestellt.",
+  "ELEMENTS": "Elemente",
+  "OF": "von",
+  "FOUND_AND_INDEXED": "gefunden und indexiert",
+  "FOUND_SO_FAR": "bisher gefunden,",
+  "THE_PROCESS_LASTED": "Der Vorgang dauerte",
+  "SECONDS": "Sekunden",
+  "WERE_DIPSLAYED":"wurden dargestellt"
+
 }

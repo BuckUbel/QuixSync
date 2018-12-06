@@ -169,9 +169,10 @@ public class mainView extends QuixView implements QuixViewI {
 
         this.langBox.setActionCommand(Controller.SET_LANGUAGE);
         this.langBox.addActionListener(c);
-//        this.setNewLanguageStrings();
+        this.setNewLanguageStrings();
     }
-    public void setNewLanguageStrings(){
+
+    public void setNewLanguageStrings() {
 
         LanguageController.loadLang((String) this.langBox.getSelectedItem());
         Language std = LanguageController.getLang();
@@ -197,13 +198,13 @@ public class mainView extends QuixView implements QuixViewI {
         this.btnAutoSyncG.setText(std.AS_AUTO_SYNC_SAVE);
         this.btnFTPVerbindung.setText(std.ADD_FTP_CONNECTION);
         this.btnIndexErstellen1.setText(std.CREATE_INDEX);
-        this.btnQuellverzeichnisG.setText(std.SOURCE_DIR + " " + std.SELECT);
-        this.btnQuellverzeichnisI.setText(std.DIRECTORY + " " + std.SELECT);
+        this.btnQuellverzeichnisG.setText(std.SELECT + " " + std.SOURCE_DIR);
+        this.btnQuellverzeichnisI.setText(std.SELECT + " " + std.DIRECTORY);
         this.btnSettingsSave.setText(std.SAVE);
         this.btnSyncG.setText(std.SYNC);
         this.btnSynchronisieren.setText(std.SYNC);
         this.btnVergleichen.setText(std.COMPARING);
-        this.btnZielverzeichnisG.setText(std.SOURCE_DIR + " " + std.SELECT);
+        this.btnZielverzeichnisG.setText(std.SELECT + " " + std.TARGET_DIR);
         this.deleteCacheBtn.setText(std.DELETE_CACHE);
         this.displayLogFile.setText(std.DISPLAY_LOGFILE);
         this.fastModeBox.setText(std.FAST_MODE_NO_RENAMING);

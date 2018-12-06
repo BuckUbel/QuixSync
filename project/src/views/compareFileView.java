@@ -1,5 +1,6 @@
 package views;
 
+import controller.LanguageController;
 import logger.Logger;
 import models.ProcessingElementList;
 import models.minimizedStorageElement;
@@ -38,7 +39,7 @@ public class compareFileView extends QuixFileView {
 
         this.setTitle("Elemente: " + count);
 
-        Logger.print("Elemente: " + count + " wurden dargestellt.");
+        Logger.print(LanguageController.getLang().ELEMENTS + ": " + count + " " + LanguageController.getLang().WERE_DIPSLAYED + ".");
         this.finish();
     }
 

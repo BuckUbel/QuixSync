@@ -15,5 +15,5 @@
   "LOGGER_FILE_NORMAL": "logfile.log",
   "LOGGER_MODE": "RollingFileJSONLogger",
   "NO_NEXT_ACTION_STRING": "Nächste Aktion",
-  "LANGUAGE": "GERMAN"
+  "LANGUAGE": "ENGLISH"
 }

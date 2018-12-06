@@ -1,5 +1,6 @@
 package controller.Threads;
 
+import controller.LanguageController;
 import views.mainView;
 
 public class ProgressThread {
@@ -56,22 +57,22 @@ public class ProgressThread {
             this.window.progressBar1.setMaximum(max);
             this.window.progressBar1.setMinimum(min);
             this.window.progressBar1.setValue(current);
-            this.window.progressInformation.setText(ProgressThread.beautify(current) + " von " + ProgressThread.beautify(max) + " Elementen");
+            this.window.progressInformation.setText(ProgressThread.beautify(current) + " " + LanguageController.getLang().OF + " " + ProgressThread.beautify(max) + " " + LanguageController.getLang().ELEMENTS);
             this.window.progressPercentage.setText(String.format("%.2f", percentage) + " %");
         } else {
             if (isFinish) {
                 this.window.progressBar1.setMaximum(100);
                 this.window.progressBar1.setMinimum(0);
                 this.window.progressBar1.setValue(100);
-                this.window.progressInformation.setText(ProgressThread.beautify(max) + " Elemente");
-                this.window.progressPercentage.setText("gefunden und indexiert ");
+                this.window.progressInformation.setText(ProgressThread.beautify(max) + " " + LanguageController.getLang().ELEMENTS);
+                this.window.progressPercentage.setText(LanguageController.getLang().FOUND_AND_INDEXED);
             } else {
                 if (counter_current != 0) {
                     this.window.progressBar1.setMaximum(100);
                     this.window.progressBar1.setMinimum(0);
                     this.window.progressBar1.setValue(0);
-                    this.window.progressInformation.setText(ProgressThread.beautify(current) + " Elemente");
-                    this.window.progressPercentage.setText("bisher gefunden");
+                    this.window.progressInformation.setText(ProgressThread.beautify(current) + " " + LanguageController.getLang().ELEMENTS);
+                    this.window.progressPercentage.setText(LanguageController.getLang().FOUND_SO_FAR);
 
                 } else {
                     this.window.progressBar1.setMaximum(0);

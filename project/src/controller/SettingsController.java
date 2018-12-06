@@ -132,6 +132,10 @@ abstract public class SettingsController {
         return global_settings.IS_DAEMON;
     }
 
+    public static void setLanguage(String LANGUAGE) {
+        global_settings.LANGUAGE = LANGUAGE;
+    }
+
     public static void setPrettyLogging(boolean PRETTY_LOGGING) {
         global_settings.PRETTY_LOGGING = PRETTY_LOGGING;
     }

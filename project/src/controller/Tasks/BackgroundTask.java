@@ -2,6 +2,7 @@ package controller.Tasks;
 
 import controller.Controller;
 import controller.FileControllerWithFeedback;
+import controller.LanguageController;
 import controller.SettingsController;
 import controller.Threads.ProgressThread;
 import logger.Logger;
@@ -47,7 +48,9 @@ public class BackgroundTask implements Runnable {
                     Logger.print("Start Whole Sync SRC[\"" + this.indexProps.pathToIndex + "\"]  TRG[\"" + this.indexPropsTarget.pathToIndex + "\" ] ");
                     this.indexing(this.indexProps.pathToIndex, this.indexProps.indexFilePath);
                     this.indexing(this.indexPropsTarget.pathToIndex, this.indexPropsTarget.indexFilePath);
+                    this.pt.window.progressAction.setText(Controller.COMPARE);
                     this.comparing(this.compareProps.sourceIndexPath, this.compareProps.targetIndexPath, this.compareProps.comparePath, this.compareProps.isHardSync, this.compareProps.fastMode);
+                    this.pt.window.progressAction.setText(Controller.SYNC);
                     this.sync(this.syncProps.compareFilePath);
                     Logger.print("End Whole Sync");
                 } catch (Exception e) {
@@ -61,7 +64,7 @@ public class BackgroundTask implements Runnable {
         double seconds = (endTime - startTime);
         seconds = seconds / 1000;
 
-        Logger.print("Der Vorgang dauerte " + String.format("%.2f", seconds) + " Sekunden.");
+        Logger.print(LanguageController.getLang().THE_PROCESS_LASTED + " " + String.format("%.2f", seconds) + " " + LanguageController.getLang().SECONDS + ".");
     }
 
     private void indexing(String pathToIndex, String indexFilePath) {
