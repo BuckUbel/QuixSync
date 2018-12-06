@@ -65,6 +65,9 @@ public class Controller implements ActionListener {
                 if (sourceF.isDirectory()) {
                     if (targetF.isDirectory()) {
 
+                        this.window.progressAction.setText(Controller.WHOLE_SYNC);
+                        this.window.activateLoading(true);
+
                         this.indexProps.pathToIndex = source;
                         this.indexPropsTarget.pathToIndex = target;
                         success = this.wholeIndexing();
@@ -167,6 +170,9 @@ public class Controller implements ActionListener {
             case Controller.SAVE_SETTINGS:
                 this.applySettingChanges();
                 SettingsController.saveSettings();
+                break;
+            case Controller.SET_LANGUAGE:
+                this.window.setNewLanguageStrings();
                 break;
             case Controller.NEXT_ACTION:
                 if (this.bt.isFree()) {

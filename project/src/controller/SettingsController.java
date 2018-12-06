@@ -58,6 +58,10 @@ abstract public class SettingsController {
         return global_settings.TABLE_ROW_HEIGHT;
     }
 
+    public static String getLanguage() {
+        return global_settings.LANGUAGE;
+    }
+
     public static String getTempDir() {
         return global_settings.TEMP_DIR;
     }
