@@ -1,5 +1,7 @@
 package models;
 
+import controller.LanguageController;
+
 public class minimizedStorageElement {
 
     private String relativePath;

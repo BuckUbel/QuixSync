@@ -12,7 +12,7 @@
   "NO_ACTION": "Keine Aktion",
   "NEXT_ACTION": "Nächste Aktion",
   "STOP": "Stoppen",
-  "STOP_PROCESS": "Stopping Process",
+  "STOP_PROCESS": "Stoppe Prozess",
   "AS_AUTO_SYNC_SAVE": "Als Auto-Synchronisierung speichern",
   "DIRECTORY": "Verzeichnis",
   "CREATE_INDEX": "Index erstellen",
@@ -40,7 +40,6 @@
   "CLEAR_CACHE": "Cache leeren",
   "WRONG_PATH": "Falscher Pfad",
   "IS_WORKING": "ist in Betrieb",
-  "HERE": "Hier",
   "GET_INDEXING_FILES": "ERHALTE INDEX DATEIEN",
   "GET_COMPARE_FILES": "ERHALTE VERGLEICHSDATEI",
   "COMPARED_AT": "Verglichen am",
@@ -55,8 +54,4 @@
   "INDEX_PATH": "Indizierter Pfad",
   "NO_LOGENTRIES": "Keine Logeinträge.",
   "WERE_PRINTED": " wurden dargestellt."
-
-
-
-
 }

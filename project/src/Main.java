@@ -1,4 +1,5 @@
 import controller.Controller;
+import controller.LanguageController;
 import controller.SettingsController;
 import controller.Tasks.BackgroundTask;
 import logger.Logger;
@@ -9,6 +10,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         SettingsController.loadSettings();
+        LanguageController.loadLang(SettingsController.getLanguage());
 
         BackgroundTask bt = new BackgroundTask();
         mainView window = new mainView("QuixSync", 800, 400);

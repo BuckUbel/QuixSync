@@ -15,18 +15,20 @@ public class Controller implements ActionListener {
 
     private Thread thread;
 
-    public static final String WHOLE_SYNC = LanguageController.getLang().WHOLE_SYNC;
-    public static final String INDEXING = LanguageController.getLang().INDEXING;
-    public static final String COMPARE = LanguageController.getLang().COMPARING;
-    public static final String SYNC = LanguageController.getLang().SYNCHRONISATION;
-    public static final String STOP = LanguageController.getLang().STOP;
-    public static final String DISPLAY_COMPARE_FILE = LanguageController.getLang().DISPLAY_COMPAREFILE;
-    public static final String DISPLAY_LOG_FILE = LanguageController.getLang().DISPLAY_LOGFILE;
-    private static final String OPEN_README = LanguageController.getLang().OPEN_README;
-    public static final String NEXT_ACTION = LanguageController.getLang().NEXT_ACTION;
-    public static final String ADD_FTP_CONNECTION = LanguageController.getLang().ADD_FTP_CONNECTION;
-    public static final String CLEAR_CACHE = LanguageController.getLang().CLEAR_CACHE;
-    public static final String SAVE_SETTINGS = LanguageController.getLang().SAVE;
+    public static final String WHOLE_SYNC = "WHOLE_SYNC";
+    public static final String INDEXING = "INDEXING";
+    public static final String COMPARE = "COMPARING";
+    public static final String SYNC = "SYNCHRONISATION";
+    public static final String STOP = "STOP";
+    public static final String DISPLAY_COMPARE_FILE = "DISPLAY_COMPAREFILE";
+    public static final String DISPLAY_LOG_FILE = "DISPLAY_LOGFILE";
+    private static final String OPEN_README = "OPEN_README";
+    public static final String NEXT_ACTION = "NEXT_ACTION";
+    public static final String ADD_FTP_CONNECTION = "ADD_FTP_CONNECTION";
+    public static final String CLEAR_CACHE = "CACHE_CLEAR";
+    public static final String SAVE_SETTINGS = "SAVE_SETTINGS";
+    public static final String SET_LANGUAGE = "SET_LANGUAGE";
+
 
     private mainView window;
     private BackgroundTask bt;
@@ -308,7 +310,6 @@ public class Controller implements ActionListener {
     void displayLogFile(){
         try {
             String loggerFilepath = SettingsController.getMergeLoggerFilePath();
-            System.out.println(LanguageController.getLang().HERE+": " + loggerFilepath);
             loggerFileView cfv = new loggerFileView(LanguageController.getLang().LOG_FILE);
             Logger.mergeLogFiles();
             cfv.setFile(loggerFilepath);

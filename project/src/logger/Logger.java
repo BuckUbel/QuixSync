@@ -1,5 +1,6 @@
 package logger;
 
+import controller.LanguageController;
 import controller.SettingsController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.util.ArrayUtils;

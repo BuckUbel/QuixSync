@@ -1,6 +1,7 @@
 package models;
 
 import controller.FormattingController;
+import controller.LanguageController;
 
 public class IndexFileTableModel extends FileTableModel{
 

@@ -1,6 +1,7 @@
 package views;
 
 import controller.FormattingController;
+import controller.LanguageController;
 import fileWriter.JSONCreator;
 import logger.LogInformation;
 import logger.Logger;
