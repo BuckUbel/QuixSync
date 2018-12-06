@@ -31,7 +31,7 @@
   "ALLOW_DAEMON": "Daemon-Betrieb erlauben",
   "ADD_FTP_CONNECTION": "FTP_Verbindung hinzufügen",
   "SAVE": "Speichern",
-  "NEW_FILE": "Neue Datei" ,
+  "NEW_FILE": "Neue Datei",
   "DIFFERENT_NAME": "Verschiedene Namen",
   "DIFFERENT_SIZE": "Verschiedene Größe",
   "DIFFERENT_CHILDREN_COUNT": "Verschiedene Anzahl an Kindern",
@@ -60,6 +60,7 @@
   "FOUND_SO_FAR": "bisher gefunden,",
   "THE_PROCESS_LASTED": "Der Vorgang dauerte",
   "SECONDS": "Sekunden",
-  "WERE_DIPSLAYED":"wurden dargestellt"
-
+  "WERE_DIPSLAYED": "wurden dargestellt",
+  "OTHERDIALOG_TEXT": "<html>Der eingegebene Pfad war kein existierendes Verzeichnis <br> Bitte wählen Sie ein anderes Verzeichnis.</html>",
+  "ANOTHER_RUNNING_PROCESS_DIALOG": "<html>Ein anderer Prozess läuft derzeit. <br> Warten Sie bis dieser abgeschlossen ist. </html>"
 }

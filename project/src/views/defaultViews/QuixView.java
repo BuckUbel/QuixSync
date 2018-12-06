@@ -14,7 +14,7 @@ public class QuixView extends JFrame implements QuixViewI {
     private String title;
     public Controller c;
 
-    public QuixView(int width, int height, String title) {
+    protected QuixView(int width, int height, String title) {
         this.width = width;
         this.height = height;
         this.title = title;

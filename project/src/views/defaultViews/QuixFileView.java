@@ -13,7 +13,7 @@ public class QuixFileView extends QuixView implements QuixFileViewI {
 
     private JTextPane fileContentPane;
 
-    public QuixFileView(String title) {
+    protected QuixFileView(String title) {
         super(800, 600, title);
     }
 
@@ -36,7 +36,8 @@ public class QuixFileView extends QuixView implements QuixFileViewI {
         }
     }
 
-    public void setFile(String path) {}
+    public void setFile(String path) {
+    }
 
     @Override
     public void finish() {

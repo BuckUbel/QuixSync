@@ -1,6 +1,9 @@
 package controller;
 
-import models.*;
+import models.CompareFile;
+import models.IndexFile;
+import models.TypeFile;
+
 import java.io.File;
 import java.util.Arrays;
 
@@ -10,7 +13,7 @@ abstract class FileController {
 
         boolean forCompareFiles = matchString.equals(SettingsController.getCompareFileEnding());
         CompareFile[] cF = new CompareFile[0];
-        IndexFile[] iF =  new IndexFile[0];
+        IndexFile[] iF = new IndexFile[0];
 
         File[] indexFiles;
 
@@ -47,6 +50,6 @@ abstract class FileController {
         if (forCompareFiles) {
             return cF;
         }
-            return iF;
+        return iF;
     }
 }

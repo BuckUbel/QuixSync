@@ -5,6 +5,7 @@ Grundlegende Funktionen sind verhanden:
 - Logging
 
 ### Version 1.1
+
 <u>Bugfixes</u>
 - Korrektes Indexieren, Vergleichen und Synchronisieren
 - Höhere Differenzierung beim Logging 
@@ -23,3 +24,12 @@ Grundlegende Funktionen sind verhanden:
 - Mitteilen von Fehlbenutzungen an den Nutzer
 - Anzeigen eines Ladesymbols
 - Hinzufügen des `Fast Mode`
+
+### Version 1.2
+
+<u>Bugfixes</u>
+- Logdateien können nun immer über die Software angezeigt werden
+
+<u>Features</u>
+- Internationalisierung
+- Frontend wurde etwas angepasst

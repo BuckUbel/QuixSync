@@ -3,10 +3,10 @@ package models;
 import controller.FormattingController;
 import controller.LanguageController;
 
-public class CompareFileTableModel extends FileTableModel{
+public class CompareFileTableModel extends FileTableModel {
 
-    private static String[] compareHeader = {LanguageController.getLang().COMPARED_AT, LanguageController.getLang().SOURCE, LanguageController.getLang().TARGET};
-    private static int[] compareHeaderWidth = {135, 350, 350};
+    private static final String[] compareHeader = {LanguageController.getLang().COMPARED_AT, LanguageController.getLang().SOURCE, LanguageController.getLang().TARGET};
+    private static final int[] compareHeaderWidth = {135, 350, 350};
 
     public CompareFileTableModel(TypeFile[] data) {
         super(CompareFileTableModel.compareHeader, 0);

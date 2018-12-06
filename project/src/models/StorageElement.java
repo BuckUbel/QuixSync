@@ -29,7 +29,7 @@ public class StorageElement {
     final static int SIZE = 8;
     final static int CHILDREN_COUNT = 16;
     final static int NEW = 32;
-    final static int DIR = 64;
+    private final static int DIR = 64;
 
 
     public StorageElement() {
@@ -109,7 +109,7 @@ public class StorageElement {
         return this.dir + this.getRelativePath();
     }
 
-    public void setPath(String absolutePath) {
+    private void setPath(String absolutePath) {
 
         if (dir != null) {
             int startNumberFromDirPosition = absolutePath.indexOf(dir);
@@ -152,11 +152,11 @@ public class StorageElement {
         return this.position;
     }
 
-    public long getCreatedAt() {
+    private long getCreatedAt() {
         return this.createdAt;
     }
 
-    public long getChangedAt() {
+    private long getChangedAt() {
         return this.changedAt;
     }
 

@@ -1,6 +1,9 @@
 package controller;
 
-import controller.Tasks.*;
+import controller.Tasks.BackgroundTask;
+import controller.Tasks.CompareTaskProps;
+import controller.Tasks.IndexTaskProps;
+import controller.Tasks.SyncTaskProps;
 import logger.Logger;
 import models.TypeFile;
 import views.*;
@@ -46,7 +49,7 @@ public class Controller implements ActionListener {
         this.window = window;
         this.bt = bt;
 
-        cc = new ChangeController(window, this, bt);
+        cc = new ChangeController(window, this);
     }
 
     @Override
@@ -141,7 +144,7 @@ public class Controller implements ActionListener {
 
                 break;
             case Controller.STOP:
-                Logger.print(LanguageController.getLang().STOP_PROCESS+": " + this.bt.status);
+                Logger.print(LanguageController.getLang().STOP_PROCESS + ": " + this.bt.status);
                 this.window.activateLoading(false);
                 this.window.progressAction.setText(SettingsController.getNoNextActionString());
                 this.lastThread.stop();
@@ -164,8 +167,7 @@ public class Controller implements ActionListener {
             case Controller.CLEAR_CACHE:
                 try {
                     this.clearCache();
-                }
-                catch(Exception error){
+                } catch (Exception error) {
                     Logger.printErr(e.toString());
                 }
                 break;
@@ -307,7 +309,8 @@ public class Controller implements ActionListener {
         cfv.setVisible(true);
         cfv.createGUI();
     }
-    void displayLogFile(){
+
+    private void displayLogFile() {
         try {
             String loggerFilepath = SettingsController.getMergeLoggerFilePath();
             loggerFileView cfv = new loggerFileView(LanguageController.getLang().LOG_FILE);
@@ -315,8 +318,7 @@ public class Controller implements ActionListener {
             cfv.setFile(loggerFilepath);
             cfv.setVisible(true);
             cfv.createGUI();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Logger.printErr(e.toString());
         }
     }
@@ -332,7 +334,7 @@ public class Controller implements ActionListener {
         }
     }
 
-    public void clearCache() throws Exception {
+    private void clearCache() throws Exception {
         Logger.print(LanguageController.getLang().CLEAR_CACHE);
 
         TypeFile[] sel = FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getIndexFileEnding());
@@ -347,7 +349,7 @@ public class Controller implements ActionListener {
         }
     }
 
-    public void applySettingChanges(){
+    private void applySettingChanges() {
 //        SettingsController.setCompareFileEnding();
 //        SettingsController.setFileEnding();
 //        SettingsController.setHelpFileLogo();

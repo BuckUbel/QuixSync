@@ -3,7 +3,6 @@ package views;
 import controller.Controller;
 import controller.LanguageController;
 import controller.SettingsController;
-import javafx.scene.control.SelectionModel;
 import models.Language;
 import views.defaultViews.QuixView;
 import views.viewInterfaces.QuixViewI;
@@ -163,7 +162,7 @@ public class mainView extends QuixView implements QuixViewI {
 
     private void setLanguageStrings() {
         String[] languages = LanguageController.getAvailableLanguages();
-        DefaultComboBoxModel<String> dcbm = new DefaultComboBoxModel<String>(languages);
+        DefaultComboBoxModel<String> dcbm = new DefaultComboBoxModel<>(languages);
         this.langBox.setModel(dcbm);
         this.langBox.setSelectedIndex(LanguageController.getLangCode(SettingsController.getLanguage()));
 
@@ -248,7 +247,7 @@ public class mainView extends QuixView implements QuixViewI {
         this.stopButton.setEnabled(b);
     }
 
-    public void refreshSettings() {
+    private void refreshSettings() {
 
         this.fastModeBox.setSelected(SettingsController.getIsFastMode());
         this.fastModeBox2.setSelected(SettingsController.getIsFastMode());

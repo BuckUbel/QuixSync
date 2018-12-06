@@ -1,5 +1,6 @@
 package views;
 
+import controller.LanguageController;
 import views.defaultViews.QuixDialog;
 
 import javax.swing.*;
@@ -15,8 +16,8 @@ public class AnotherRunningProcessDialog extends QuixDialog {
     }
 
     public void createGUI() {
-        String s = "<html>Ein anderer Prozess läuft derzeit. <br> Warten Sie bis dieser abgeschlossen ist. </html>";
-        super.createGUI(this.rootPanel,this.okButton,this.dialogText, s);
+        String s = LanguageController.getLang().ANOTHER_RUNNING_PROCESS_DIALOG;
+        super.createGUI(this.rootPanel, this.okButton, this.dialogText, s);
         this.finish();
     }
 }

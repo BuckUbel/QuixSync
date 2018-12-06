@@ -15,9 +15,9 @@ public class QuixDialog extends JDialog implements QuixDialogI, ActionListener {
 
     private String title;
 
-    public Controller c;
+    private Controller c;
 
-    public QuixDialog(String title) {
+    protected QuixDialog(String title) {
         this.width = 350;
         this.height = 200;
         this.title = title;

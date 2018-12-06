@@ -60,5 +60,7 @@
   "FOUND_SO_FAR": "found so far",
   "THE_PROCESS_LASTED": "The process lasted",
   "SECONDS": "seconds",
-  "WERE_DIPSLAYED":"were displayed"
+  "WERE_DIPSLAYED":"were displayed",
+  "OTHERDIALOG_TEXT": "<html>The path entered was not an existing directory <br> Please select another one.</html>",
+  "ANOTHER_RUNNING_PROCESS_DIALOG":  "<html>Another process is currently running. <br> Wait until it is completed.</html>"
 }

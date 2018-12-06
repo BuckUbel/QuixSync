@@ -5,7 +5,7 @@ public class Settings {
     public final transient static int TABLE_ROW_HEIGHT = 16;
 
     public final transient static String SETTINGS_DIR = "settings";
-    public final transient static String SETTINGS_FILE = Settings.SETTINGS_DIR + "//"+"config.json";
+    public final transient static String SETTINGS_FILE = Settings.SETTINGS_DIR + "//" + "config.json";
     public final transient static String LOGGER_MODE_JSON = "RollingFileJSONLogger";
     public final transient static String LOGGER_MODE_NORMAL = "RollingFilePatternLogger";
 

@@ -1,7 +1,6 @@
 package controller;
 
 import fileWriter.JSONCreator;
-import logger.Logger;
 import models.Settings;
 
 import java.io.File;
@@ -55,7 +54,7 @@ abstract public class SettingsController {
     }
 
     static int getTableRowHeight() {
-        return global_settings.TABLE_ROW_HEIGHT;
+        return Settings.TABLE_ROW_HEIGHT;
     }
 
     public static String getLanguage() {
@@ -185,9 +184,9 @@ abstract public class SettingsController {
                 TEMP_DIR += "\\\\";
             }
         }
-        if (TEMP_DIR.substring(TEMP_DIR.length() - 2).equals("\\\\")) {
-            // no problem
-        }
+        //if (TEMP_DIR.substring(TEMP_DIR.length() - 2).equals("\\\\")) {
+        // no problem
+        //}
         return TEMP_DIR;
     }
 

@@ -7,9 +7,11 @@ public abstract class FormattingController {
     public static String millisToDate(long timestamp) {
         return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(timestamp);
     }
+
     public static String beautyMillis(long timestamp) {
         return new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(timestamp);
     }
+
     public static String getFormattedFileSize(double count) {
         int factor = 1;
         char format = '\u0000';

@@ -7,9 +7,9 @@ import java.util.stream.Stream;
 
 public class ProcessingElementList extends ElementList {
 
-    public minimizedStorageElement[] copyList;
-    public minimizedStorageElement[] deleteList;
-    public minimizedStorageElement[] newTargetList;
+    private minimizedStorageElement[] copyList;
+    private minimizedStorageElement[] deleteList;
+    private minimizedStorageElement[] newTargetList;
 
     public String sourceDirPath;
     public String targetDirPath;
@@ -17,7 +17,7 @@ public class ProcessingElementList extends ElementList {
     public ProcessingElementList() {
     }
 
-    public ProcessingElementList(minimizedStorageElement[] copyList, minimizedStorageElement[] deleteList, minimizedStorageElement[] newTargetList) {
+    private ProcessingElementList(minimizedStorageElement[] copyList, minimizedStorageElement[] deleteList, minimizedStorageElement[] newTargetList) {
         this.copyList = copyList;
         this.deleteList = deleteList;
         this.newTargetList = newTargetList;

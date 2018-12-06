@@ -3,21 +3,18 @@ package logger;
 import controller.LanguageController;
 import controller.SettingsController;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.util.ArrayUtils;
-import views.mainView;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class Logger {
 
-    private static Boolean system = false;
+    private static final Boolean system = false;
 
     // Log4J
-    private static org.apache.logging.log4j.Logger log = LogManager.getLogger(SettingsController.getLoggerMode());
+    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(SettingsController.getLoggerMode());
 
     public static void print(String s) {
         if (system) {

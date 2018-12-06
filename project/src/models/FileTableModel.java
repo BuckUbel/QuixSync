@@ -1,7 +1,6 @@
 package models;
 
 import javax.swing.table.DefaultTableModel;
-import java.text.SimpleDateFormat;
 
 public abstract class FileTableModel extends DefaultTableModel {
 

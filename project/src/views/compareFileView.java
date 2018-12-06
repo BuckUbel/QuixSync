@@ -37,7 +37,7 @@ public class compareFileView extends QuixFileView {
             this.writeInPane("Keine Änderungen.", Color.BLACK, Color.WHITE);
         }
 
-        this.setTitle("Elemente: " + count);
+        this.setTitle(LanguageController.getLang().ELEMENTS + ": " + count);
 
         Logger.print(LanguageController.getLang().ELEMENTS + ": " + count + " " + LanguageController.getLang().WERE_DIPSLAYED + ".");
         this.finish();

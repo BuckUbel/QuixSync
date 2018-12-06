@@ -10,36 +10,40 @@
 
         <!-- Console Appender -->
         <Console name="STDOUT" target="SYSTEM_OUT">
-            <PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{2} (%F:%L) - %m%n" />
+            <PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{2} (%F:%L) - %m%n"/>
         </Console>
 
         <!-- Rolling File Appender Strings-->
-       <RollingFile name="RollingFilePatternAppender" fileName="logs/logfile.log" filePattern="logs/$${date:yyyy-MM-dd}/logfile-%d{HH.mm}.log"> -->
+        <RollingFile name="RollingFilePatternAppender" fileName="logs/logfile.log"
+                     filePattern="logs/$${date:yyyy-MM-dd}/logfile-%d{HH.mm}.log">-->
             <!-- String Layout -->
-           <PatternLayout>
-                <Pattern>%d{HH:mm:ss.SSS} [%t] %highlight{%level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green, DEBUG=blue} - %msg%n</Pattern>
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss.SSS} [%t] %highlight{%level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green,
+                    DEBUG=blue} - %msg%n
+                </Pattern>
             </PatternLayout>
 
             <Policies>
-                <OnStartupTriggeringPolicy />
-                <SizeBasedTriggeringPolicy size="10 MB" />
+                <OnStartupTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
 
-            <DefaultRolloverStrategy max="20" />
+            <DefaultRolloverStrategy max="20"/>
 
         </RollingFile>
 
         <!-- Rolling File Appender JSON-->
-        <RollingFile name="RollingFileJSONAppender" fileName="logs/logfile.json" filePattern="logs/archive/%d{yyyy-MM-dd}-logfile-%d{HH.mm}.log">
+        <RollingFile name="RollingFileJSONAppender" fileName="logs/logfile.json"
+                     filePattern="logs/archive/%d{yyyy-MM-dd}-logfile-%d{HH.mm}.log">
 
             <JSONLayout complete="true" compact="false"/>
 
             <Policies>
-                <OnStartupTriggeringPolicy />
-                <SizeBasedTriggeringPolicy size="10 MB" />
+                <OnStartupTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
 
-            <DefaultRolloverStrategy max="100" />
+            <DefaultRolloverStrategy max="100"/>
 
         </RollingFile>
     </Appenders>
@@ -47,13 +51,13 @@
     <!-- Logger instances -->
     <Loggers>
         <Root level="info">
-            <AppenderRef ref="STDOUT" />
+            <AppenderRef ref="STDOUT"/>
         </Root>
-		<Logger name="RollingFilePatternLogger">
-            <AppenderRef ref="RollingFilePatternAppender" />
+        <Logger name="RollingFilePatternLogger">
+            <AppenderRef ref="RollingFilePatternAppender"/>
         </Logger>
         <Logger name="RollingFileJSONLogger">
-            <AppenderRef ref="RollingFileJSONAppender" />
+            <AppenderRef ref="RollingFileJSONAppender"/>
         </Logger>
     </Loggers>
 </Configuration>

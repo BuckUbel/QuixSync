@@ -1,5 +1,6 @@
 package views;
 
+import controller.LanguageController;
 import views.defaultViews.QuixDialog;
 
 import javax.swing.*;
@@ -15,8 +16,8 @@ public class OtherDirDialog extends QuixDialog {
     }
 
     public void createGUI() {
-        String s = "<html>Der eingegebene Pfad war kein existierendes Verzeichnis <br> Bitte wählen Sie ein anderes Verzeichnis.</html>";
-        super.createGUI(this.rootPanel,this.okButton,this.dialogText, s);
+        String s = LanguageController.getLang().OTHERDIALOG_TEXT;
+        super.createGUI(this.rootPanel, this.okButton, this.dialogText, s);
         this.finish();
     }
 }

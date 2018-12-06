@@ -7,7 +7,7 @@ import views.mainView;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         SettingsController.loadSettings();
         LanguageController.loadLang(SettingsController.getLanguage());

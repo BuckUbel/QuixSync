@@ -153,7 +153,7 @@ public class ProgressThread {
         this.refresh();
     }
 
-    public int getStatus() {
+    private int getStatus() {
         if (iterations_max != 0) {
             if (counter_max != 0) {
                 if (counter_max == counter_current && iterations_max == iterations_current)

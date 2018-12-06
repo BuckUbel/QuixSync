@@ -3,10 +3,10 @@ package models;
 import controller.FormattingController;
 import controller.LanguageController;
 
-public class IndexFileTableModel extends FileTableModel{
+public class IndexFileTableModel extends FileTableModel {
 
-    private static String[] indexHeader = {LanguageController.getLang().INDEXED_AT, LanguageController.getLang().INDEX_PATH};
-    private static int[] indexHeaderWidth = {135, 365};
+    private static final String[] indexHeader = {LanguageController.getLang().INDEXED_AT, LanguageController.getLang().INDEX_PATH};
+    private static final int[] indexHeaderWidth = {135, 365};
 
     public IndexFileTableModel(TypeFile[] data) {
         super(IndexFileTableModel.indexHeader, 0);

@@ -28,7 +28,7 @@ public abstract class LanguageController {
             value = newValue;
         }
 
-        public int getValue() {
+        int getValue() {
             return value;
         }
     }

@@ -9,14 +9,13 @@ public class StorageElementList extends ElementList {
 
     private List<StorageElement> elementList;
     private String dirPath;
-    private double count = 0;
     private int latestLft;
     private long lastModified;
 
     public StorageElementList() {
     }
 
-    public StorageElementList(List<StorageElement> elementList, String dirPath) {
+    private StorageElementList(List<StorageElement> elementList, String dirPath) {
 
         this.elementList = elementList;
         this.dirPath = dirPath;
@@ -31,7 +30,7 @@ public class StorageElementList extends ElementList {
         this.lastModified = lastModified;
     }
 
-    public long getListCreatedAt(){
+    public long getListCreatedAt() {
         return this.listCreatedAt;
     }
 
@@ -74,10 +73,6 @@ public class StorageElementList extends ElementList {
 
     public void setDirPath(String dirPath) {
         this.dirPath = dirPath;
-    }
-
-    public void setSize(double size) {
-        this.count = size;
     }
 
     private void sort() {

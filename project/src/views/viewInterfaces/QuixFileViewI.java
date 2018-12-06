@@ -10,5 +10,6 @@ public interface QuixFileViewI extends QuixViewI {
     Color BLUE = new Color(178, 178, 255);
 
     void setFile(String path);
+
     void createGUI(JPanel rootPanel, JTextPane fileContentPane);
 }

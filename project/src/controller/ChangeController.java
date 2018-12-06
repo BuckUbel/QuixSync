@@ -1,8 +1,10 @@
 package controller;
 
-import controller.Tasks.BackgroundTask;
 import logger.Logger;
-import models.*;
+import models.CompareFileTableModel;
+import models.FileTableModel;
+import models.IndexFileTableModel;
+import models.TypeFile;
 import views.mainView;
 
 import javax.swing.*;
@@ -15,12 +17,10 @@ import java.awt.event.MouseEvent;
 public class ChangeController implements ChangeListener {
 
     private mainView window;
-    private BackgroundTask bt;
     private Controller c;
 
-    ChangeController(mainView window, Controller c, BackgroundTask bt) {
+    ChangeController(mainView window, Controller c) {
         this.window = window;
-        this.bt = bt;
         this.c = c;
     }
 
@@ -49,7 +49,7 @@ public class ChangeController implements ChangeListener {
             Controller controller = this.c;
             window.tblCompareFiles.addMouseListener(new MouseAdapter() {
                 public void mousePressed(MouseEvent mouseEvent) {
-                    JTable table =(JTable) mouseEvent.getSource();
+                    JTable table = (JTable) mouseEvent.getSource();
                     if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
                         controller.displayCompareFile();
                     }

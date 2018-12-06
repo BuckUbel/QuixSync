@@ -2,7 +2,10 @@ package controller;
 
 import controller.Threads.ProgressThread;
 import logger.Logger;
-import models.*;
+import models.ProcessingElementList;
+import models.StorageElement;
+import models.StorageElementList;
+import models.minimizedStorageElement;
 
 import java.io.File;
 import java.nio.file.CopyOption;
@@ -11,12 +14,9 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-
 public abstract class FileControllerWithFeedback {
 
-    private static CopyOption[] copySyncOptions = new CopyOption[]{
+    private static final CopyOption[] copySyncOptions = new CopyOption[]{
             StandardCopyOption.REPLACE_EXISTING,
             StandardCopyOption.COPY_ATTRIBUTES
     };
@@ -74,7 +74,7 @@ public abstract class FileControllerWithFeedback {
                 storageElementDir.setRgt(index);
                 index++;
 //                if (lastModified != 0) {
-                    storageElementDir.setChangedAtSpecific(lastModified);
+                storageElementDir.setChangedAtSpecific(lastModified);
 //                }
                 returnArray.add(storageElementDir);
 
@@ -115,6 +115,7 @@ public abstract class FileControllerWithFeedback {
         StorageElement[] targetElements = targetElementsList.getElementsArray();
         targetElements[0] = null;
 
+        // for garbage collector
         sourceElementsList = null;
         targetElementsList = null;
 

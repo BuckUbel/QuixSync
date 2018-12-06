@@ -2,6 +2,7 @@ package models;
 
 public class Language {
 
+    // TODO: use standardized language
     public String SOURCE_DIR = "Source dir";
     public String TARGET_DIR = "Target dir";
     public String SELECT = "select";
@@ -64,4 +65,6 @@ public class Language {
     public String THE_PROCESS_LASTED = "The process lasted";
     public String SECONDS = "seconds";
     public String WERE_DIPSLAYED = "wurden dargestellt";
+    public String OTHERDIALOG_TEXT = "<html>The path entered was not an existing directory <br> Please select another one.</html>";
+    public String ANOTHER_RUNNING_PROCESS_DIALOG = "<html>Another process is currently running. <br> Wait until it is completed.</html>";
 }

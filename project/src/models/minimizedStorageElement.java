@@ -54,7 +54,7 @@ public class minimizedStorageElement {
         }
         if (this.isDifferentChanged() && !extraInfo) {
             returnString += LanguageController.getLang().DIFFERENT_CHANGEDATA;
-            extraInfo = true;
+//            extraInfo = true;
         }
 
         returnString += " : \t\t";

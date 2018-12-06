@@ -6,7 +6,7 @@ public class ElementList {
 
     long listCreatedAt;
 
-    public void setListCreatedAt(long listCreatedAt) {
+    private void setListCreatedAt(long listCreatedAt) {
         this.listCreatedAt = listCreatedAt;
     }
 
