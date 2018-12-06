@@ -74,7 +74,7 @@ public abstract class Logger {
 
         if (mergefile.exists()) {
             if (!mergefile.delete()) {
-                throw new IOException("File " + mergedFilePath + " konnte nicht gelöscht werden.");
+                throw new IOException(LanguageController.getLang().FILE + mergedFilePath + LanguageController.getLang().COULDNT_BE_DELETED);
             }
         }
 

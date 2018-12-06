@@ -14,9 +14,6 @@ import java.awt.event.MouseEvent;
 
 public class ChangeController implements ChangeListener {
 
-    public static final String GET_INDEXING_FILES = "GET_INDEXING_FILES";
-    public static final String GET_COMPARE_FILES = "GET_COMPARE_FILES";
-
     private mainView window;
     private BackgroundTask bt;
     private Controller c;
@@ -32,7 +29,7 @@ public class ChangeController implements ChangeListener {
         TypeFile[] sel;
 
         if (window.tabbedPane1.getSelectedIndex() == SettingsController.TAB_NUMBER.COMPARE.getValue()) { // Comp
-            Logger.print("GET_INDEXING_FILES");
+            Logger.print(LanguageController.getLang().GET_INDEXING_FILES);
             sel = FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getIndexFileEnding());
 
             FileTableModel ftm = new IndexFileTableModel(sel);
@@ -43,7 +40,7 @@ public class ChangeController implements ChangeListener {
         }
         if (window.tabbedPane1.getSelectedIndex() == SettingsController.TAB_NUMBER.SYNC.getValue()) { //Sync
 
-            Logger.print("GET_COMPARE_FILES");
+            Logger.print(LanguageController.getLang().GET_COMPARE_FILES);
             sel = FileController.getFilesWithSpecificString(SettingsController.getTempDir(), SettingsController.getCompareFileEnding());
 
             FileTableModel ftm = new CompareFileTableModel(sel);

@@ -1,0 +1,18 @@
+{
+  "copyList": [
+    {
+      "relativePath": "\\QuixSync\\QuixSync\\project\\logs\\logfile.json",
+      "state": 9
+    }
+  ],
+  "deleteList": [
+    {
+      "relativePath": "\\QuixSync\\QuixSync\\project\\testData\\1544112556343.index.quix",
+      "state": 32
+    }
+  ],
+  "newTargetList": [],
+  "sourceDirPath": "C:\\Users\\chris\\Desktop",
+  "targetDirPath": "C:\\Users\\chris\\Desktop",
+  "listCreatedAt": 1544113001535
+}
