@@ -68,6 +68,7 @@ public class mainView extends QuixView implements QuixViewI {
     private JLabel loadIcon;
     private JButton displayLogFile;
     public JComboBox<String> langBox;
+    private JLabel defaultSettings;
 
     public mainView(String title, int width, int height) {
         super(width, height, title);
@@ -168,7 +169,7 @@ public class mainView extends QuixView implements QuixViewI {
 
         this.langBox.setActionCommand(Controller.SET_LANGUAGE);
         this.langBox.addActionListener(c);
-        this.setNewLanguageStrings();
+//        this.setNewLanguageStrings();
     }
     public void setNewLanguageStrings(){
 
@@ -179,7 +180,7 @@ public class mainView extends QuixView implements QuixViewI {
         this.tabbedPane1.setTitleAt(SettingsController.TAB_NUMBER.INDEXING.getValue(), std.INDEXING);
         this.tabbedPane1.setTitleAt(SettingsController.TAB_NUMBER.COMPARE.getValue(), std.COMPARING);
         this.tabbedPane1.setTitleAt(SettingsController.TAB_NUMBER.SYNC.getValue(), std.SYNC);
-        this.tabbedPane1.setTitleAt(SettingsController.TAB_NUMBER.SETTINGS.getValue(), std.WHOLE_SYNC);
+        this.tabbedPane1.setTitleAt(SettingsController.TAB_NUMBER.SETTINGS.getValue(), std.SETTINGS);
 
         Border border = BorderFactory.createTitledBorder(std.PROGRESS_OF_CURRENT_ACTION);
         this.progressPanel.setBorder(border);
@@ -191,6 +192,7 @@ public class mainView extends QuixView implements QuixViewI {
         //tfVergleichsdatei
         //tfZielIndexdatei
         //tfZielverzeichnisG;
+        this.defaultSettings.setText(std.DEFAULT_SETTINGS_FOR_COMPARING);
         this.anzeigenButton.setText(std.SHOW_FILE);
         this.btnAutoSyncG.setText(std.AS_AUTO_SYNC_SAVE);
         this.btnFTPVerbindung.setText(std.ADD_FTP_CONNECTION);
