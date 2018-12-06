@@ -2,7 +2,6 @@ package models;
 
 public class Language {
 
-    public String NO_NEXT_ACTION_STRING = "Nächste Aktion";
     public String SOURCE_DIR = "Source dir";
     public String TARGET_DIR = "Target dir";
     public String SELECT = "select";
@@ -47,7 +46,6 @@ public class Language {
     public String CLEAR_CACHE = "Cache leeren";
     public String WRONG_PATH = "Falscher Pfad";
     public String IS_WORKING = "ist in Betrieb";
-    public String HERE = "Hier";
     public String GET_INDEXING_FILES = "ERHALTE INDEX DATEIEN";
     public String GET_COMPARE_FILES = "ERHALTE VERGLEICHSDATEI";
     public String COMPARED_AT = "Verglichen am";
