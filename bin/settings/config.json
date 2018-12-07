@@ -1,0 +1,19 @@
+{
+  "PRETTY_LOGGING": true,
+  "STANDARD_IS_HARD_SYNC": false,
+  "STANDARD_IS_FAST_MODE": true,
+  "IS_DAEMON": false,
+  "COMPARE_FILE_ENDING": ".comp",
+  "INDEX_FILE_ENDING": ".index",
+  "FILE_ENDING": ".quix",
+  "LOGO_FILE": "img//Quix.png",
+  "HELP_FILE_LOGO": "img//Quix_transparent.png",
+  "LOADING_FILE_LOGO": "img//Quix_animated_l.gif",
+  "TEMP_DIR": "testData\\\\",
+  "LOG_DIR": "logs//",
+  "LOGGER_FILE_JSON": "logFile.json",
+  "LOGGER_FILE_NORMAL": "logfile.log",
+  "LOGGER_MODE": "RollingFileJSONLogger",
+  "NO_NEXT_ACTION_STRING": "Nächste Aktion",
+  "LANGUAGE": "GERMAN"
+}

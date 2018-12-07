@@ -1,0 +1,329 @@
+[[
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Program started successfully.",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175162,
+    "nanoOfSecond" : 933000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+, {
+  "thread" : "AWT-EventQueue-0",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Open ReadMe",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175165,
+    "nanoOfSecond" : 444000000
+  },
+  "threadId" : 15,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "AWT-EventQueue-0",
+  "level" : "ERROR",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "java.io.IOException: Failed to open file:/D:/Quentin/Schule/BA%20Leipzig/5.Semester/SP/QuixSync/bin/HelpMe.pdf. Error message: Das System kann die angegebene Datei nicht finden.\r\n",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175165,
+    "nanoOfSecond" : 458000000
+  },
+  "threadId" : 15,
+  "threadPriority" : 6
+}
+
+]
+,
+[
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Program started successfully.",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175189,
+    "nanoOfSecond" : 816000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+, {
+  "thread" : "AWT-EventQueue-0",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Open ReadMe",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175191,
+    "nanoOfSecond" : 204000000
+  },
+  "threadId" : 15,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "Thread-4",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Start Whole Sync SRC[\"D:\\Quentin\\Schule\\BA Leipzig2\"]  TRG[\"D:\\Quentin\\Schule\\BA Leipzig2\" ] ",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175210,
+    "nanoOfSecond" : 962000000
+  },
+  "threadId" : 38,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "Thread-4",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Start Indexing: D:\\Quentin\\Schule\\BA Leipzig2",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175210,
+    "nanoOfSecond" : 962000000
+  },
+  "threadId" : 38,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "Thread-4",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "End Indexing: testData\\\\1544175210961.index.quix",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175247,
+    "nanoOfSecond" : 247000000
+  },
+  "threadId" : 38,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "Thread-4",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Start Indexing: D:\\Quentin\\Schule\\BA Leipzig2",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175247,
+    "nanoOfSecond" : 247000000
+  },
+  "threadId" : 38,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "AWT-EventQueue-0",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Log anzeigen",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175250,
+    "nanoOfSecond" : 668000000
+  },
+  "threadId" : 15,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "AWT-EventQueue-0",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Logs: 10 wurden dargestellt.",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175250,
+    "nanoOfSecond" : 716000000
+  },
+  "threadId" : 15,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "Thread-4",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "End Indexing: testData\\\\1544175210962.index.quix",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175261,
+    "nanoOfSecond" : 815000000
+  },
+  "threadId" : 38,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "Thread-4",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Start Comparing SRC[\"testData\\\\1544175210961.index.quix\"]  TRG[\"testData\\\\1544175210962.index.quix\" ] HardSync: true FastMode: false",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175261,
+    "nanoOfSecond" : 816000000
+  },
+  "threadId" : 38,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "AWT-EventQueue-0",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Log anzeigen",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175263,
+    "nanoOfSecond" : 485000000
+  },
+  "threadId" : 15,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "AWT-EventQueue-0",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Logs: 14 wurden dargestellt.",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175263,
+    "nanoOfSecond" : 517000000
+  },
+  "threadId" : 15,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "AWT-EventQueue-0",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Log anzeigen",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175282,
+    "nanoOfSecond" : 932000000
+  },
+  "threadId" : 15,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "AWT-EventQueue-0",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Logs: 16 wurden dargestellt.",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175282,
+    "nanoOfSecond" : 962000000
+  },
+  "threadId" : 15,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "Thread-4",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "End Comparing: testData\\\\1544175210963.comp.quix",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175374,
+    "nanoOfSecond" : 375000000
+  },
+  "threadId" : 38,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "Thread-4",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Start Sync: testData\\\\1544175210963.comp.quix",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175374,
+    "nanoOfSecond" : 376000000
+  },
+  "threadId" : 38,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "Thread-4",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "End Sync",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175374,
+    "nanoOfSecond" : 382000000
+  },
+  "threadId" : 38,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "Thread-4",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "End Whole Sync",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175374,
+    "nanoOfSecond" : 382000000
+  },
+  "threadId" : 38,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "Thread-4",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Der Vorgang dauerte 163,42 Sekunden.",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175374,
+    "nanoOfSecond" : 384000000
+  },
+  "threadId" : 38,
+  "threadPriority" : 6
+}
+, {
+  "thread" : "AWT-EventQueue-0",
+  "level" : "INFO",
+  "loggerName" : "RollingFileJSONLogger",
+  "message" : "Log anzeigen",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1544175385,
+    "nanoOfSecond" : 980000000
+  },
+  "threadId" : 15,
+  "threadPriority" : 6
+}
+]
+]
