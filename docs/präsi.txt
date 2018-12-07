@@ -1,5 +1,5 @@
 
-- Vergleich von der Dauer von der Indizierung bei verschiedenen Datengrˆﬂen
+- Vergleich von der Dauer von der Indizierung bei verschiedenen Datengr√∂√üen
 	Fast Mode without Hardsync
 		<
 	Normal Mode without Hardsync
@@ -8,14 +8,28 @@
 		<
 	Normal Mode with HardSync
 
-	--> der Faktor um den das System schneller im Fast Mode ist kommt auf die Anzahl der Ver‰nderungen an
+	--> der Faktor um den das System schneller im Fast Mode ist kommt auf die Anzahl der Ver√§nderungen an
 		--> worst case: gleich schnell
 
 
 - Aufgetretene Problem:
-	- JSON Konverter (Java Objekte --> JSON)	Lˆsung: Bibliothek GSON
+	- JSON Konverter (Java Objekte --> JSON)	L√∂sung: Bibliothek GSON
+	- Benutzte Bibliotheken: GSON, Log4j2 (Jackson)
 	- nicht alle Exceptions werden dem Nutzer angezeigt --> schlimmsten Falle passiert nichts und der Nutzer merkt es nicht
-	
+
+- Live Demo
+
+- Programmablaufdiagramm --> Simplified (Mehrere Files --> 
 
 - Projektverlauf
 	- Wer hatte welche Position?
+		Quentin: Alles
+		Chris: Logging, JSON Converter, Internationalisierung
+		Phillip: View.
+		
+- Ende:
+	Viel Zeit, Ich hoffe ihr m√∂gt es
+	Wir hoffen alle Bugs weg
+	Prof. Heller danken das er f√ºr uns die letzten 5 Semester notwendige Wissen vermittelt hat.
+	
+		
