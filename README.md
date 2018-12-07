@@ -1,17 +1,1 @@
-# QuixSync
-
-<img src="https://raw.githubusercontent.com/BuckUbel/QuixSync/master/pictures/logo/Quix1.0.png?token=AaeddZzJw_U55jwr2FWyaiHwQu9wSOYqks5b4DcvwA%3D%3D" title="Quix" width="400" /> 
-
-## Index
-
-In diesem Vorgang wird ein Verzeichnis analysiert und eine Index-Datei entsteht.
-Diese ist im JSON-Format und wird über GSON erstellt.
-
-## Compare
-
-In diesem Vorgang werden zwei erstellte Index-Dateien verglichen.
-Daraus entsteht eine Vergleichsdatei.
-
-## Sync
-Die Vergleichsdatei wird nun benutzt um festzustellen, welche Dateien verändert werden müssen.
-
+# QuixSync<img src="https://raw.githubusercontent.com/BuckUbel/QuixSync/master/pictures/logo/Quix1.0.png?token=AaeddZzJw_U55jwr2FWyaiHwQu9wSOYqks5b4DcvwA%3D%3D" title="Quix" width="400" /> ## IndexIn diesem Vorgang wird ein Verzeichnis analysiert und eine Index-Datei entsteht.Diese ist im JSON-Format und wird über GSON erstellt.## CompareIn diesem Vorgang werden zwei erstellte Index-Dateien verglichen.Daraus entsteht eine Vergleichsdatei.## SyncDie Vergleichsdatei wird nun benutzt um festzustellen, welche Dateien verändert werden müssen.### LizenzenQuixSync steht unter der GPL 3.0 und benutzt zur Vollrichtung des Programmablaufes folgende zusätzliche Software, welche unter der "Apache License 2" stehen:- **GSON 2.8.2:** eine Java Bibliothek zur Konvertierung von Java-Objekten  in eine JSON-Repräsentation und zurück.  Copyright © 2008 Google Inc.  [Link](https://github.com/google/gson)	- **Apache Log4J 2.11.1:** ist ein Upgrade zu Log4j, ein Framework zum Loggen von Anwendungsmeldungen in Java.  Copyright © 1999-2015 Apache Software Foundation.   [Link](https://github.com/apache/logging-log4j2)- **Jackson 2.9.7:**   ein Sammlung von Datenverarbeitungs-Werkzeugen für Java. Speziell zum Einsatz kam der JSON-Parser in Verbindung mit Log4j2.  Copyright ©2009-2011 FasterXML, LLC.  [Link](https://github.com/FasterXML/jackson)Gemäß der Bedingungen der "Apache License 2.0" findet sich eine Kopie der Lizenz im Verzeichnis ApacheLicense.
