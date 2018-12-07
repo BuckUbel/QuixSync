@@ -33,3 +33,8 @@ Grundlegende Funktionen sind verhanden:
 <u>Features</u>
 - Internationalisierung
 - Frontend wurde etwas angepasst
+
+
+#### Version 1.2.1
+
+- Anpassung der ReadMe und der Lizenzen
