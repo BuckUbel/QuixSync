@@ -28,3 +28,6 @@ Vergleich Pflichtenheft 						--> Phillip
 	Neuer Modi (FastMode - Begründet durch Nested Set)
 	Synch ist gleich geblieben 
 	Benutzeroberfläche Vergleich Planung + Realisierung
+
+Aufteilung + Erwähnen Git / Branches used /  Github mit Issues		 --> Chris
+		+ einzelne Projekte
