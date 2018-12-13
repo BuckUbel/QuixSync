@@ -1,4 +1,4 @@
-
+﻿
 - Vergleich von der Dauer von der Indizierung bei verschiedenen Datengrößen
 	Fast Mode without Hardsync
 		<
@@ -13,8 +13,6 @@
 
 
 - Aufgetretene Problem:
-	- JSON Konverter (Java Objekte --> JSON)	Lösung: Bibliothek GSON
-	- Benutzte Bibliotheken: GSON, Log4j2 (Jackson)
 	- nicht alle Exceptions werden dem Nutzer angezeigt --> schlimmsten Falle passiert nichts und der Nutzer merkt es nicht
 
 - Live Demo
