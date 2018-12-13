@@ -78,7 +78,7 @@ Aktiviert den Daemonbetrieb des Programms. Mithilfe dessen werden die als "Auto-
 
 &nbsp;
 ###### Fast Modus
-Aktiviert den Nested-Set-Algorithmus, welches den Vergleich zweier Indexdateien beschleunigt.
+Aktiviert Nested-Sets, welches den Vergleich zweier Indexdateien beschleunigt.
 > **Anmerkung:** Ist dieser Modus aktiviert, werden keine Umbenennungen berücksichtigt.
 
 ###### Button "Cache leeren"
